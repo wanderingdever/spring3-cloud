@@ -14,13 +14,14 @@ spring:
         namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
         username: nacos
         password: nacos
+    gateway:
       routes:
         - metadata:
             serviceName: 'xyaq-services-system'
-          id: xyaq-services-system         # 路由ID
-          uri: lb://xyaq-services-system   # 目标服务URI
+          id: xyaq-service-system         # 路由ID
+          uri: lb://xyaq-service-system   # 目标服务URI
           predicates:
-            - Path=/servicesSystem/**
+            - Path=/serviceSystem/**
           filters:
             - StripPrefix=1
     sentinel:
@@ -34,3 +35,14 @@ management:
   endpoint:
     health:
       show-details: always
+
+
+knife4j:
+  # 聚合swagger文档
+  gateway:
+    enabled: true
+    routes:
+      - name: 系统服务
+        url: /serviceSystem/v3/api-docs?group=default
+        service-name: xyaq-service-system
+        order: 2
