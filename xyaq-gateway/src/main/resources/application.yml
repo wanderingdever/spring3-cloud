@@ -21,7 +21,7 @@ spring:
           id: xyaq-service-system         # 路由ID
           uri: lb://xyaq-service-system   # 目标服务URI
           predicates:
-            - Path=/serviceSystem/**
+            - Path=/service-system/**
           filters:
             - StripPrefix=1
     sentinel:
@@ -43,6 +43,6 @@ knife4j:
     enabled: true
     routes:
       - name: 系统服务
-        url: /serviceSystem/v3/api-docs?group=default
+        url: /service-system/v3/api-docs?group=default
         service-name: xyaq-service-system
         order: 2
