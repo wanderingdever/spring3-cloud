@@ -16,6 +16,7 @@
         <module>xyaq-common-utils</module>
         <module>xyaq-common-framework</module>
         <module>xyaq-common-web</module>
+        <module>xyaq-common-datasource</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

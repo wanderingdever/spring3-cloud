@@ -1,4 +1,4 @@
-package com.hk;
+package com.hk.system;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
