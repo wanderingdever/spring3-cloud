@@ -2,20 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.easy</groupId>
-    <artifactId>easy-cloud</artifactId>
+    <groupId>com.hk</groupId>
+    <artifactId>xyaq-cloud</artifactId>
     <version>0.0.1</version>
 
     <packaging>pom</packaging>
 
-    <name>easy-cloud</name>
+    <name>xyaq-cloud</name>
 
-    <description>easy-cloud</description>
+    <description>xyaq-cloud</description>
 
     <modules>
-        <module>easy-gateway</module>
-        <module>easy-common</module>
-        <module>easy-authorize</module>
+        <module>xyaq-gateway</module>
+        <module>xyaq-common</module>
+        <module>xyaq-authorize</module>
     </modules>
 
 

@@ -1,0 +1,36 @@
+server:
+  port: 9527
+  netty:
+    connection-timeout: 60000
+spring:
+  application:
+    name: xyaq-gateway
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.103:8848
+        namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
+        username: nacos
+        password: nacos
+      routes:
+        - metadata:
+            serviceName: 'xyaq-services-system'
+          id: xyaq-services-system         # 路由ID
+          uri: lb://xyaq-services-system   # 目标服务URI
+          predicates:
+            - Path=/servicesSystem/**
+          filters:
+            - StripPrefix=1
+    sentinel:
+      filter:
+        enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
