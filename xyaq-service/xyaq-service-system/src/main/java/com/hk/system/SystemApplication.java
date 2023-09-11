@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
 import java.util.Arrays;
 
 @Slf4j
-@SpringBootApplication(scanBasePackages = {"com.hk.gateway"})
+@SpringBootApplication(scanBasePackages = {"com.hk.system"})
 @EnableDiscoveryClient
 public class SystemApplication {
 
@@ -20,16 +20,16 @@ public class SystemApplication {
         ConfigurableApplicationContext run = app.run(args);
         Environment env = run.getEnvironment();
         String severPort = env.getProperty("server.port");
-        log.info("\n" +
-                """
-                                ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗
-                                ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║
-                                ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║
-                                ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║
-                                ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║
-                                ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝                             
-                        """ +
-                "PROFILE: " + Arrays.toString(env.getActiveProfiles()) + "\n" +
-                "SERVER PORT: " + severPort + "\n");
+        String logo = """
+                \n
+                        ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗
+                        ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║
+                        ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║
+                        ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║
+                        ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║
+                        ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝
+                PROFILE: %s
+                SERVER PORT: %s""";
+        log.error(String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
     }
 }
