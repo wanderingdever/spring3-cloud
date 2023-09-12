@@ -45,6 +45,10 @@ spring:
         namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
         username: nacos
         password: nacos
+
 logging:
   level:
     root: info
+  file:
+    path: ./logs
+  config: classpath:Spring-logback.xml

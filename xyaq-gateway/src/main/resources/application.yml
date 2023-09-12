@@ -36,6 +36,12 @@ management:
     health:
       show-details: always
 
+logging:
+  level:
+    root: info
+  file:
+    path: ./logs
+  config: classpath:Spring-logback.xml
 
 knife4j:
   # 聚合swagger文档
