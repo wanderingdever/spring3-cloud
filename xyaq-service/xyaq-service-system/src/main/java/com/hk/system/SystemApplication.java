@@ -1,6 +1,7 @@
 package com.hk.system;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -9,10 +10,16 @@ import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
 
-@Slf4j
+/**
+ * 系统启动类
+ *
+ * @author matt
+ */
 @SpringBootApplication(scanBasePackages = {"com.hk.system"})
 @EnableDiscoveryClient
 public class SystemApplication {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(SystemApplication.class);
 
     public static void main(String[] args) {
 
@@ -30,6 +37,6 @@ public class SystemApplication {
                         ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝
                 PROFILE: %s
                 SERVER PORT: %s""";
-        log.error(String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
+        LOGGER.info(String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.system.dao.OrgMapper">
+    <resultMap id="BaseResultMap" type="com.hk.system.bean.pojo.Org">
+        <!--@mbg.generated-->
+        <!--@Table xyaq_org-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="org_parent_id" jdbcType="BIGINT" property="orgParentId"/>
+        <result column="org_name" jdbcType="VARCHAR" property="orgName"/>
+        <result column="org_short_name" jdbcType="VARCHAR" property="orgShortName"/>
+        <result column="org_level" jdbcType="CHAR" property="orgLevel"/>
+        <result column="org_type" jdbcType="CHAR" property="orgType"/>
+        <result column="org_nature" jdbcType="CHAR" property="orgNature"/>
+        <result column="org_code" jdbcType="VARCHAR" property="orgCode"/>
+        <result column="org_tag" jdbcType="CHAR" property="orgTag"/>
+        <result column="org_province" jdbcType="VARCHAR" property="orgProvince"/>
+        <result column="org_city" jdbcType="VARCHAR" property="orgCity"/>
+        <result column="org_district" jdbcType="VARCHAR" property="orgDistrict"/>
+        <result column="org_address" jdbcType="VARCHAR" property="orgAddress"/>
+        <result column="org_longitude" jdbcType="VARCHAR" property="orgLongitude"/>
+        <result column="org_latitude" jdbcType="VARCHAR" property="orgLatitude"/>
+        <result column="org_desc" jdbcType="VARCHAR" property="orgDesc"/>
+        <result column="org_logo" jdbcType="VARCHAR" property="orgLogo"/>
+        <result column="org_personnel" jdbcType="VARCHAR" property="orgPersonnel"/>
+        <result column="org_sort" jdbcType="INTEGER" property="orgSort"/>
+        <result column="org_status" jdbcType="CHAR" property="orgStatus"/>
+        <result column="create_by" jdbcType="CHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="CHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del" jdbcType="INTEGER" property="del"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, org_parent_id, org_name, org_short_name, org_level, org_type, org_nature, org_code,
+        org_tag, org_province, org_city, org_district, org_address, org_longitude, org_latitude,
+        org_desc, org_logo, org_personnel, org_sort, org_status, create_by, create_time,
+        update_by, update_time, del
+    </sql>
+</mapper>

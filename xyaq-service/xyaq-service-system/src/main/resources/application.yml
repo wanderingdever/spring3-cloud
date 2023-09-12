@@ -66,3 +66,9 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+    enable-swagger-models: true
+    enable-document-manage: true
+    swagger-model-name: 实体类列表
+    enable-footer: true
+    enable-footer-custom: true
+    footer-custom-content: Copyright © 2021-2023 HK. All Rights Reserved.

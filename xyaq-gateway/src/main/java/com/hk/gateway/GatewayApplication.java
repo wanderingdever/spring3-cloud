@@ -26,14 +26,17 @@ public class GatewayApplication {
         ConfigurableApplicationContext run = app.run(args);
         Environment env = run.getEnvironment();
         String severPort = env.getProperty("server.port");
-        LOGGER.info("\n" +
-                " ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗\n" +
-                "██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝\n" +
-                "██║  ███╗███████║   ██║   █████╗  ██║ █╗ ██║███████║ ╚████╔╝ \n" +
-                "██║   ██║██╔══██║   ██║   ██╔══╝  ██║███╗██║██╔══██║  ╚██╔╝  \n" +
-                "╚██████╔╝██║  ██║   ██║   ███████╗╚███╔███╔╝██║  ██║   ██║   \n" +
-                " ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   \n" +
-                "PROFILE: " + Arrays.toString(env.getActiveProfiles()) + "\n" +
-                "SERVER PORT: " + severPort + "\n");
+        String logo = """
+                \n
+                 ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗
+                ██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝
+                ██║  ███╗███████║   ██║   █████╗  ██║ █╗ ██║███████║ ╚████╔╝ 
+                ██║   ██║██╔══██║   ██║   ██╔══╝  ██║███╗██║██╔══██║  ╚██╔╝  
+                ╚██████╔╝██║  ██║   ██║   ███████╗╚███╔███╔╝██║  ██║   ██║   
+                 ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   
+                PROFILE: %s
+                SERVER PORT: %s""";
+        LOGGER.info(String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
+
     }
 }
