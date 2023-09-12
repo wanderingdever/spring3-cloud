@@ -10,7 +10,7 @@ import java.lang.annotation.*;
  * @author 小徐
  * @since 2023/9/12 13:57
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Wrap {
