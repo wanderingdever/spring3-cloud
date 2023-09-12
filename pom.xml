@@ -148,7 +148,7 @@
 
     <repositories>
         <repository>
-            <id>public</id>
+            <id>ali</id>
             <name>ali nexus</name>
             <url>https://maven.aliyun.com/repository/public/</url>
             <releases>
@@ -160,7 +160,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>public</id>
+            <id>huawei</id>
             <name>huawei nexus</name>
             <url>https://mirrors.huaweicloud.com/repository/maven/</url>
             <releases>
@@ -175,7 +175,7 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>public</id>
+            <id>ali</id>
             <name>ali nexus</name>
             <url>https://maven.aliyun.com/repository/public/</url>
             <releases>
@@ -187,7 +187,7 @@
             </snapshots>
         </pluginRepository>
         <pluginRepository>
-            <id>public</id>
+            <id>huawei</id>
             <name>huawei nexus</name>
             <url>https://mirrors.huaweicloud.com/repository/maven/</url>
             <releases>
