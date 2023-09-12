@@ -30,10 +30,11 @@
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
             <version>4.3.0</version>
         </dependency>
-        <!-- lombok -->
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.hk</groupId>
+            <artifactId>xyaq-common-utils</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 </project>

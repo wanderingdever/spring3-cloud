@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.hk</groupId>
-        <artifactId>xyaq-service</artifactId>
+        <artifactId>xyaq-common</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>xyaq-service-system</artifactId>
+    <artifactId>xyaq-common-redis</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -18,27 +18,27 @@
     </properties>
 
     <dependencies>
+        <!--redisson-->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-data-27</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>xyaq-common-web</artifactId>
+            <artifactId>xyaq-common-utils</artifactId>
             <version>0.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>xyaq-common-datasource</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>xyaq-common-framework</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>xyaq-common-redis</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-
     </dependencies>
+
 </project>

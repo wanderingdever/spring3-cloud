@@ -17,6 +17,7 @@
         <module>xyaq-common-framework</module>
         <module>xyaq-common-web</module>
         <module>xyaq-common-datasource</module>
+        <module>xyaq-common-redis</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -24,4 +25,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.hk</groupId>
+                <artifactId>xyaq-common-utils</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
