@@ -19,6 +19,13 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "xyaq_device_location")
 public class DeviceLocation extends BaseEntity {
     /**
+     * 所属组织id
+     */
+    @TableField(value = "org_id")
+    @Schema(description = "所属组织id")
+    private String orgId;
+
+    /**
      * 上级名称
      */
     @TableField(value = "parent_id")
@@ -31,13 +38,5 @@ public class DeviceLocation extends BaseEntity {
     @TableField(value = "`name`")
     @Schema(description = "地点名称")
     private String name;
-
-    /**
-     * 所属组织id
-     */
-    @TableField(value = "org_id")
-    @Schema(description = "所属组织id")
-    private String orgId;
-
 
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.system.dao.DeviceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.hk.system.bean.pojo.DeviceInfo">
+        <!--@mbg.generated-->
+        <!--@Table xyaq_device_info-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="device_location_id" jdbcType="BIGINT" property="deviceLocationId"/>
+        <result column="type" jdbcType="BIGINT" property="type"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+        <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_by" jdbcType="CHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="CHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del" jdbcType="INTEGER" property="del"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, device_location_id, `type`, code, `name`, longitude, latitude, ip, account, `password`,
+        create_by, create_time, update_by, update_time, del
+    </sql>
+</mapper>
