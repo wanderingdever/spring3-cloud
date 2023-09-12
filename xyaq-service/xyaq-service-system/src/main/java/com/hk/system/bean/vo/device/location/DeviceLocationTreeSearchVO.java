@@ -1,4 +1,4 @@
-package com.hk.system.bean.vo;
+package com.hk.system.bean.vo.device.location;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -1,13 +1,11 @@
-package com.hk.system.bean.vo;
+package com.hk.system.bean.vo.device.location;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
-
-@Schema(description = "设备地点信息表-响应参数")
+@Schema(description = "区域树详情查询-响应参数")
 @Data
-public class DeviceLocationTreeVO {
+public class DeviceLocationVO {
 
     @Schema(description = "id")
     private String id;
@@ -20,7 +18,4 @@ public class DeviceLocationTreeVO {
 
     @Schema(description = "地点名称")
     private String name;
-
-    @Schema(description = "下级")
-    private List<DeviceLocationTreeVO> children;
 }
