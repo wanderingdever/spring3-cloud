@@ -1,7 +1,7 @@
 package com.hk.framework.advice;
 
 import com.hk.framework.annotation.Wrap;
-import com.hk.framework.vo.R;
+import com.hk.framework.bean.base.R;
 import com.hk.utils.json.JacksonUtil;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.core.MethodParameter;
@@ -58,7 +58,7 @@ public class ResponseBodyWrapAdvice implements ResponseBodyAdvice<Object> {
         R<Object> r;
         Object data;
         if (body instanceof R) {
-            data = ((R<?>) body).getBody();
+            data = ((R<?>) body).getData();
             r = JacksonUtil.parseObject(JacksonUtil.toJsonString(body), R.class);
         } else {
             data = body;
@@ -68,7 +68,7 @@ public class ResponseBodyWrapAdvice implements ResponseBodyAdvice<Object> {
         // 自动包装
         if (needWrapper(returnType)) {
             // 未被包裹，手动包裹
-            r.setBody(data);
+            r.setData(data);
             return bodyIsString ? JacksonUtil.toJsonString(r) : r;
         } else {
             return data;

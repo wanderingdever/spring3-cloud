@@ -1,4 +1,4 @@
-package com.hk.framework.entity;
+package com.hk.framework.bean.base;
 
 
 import com.baomidou.mybatisplus.annotation.*;

@@ -27,7 +27,6 @@ public class GatewayApplication {
         Environment env = run.getEnvironment();
         String severPort = env.getProperty("server.port");
         String logo = """
-                \n
                  ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗
                 ██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝
                 ██║  ███╗███████║   ██║   █████╗  ██║ █╗ ██║███████║ ╚████╔╝ 
@@ -36,7 +35,7 @@ public class GatewayApplication {
                  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   
                 PROFILE: %s
                 SERVER PORT: %s""";
-        LOGGER.info(String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
+        LOGGER.warn("\n" + String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
 
     }
 }

@@ -1,4 +1,4 @@
-package com.hk.framework.vo;
+package com.hk.framework.bean.base;
 
 import com.hk.framework.enums.REnum;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,8 +18,8 @@ public class R<T> {
     @Schema(name = "返回消息", example = "操作成功")
     private String msg;
 
-    @Schema(name = "响应参数 body")
-    private T body;
+    @Schema(name = "响应参数 data")
+    private T data;
 
     public R(REnum rEnum) {
         this.msg = rEnum.getIntroduction();
@@ -32,7 +32,7 @@ public class R<T> {
     public static <T> R<T> success(T t) {
 
         R<T> respVo = new R<>(REnum.SUCCESS);
-        respVo.setBody(t);
+        respVo.setData(t);
         return respVo;
     }
 

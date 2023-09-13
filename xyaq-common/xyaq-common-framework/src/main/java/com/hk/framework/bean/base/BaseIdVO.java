@@ -1,4 +1,4 @@
-package com.hk.framework.vo;
+package com.hk.framework.bean.base;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

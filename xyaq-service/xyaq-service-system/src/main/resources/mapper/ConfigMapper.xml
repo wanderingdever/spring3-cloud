@@ -8,7 +8,7 @@
         <result column="config_name" jdbcType="VARCHAR" property="configName"/>
         <result column="config_key" jdbcType="VARCHAR" property="configKey"/>
         <result column="config_value" jdbcType="VARCHAR" property="configValue"/>
-        <result column="config_type" jdbcType="CHAR" property="configType"/>
+        <result column="is_system" jdbcType="CHAR" property="isSystem"/>
         <result column="enable" jdbcType="CHAR" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -18,7 +18,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, config_name, config_key, config_value, config_type, `enable`, create_by, create_time,
+        id, config_name, config_key, config_value, is_system, `enable`, create_by, create_time,
         update_by, update_time, del
     </sql>
 </mapper>

@@ -15,7 +15,7 @@ import java.util.Arrays;
  *
  * @author Matt
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.hk.auth"})
 public class AuthorizeApplication {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AuthorizeApplication.class);
@@ -25,14 +25,15 @@ public class AuthorizeApplication {
         ConfigurableApplicationContext run = app.run(args);
         Environment env = run.getEnvironment();
         String severPort = env.getProperty("server.port");
-        LOGGER.info("\n" +
-                " █████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗ ██████╗ ██╗███████╗███████╗\n" +
-                "██╔══██╗██║   ██║╚══██╔══╝██║  ██║██╔═══██╗██╔══██╗██║╚══███╔╝██╔════╝\n" +
-                "███████║██║   ██║   ██║   ███████║██║   ██║██████╔╝██║  ███╔╝ █████╗  \n" +
-                "██╔══██║██║   ██║   ██║   ██╔══██║██║   ██║██╔══██╗██║ ███╔╝  ██╔══╝  \n" +
-                "██║  ██║╚██████╔╝   ██║   ██║  ██║╚██████╔╝██║  ██║██║███████╗███████╗\n" +
-                "╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝\n" +
-                "PROFILE: " + Arrays.toString(env.getActiveProfiles()) + "\n" +
-                "SERVER PORT: " + severPort + "\n");
+        String logo = """
+                 █████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗ ██████╗ ██╗███████╗███████╗
+                ██╔══██╗██║   ██║╚══██╔══╝██║  ██║██╔═══██╗██╔══██╗██║╚══███╔╝██╔════╝
+                ███████║██║   ██║   ██║   ███████║██║   ██║██████╔╝██║  ███╔╝ █████╗  
+                ██╔══██║██║   ██║   ██║   ██╔══██║██║   ██║██╔══██╗██║ ███╔╝  ██╔══╝  
+                ██║  ██║╚██████╔╝   ██║   ██║  ██║╚██████╔╝██║  ██║██║███████╗███████╗
+                ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝
+                PROFILE: %s
+                SERVER PORT: %s""";
+        LOGGER.warn("\n" + String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
     }
 }
