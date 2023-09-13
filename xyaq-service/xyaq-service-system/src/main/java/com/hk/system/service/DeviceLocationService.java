@@ -3,6 +3,7 @@ package com.hk.system.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.pojo.DeviceLocation;
 import com.hk.system.bean.vo.IdVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeSearchVO;
@@ -79,7 +80,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         DeviceLocation deviceLocation = this.baseMapper.selectById(vo.getId());
         if (Objects.isNull(deviceLocation)) {
-            throw new RuntimeException("数据不存在");
+            throw new CustomizeException("数据不存在");
         }
         return toDeviceLocationVO(deviceLocation);
     }
@@ -88,5 +89,19 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         DeviceLocationVO deviceLocationVO = new DeviceLocationVO();
         BeanUtil.copyProperties(vo, deviceLocationVO);
         return deviceLocationVO;
+    }
+
+    public void del(IdVO vo) {
+
+        // 有下级区域不允许删除
+        LambdaQueryWrapper<DeviceLocation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(DeviceLocation::getParentId, vo.getId());
+        List<DeviceLocation> list = list(lambdaQueryWrapper);
+        if (CollectionUtils.isNotEmpty(list)) {
+            throw new CustomizeException("存在下级区域，不允许删除");
+        }
+
+        // TODO 有挂载设备不允许删除
+        // TODO 删除区域
     }
 }
