@@ -161,6 +161,18 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         if (Objects.isNull(deviceLocation)) {
             throw new CustomizeException("数据不存在");
         }
-        // TODO 编辑
+        // 编辑
+        lambdaUpdate()
+                .eq(DeviceLocation::getId, dto.getId())
+                .set(StringUtils.isNotBlank(dto.getOrgId()), DeviceLocation::getOrgId, dto.getOrgId())
+                .set(StringUtils.isNotBlank(dto.getParentId()), DeviceLocation::getParentId, dto.getParentId())
+                .set(StringUtils.isNotBlank(dto.getName()), DeviceLocation::getName, dto.getName())
+                .set(StringUtils.isNotBlank(dto.getShortName()), DeviceLocation::getShortName, dto.getShortName())
+                .set(CollectionUtils.isNotEmpty(dto.getLabelList()), DeviceLocation::getLabel, String.join(",", dto.getLabelList()))
+                .set(StringUtils.isNotBlank(dto.getLongitude()), DeviceLocation::getLongitude, dto.getLongitude())
+                .set(StringUtils.isNotBlank(dto.getLatitude()), DeviceLocation::getLatitude, dto.getLatitude())
+                .set(StringUtils.isNotBlank(dto.getRemark()), DeviceLocation::getRemark, dto.getRemark())
+                .set(Objects.nonNull(dto.getSort()), DeviceLocation::getSort, dto.getSort())
+                .update();
     }
 }
