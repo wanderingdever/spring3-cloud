@@ -4,8 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.system.bean.pojo.DeviceLocation;
+import com.hk.system.bean.vo.IdVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeSearchVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
+import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceLocationMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -70,5 +73,20 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         BeanUtil.copyProperties(vo, deviceLocationTreeVO);
         deviceLocationTreeVO.setChildren(new ArrayList<>());
         return deviceLocationTreeVO;
+    }
+
+    public DeviceLocationVO info(IdVO vo) {
+
+        DeviceLocation deviceLocation = this.baseMapper.selectById(vo.getId());
+        if (Objects.isNull(deviceLocation)) {
+            throw new RuntimeException("数据不存在");
+        }
+        return toDeviceLocationVO(deviceLocation);
+    }
+
+    private DeviceLocationVO toDeviceLocationVO(DeviceLocation vo) {
+        DeviceLocationVO deviceLocationVO = new DeviceLocationVO();
+        BeanUtil.copyProperties(vo, deviceLocationVO);
+        return deviceLocationVO;
     }
 }
