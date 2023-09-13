@@ -152,12 +152,4 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         BeanUtil.copyProperties(dto, vo);
         return vo;
     }
-
-    public List<DeviceLocationVO> list(IdDTO dto) {
-
-        List<DeviceLocation> list = lambdaQuery()
-                .eq(DeviceLocation::getParentId, dto.getId())
-                .list();
-        return list.stream().map(this::toDeviceLocationVO).toList();
-    }
 }

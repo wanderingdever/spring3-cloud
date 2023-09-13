@@ -56,10 +56,4 @@ public class DeviceLocationController {
     public DeviceLocationVO tree(@RequestBody @Valid IdDTO dto) {
         return deviceLocationService.info(dto);
     }
-
-    @PostMapping("/list")
-    @Operation(summary = "查询子区域", description = "使用 id 查询区域的子区域")
-    public List<DeviceLocationVO> list(@RequestBody @Valid IdDTO dto) {
-        return deviceLocationService.list(dto);
-    }
 }
