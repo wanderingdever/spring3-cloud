@@ -19,6 +19,7 @@
         <module>xyaq-common-datasource</module>
         <module>xyaq-common-redis</module>
         <module>xyaq-common-satoken</module>
+        <module>xyaq-common-dubbo</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

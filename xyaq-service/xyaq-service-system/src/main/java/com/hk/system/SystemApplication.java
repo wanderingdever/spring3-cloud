@@ -1,11 +1,11 @@
 package com.hk.system;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 
@@ -18,7 +18,8 @@ import java.util.Arrays;
  */
 @SpringBootApplication(scanBasePackages = {"com.hk.system"})
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.hk.api.*")
+@EnableDubbo
+// @EnableFeignClients(basePackages = "com.hk.api.*")
 public class SystemApplication {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SystemApplication.class);
