@@ -1,6 +1,7 @@
 package com.hk.system.controller;
 
 import com.hk.datasource.bean.dto.IdDTO;
+import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
@@ -46,7 +47,14 @@ public class DeviceLocationController {
 
     @PostMapping("/del")
     @Operation(summary = "区域删除", description = "使用 Id 删除区域")
-    public void del(@RequestBody @Valid IdDTO vo) {
-        deviceLocationService.del(vo);
+    public void del(@RequestBody @Valid IdDTO dto) {
+        deviceLocationService.del(dto);
+    }
+
+    @PostMapping("/add")
+    @Operation(summary = "新增区域", description = "新增区域")
+    public void add(@RequestBody @Valid DeviceLocationAddDTO dto) {
+
+        deviceLocationService.add(dto);
     }
 }

@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.framework.exception.CustomizeException;
+import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceLocation;
+import com.hk.system.bean.pojo.Org;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
@@ -34,6 +36,9 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
     @Resource
     private DeviceInfoMapper deviceInfoMapper;
+
+    @Resource
+    private OrgService orgService;
 
     public List<DeviceLocationTreeVO> tree(DeviceLocationTreeDTO dto) {
 
@@ -117,5 +122,33 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         // 删除区域
         this.removeById(dto.getId());
+    }
+
+    public void add(DeviceLocationAddDTO dto) {
+
+        // 验证组织存在
+        boolean exists = orgService.lambdaQuery().eq(Org::getId, dto.getOrgId()).exists();
+        if (!exists) {
+            throw new CustomizeException("该组织不存在");
+        }
+
+        if (StringUtils.isBlank(dto.getParentId())) {
+            dto.setParentId(dto.getOrgId());
+        } else {
+            // 验证上级区域
+            exists = lambdaQuery().eq(DeviceLocation::getId, dto.getParentId()).exists();
+            if (!exists) {
+                throw new CustomizeException("上级区域不存在");
+            }
+        }
+
+        this.save(toDeviceLocation(dto));
+    }
+
+    private DeviceLocation toDeviceLocation(DeviceLocationAddDTO dto) {
+
+        DeviceLocation vo = new DeviceLocation();
+        BeanUtil.copyProperties(dto, vo);
+        return vo;
     }
 }
