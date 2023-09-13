@@ -8,7 +8,6 @@ import com.hk.framework.bean.vo.UserVO;
  *
  * @author Matt
  */
-
 public interface RemoteUserService {
 
 
@@ -18,5 +17,5 @@ public interface RemoteUserService {
      * @param username 账号/手机号/邮箱
      * @return {@link com.hk.framework.bean.vo.UserVO}
      */
-    UserVO selectUserByUsername();
+    UserVO selectUserByUsername(String username);
 }

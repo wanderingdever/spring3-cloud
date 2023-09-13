@@ -29,8 +29,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
      * @return {@link com.hk.framework.bean.vo.UserVO}
      */
     @Override
-    public UserVO selectUserByUsername() {
-        String username = "admin";
+    public UserVO selectUserByUsername(String username) {
         // 查询用户信息
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         // 通过账号/邮箱/手机号查询用户

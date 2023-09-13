@@ -27,12 +27,12 @@ public class LoginService {
 
 
     public boolean checkUser(String username) {
-        UserVO userVO = remoteUserService.selectUserByUsername();
+        UserVO userVO = remoteUserService.selectUserByUsername(username);
         return userVO != null;
     }
 
     public TokenInfo pwdLogin(PwdLogin login) {
-        UserVO user = remoteUserService.selectUserByUsername();
+        UserVO user = remoteUserService.selectUserByUsername(login.getUsername());
         if (user == null) {
             throw new RuntimeException("账号不存在");
         }
