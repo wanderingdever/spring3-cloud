@@ -21,6 +21,24 @@ public class DeviceLocationTreeVO {
     @Schema(description = "地点名称")
     private String name;
 
+    @Schema(description = "地点名称简称")
+    private String shortName;
+
+    @Schema(description = "标签")
+    private List<String> labelList;
+
+    @Schema(description = "经度")
+    private String longitude;
+
+    @Schema(description = "纬度")
+    private String latitude;
+
+    @Schema(description = "备注")
+    private String remark;
+
+    @Schema(description = "排序")
+    private Integer sort;
+
     @Schema(description = "下级")
     private List<DeviceLocationTreeVO> children;
 }

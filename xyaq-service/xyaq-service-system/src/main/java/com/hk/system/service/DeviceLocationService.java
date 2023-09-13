@@ -19,10 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -55,10 +52,11 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         }
         // 分离数据
         List<DeviceLocationTreeVO> rootList = list.stream()
-                .filter(deviceLocation -> deviceLocation.getOrgId().equals(deviceLocation.getParentId()))
+                .filter(k -> StringUtils.isBlank(k.getParentId()))
                 .map(this::toDeviceLocationTreeVO)
                 .toList();
         Map<String, List<DeviceLocationTreeVO>> leafMap = list.stream()
+                .filter(k -> StringUtils.isNotBlank(k.getParentId()))
                 .map(this::toDeviceLocationTreeVO)
                 .collect(Collectors.groupingBy(DeviceLocationTreeVO::getParentId));
 
@@ -84,6 +82,11 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         DeviceLocationTreeVO vo = new DeviceLocationTreeVO();
         BeanUtil.copyProperties(deviceLocation, vo);
         vo.setChildren(new ArrayList<>());
+        if (StringUtils.isNotBlank(deviceLocation.getLabel())) {
+            vo.setLabelList(Arrays.asList(deviceLocation.getLabel().split(",")));
+        } else {
+            vo.setLabelList(new ArrayList<>());
+        }
         return vo;
     }
 
