@@ -18,26 +18,26 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "xyaq_device_location")
 public class DeviceLocation extends BaseEntity {
-    /**
-     * 所属组织id
-     */
+
     @TableField(value = "org_id")
     @Schema(description = "所属组织id")
     private String orgId;
 
-    /**
-     * 上级名称
-     */
     @TableField(value = "parent_id")
     @Schema(description = "上级名称")
     private String parentId;
 
-    /**
-     * 地点名称
-     */
     @TableField(value = "`name`")
     @Schema(description = "地点名称")
     private String name;
+
+    @TableField(value = "`short_name`")
+    @Schema(description = "地点名称简称")
+    private String shortName;
+
+    @TableField(value = "`label`")
+    @Schema(description = "标签")
+    private String label;
 
     @TableField(value = "longitude")
     @Schema(description = "经度")
@@ -50,4 +50,8 @@ public class DeviceLocation extends BaseEntity {
     @TableField(value = "remark")
     @Schema(description = "备注")
     private String remark;
+
+    @TableField(value = "sort")
+    @Schema(description = "排序")
+    private Integer sort;
 }

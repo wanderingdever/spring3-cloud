@@ -132,9 +132,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
             throw new CustomizeException("该组织不存在");
         }
 
-        if (StringUtils.isBlank(dto.getParentId())) {
-            dto.setParentId(dto.getOrgId());
-        } else {
+        if (StringUtils.isNotBlank(dto.getParentId())) {
             // 验证上级区域
             exists = lambdaQuery().eq(DeviceLocation::getId, dto.getParentId()).exists();
             if (!exists) {
@@ -150,5 +148,13 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         DeviceLocation vo = new DeviceLocation();
         BeanUtil.copyProperties(dto, vo);
         return vo;
+    }
+
+    public List<DeviceLocationVO> list(IdDTO dto) {
+
+        List<DeviceLocation> list = lambdaQuery()
+                .eq(DeviceLocation::getParentId, dto.getId())
+                .list();
+        return list.stream().map(this::toDeviceLocationVO).toList();
     }
 }

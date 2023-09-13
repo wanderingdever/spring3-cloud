@@ -16,12 +16,18 @@ public class DeviceLocationAddDTO {
     @Schema(title = "组织id")
     private String orgId;
 
-    @Schema(title = "上级区域id，留空则视上级为组织")
+    @Schema(title = "上级区域id，留空则视组织为上级")
     private String parentId;
 
     @NotBlank(message = "区域名称" + "不能为空")
     @Schema(title = "区域名称")
     private String name;
+
+    @Schema(description = "地点名称简称")
+    private String shortName;
+
+    @Schema(description = "标签")
+    private String label;
 
     @Schema(description = "经度")
     private String longitude;
@@ -35,4 +41,7 @@ public class DeviceLocationAddDTO {
 
     @Schema(description = "备注")
     private String remark;
+
+    @Schema(description = "排序")
+    private Integer sort;
 }
