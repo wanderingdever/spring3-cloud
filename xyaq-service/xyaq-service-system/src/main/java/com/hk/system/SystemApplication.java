@@ -16,7 +16,7 @@ import java.util.Arrays;
  *
  * @author matt
  */
-@SpringBootApplication(scanBasePackages = {"com.hk"})
+@SpringBootApplication(scanBasePackages = {"com.hk.system"})
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.hk.api.*")
 public class SystemApplication {

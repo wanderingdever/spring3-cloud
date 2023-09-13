@@ -1,1 +1,2 @@
 com.hk.framework.advice.ResponseBodyWrapAdvice
+com.hk.framework.exception.GlobalExceptionHandler
