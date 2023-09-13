@@ -34,19 +34,19 @@ public class DeviceLocationController {
     private DeviceLocationService deviceLocationService;
 
     @PostMapping("/tree")
-    @Operation(summary = "区域树查询", description = "使用 orgId 查询机构下的树")
+    @Operation(summary = "查询区域树", description = "使用 orgId 查询机构下的树")
     public List<DeviceLocationTreeVO> tree(@RequestBody @Valid DeviceLocationTreeDTO dto) {
         return deviceLocationService.tree(dto);
     }
 
     @PostMapping("/info")
-    @Operation(summary = "区域查询", description = "使用 Id 查询详情")
+    @Operation(summary = "查询区域", description = "使用 Id 查询详情")
     public DeviceLocationVO tree(@RequestBody @Valid IdDTO dto) {
         return deviceLocationService.info(dto);
     }
 
     @PostMapping("/del")
-    @Operation(summary = "区域删除", description = "使用 Id 删除区域")
+    @Operation(summary = "删除区域", description = "使用 Id 删除区域")
     public void del(@RequestBody @Valid IdDTO dto) {
         deviceLocationService.del(dto);
     }

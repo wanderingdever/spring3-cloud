@@ -38,14 +38,14 @@ public class DeviceInfoController {
     }
 
     @PostMapping("/page")
-    @Operation(summary = "设备信息分页", description = "设备信息分页查询")
+    @Operation(summary = "分页查询设备信息", description = "设备信息分页查询")
     public Page<DeviceInfoPageVO> page(@RequestBody @Valid DeviceInfoPageDTO dto) {
         return deviceInfoService.page(dto);
     }
 
     @PostMapping("/del")
-    @Operation(summary = "设备删除", description = "使用 Id 删除设备")
-    public void del(@RequestBody @Valid IdDTO vo) {
-        deviceInfoService.del(vo);
+    @Operation(summary = "删除设备", description = "使用 Id 删除设备")
+    public void del(@RequestBody @Valid IdDTO dto) {
+        deviceInfoService.del(dto);
     }
 }
