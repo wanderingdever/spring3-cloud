@@ -1,6 +1,6 @@
 package com.hk.system.controller;
 
-import com.hk.system.bean.dto.IdDTO;
+import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;

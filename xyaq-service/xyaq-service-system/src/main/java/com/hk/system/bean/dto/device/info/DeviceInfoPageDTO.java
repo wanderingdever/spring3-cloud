@@ -1,22 +1,26 @@
 package com.hk.system.bean.dto.device.info;
 
+import com.hk.datasource.bean.dto.PageDTO;
+import com.hk.system.bean.enums.DeviceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "设备信息-分页-请求参数")
-public class DeviceInfoPageDTO {
+public class DeviceInfoPageDTO extends PageDTO {
 
-    @NotBlank(message = "设备id" + "不能为空")
-    @Schema(title = "设备id")
-    private String deviceId;
+    /**
+     * {@link DeviceTypeEnum DeviceTypeEnum}
+     */
+    @Schema(title = "设备类型")
+    private String type;
 
-    @NotBlank(message = "区域id" + "不能为空")
-    @Schema(title = "区域id")
-    private String locationId;
+    @Schema(title = "设备code")
+    private String code;
 }

@@ -1,8 +1,10 @@
 package com.hk.system.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hk.datasource.utils.PageUtil;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.dto.device.info.DeviceChangeLocationDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
@@ -12,6 +14,7 @@ import com.hk.system.bean.vo.device.info.DeviceInfoPageVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.system.dao.DeviceLocationMapper;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -50,6 +53,24 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
     }
 
     public Page<DeviceInfoPageVO> page(DeviceInfoPageDTO dto) {
-        return null;
+
+        Page<DeviceInfo> deviceInfoPage = lambdaQuery()
+                .eq(StringUtils.isNotBlank(dto.getType()), DeviceInfo::getType, dto.getType())
+                .like(StringUtils.isNotBlank(dto.getCode()), DeviceInfo::getCode, dto.getCode())
+                .and(StringUtils.isNotBlank(dto.getKeyword()), a -> a.like(DeviceInfo::getCode, dto.getKeyword())
+                        .or().like(DeviceInfo::getName, dto.getKeyword())
+                        .or().like(DeviceInfo::getLatitude, dto.getKeyword())
+                        .or().like(DeviceInfo::getLongitude, dto.getKeyword())
+                        .or().like(DeviceInfo::getIp, dto.getKeyword())
+                        .or().like(DeviceInfo::getAccount, dto.getKeyword()))
+                .page(PageUtil.getPage(dto));
+        return PageUtil.getPage(deviceInfoPage, this::toDeviceInfoPageVO);
+    }
+
+    private DeviceInfoPageVO toDeviceInfoPageVO(DeviceInfo deviceInfo) {
+
+        DeviceInfoPageVO vo = new DeviceInfoPageVO();
+        BeanUtil.copyProperties(deviceInfo, vo);
+        return vo;
     }
 }
