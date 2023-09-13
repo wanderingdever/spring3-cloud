@@ -17,6 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
 
+    /**
+     * 根据账号信息获取用户信息
+     *
+     * @param username 账号/手机号/邮箱
+     * @return {@link com.hk.framework.bean.vo.UserVO}
+     */
     public UserVO selectUserByUsername(String username) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         // 通过账号/邮箱/手机号查询用户
