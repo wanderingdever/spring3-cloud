@@ -1,13 +1,18 @@
-package com.hk.framework.vo;
+package com.hk.framework.bean.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
+import java.io.Serializable;
+
+/**
+ * @author matt
+ */
 @Data
 @Tag(name = "公共父类VO")
-public class BaseVO {
+public class BaseVO implements Serializable {
 
     @Schema(description = "主键ID")
     private String id;

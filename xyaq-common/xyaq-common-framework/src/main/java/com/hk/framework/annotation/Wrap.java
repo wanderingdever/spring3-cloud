@@ -1,6 +1,6 @@
 package com.hk.framework.annotation;
 
-import com.hk.framework.vo.R;
+import com.hk.framework.bean.base.R;
 
 import java.lang.annotation.*;
 

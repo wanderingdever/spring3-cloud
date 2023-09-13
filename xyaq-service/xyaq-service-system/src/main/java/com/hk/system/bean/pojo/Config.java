@@ -2,7 +2,7 @@ package com.hk.system.bean.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.hk.framework.entity.BaseEntity;
+import com.hk.framework.bean.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,11 +40,12 @@ public class Config extends BaseEntity {
     private String configValue;
 
     /**
-     * 参数类型
+     * 是否是系统内置
      */
-    @TableField(value = "config_type")
-    @Schema(description = "参数类型")
-    private String configType;
+    @TableField(value = "is_system")
+    @Schema(description = "是否是系统内置")
+    private String isSystem;
+    ;
 
     /**
      * 是否启用
