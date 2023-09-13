@@ -33,7 +33,7 @@ public class LoginController {
 
     @PostMapping("/pwd_login")
     @Operation(description = "密码登录")
-    public TokenInfo pwdLogin(@Valid PwdLogin login) {
+    public TokenInfo pwdLogin(@RequestBody @Valid PwdLogin login) {
         return loginService.pwdLogin(login);
     }
 

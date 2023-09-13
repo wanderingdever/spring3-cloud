@@ -8,7 +8,9 @@ import com.hk.api.service.RemoteUserService;
 import com.hk.auth.bean.PwdLogin;
 import com.hk.auth.bean.TokenInfo;
 import com.hk.framework.bean.vo.UserVO;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * 登录服务
@@ -17,21 +19,20 @@ import org.springframework.stereotype.Service;
  * @author Matt
  */
 @Service
+@Validated
 public class LoginService {
 
-    private final RemoteUserService remoteUserService;
+    @DubboReference
+    private RemoteUserService remoteUserService;
 
-    public LoginService(RemoteUserService remoteUserService) {
-        this.remoteUserService = remoteUserService;
-    }
 
     public boolean checkUser(String username) {
-        UserVO userVO = remoteUserService.selectUserByUsername(username);
+        UserVO userVO = remoteUserService.selectUserByUsername();
         return userVO != null;
     }
 
     public TokenInfo pwdLogin(PwdLogin login) {
-        UserVO user = remoteUserService.selectUserByUsername(login.getUsername());
+        UserVO user = remoteUserService.selectUserByUsername();
         if (user == null) {
             throw new RuntimeException("账号不存在");
         }
