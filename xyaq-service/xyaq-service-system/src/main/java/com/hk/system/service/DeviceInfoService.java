@@ -1,11 +1,14 @@
 package com.hk.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceLocation;
 import com.hk.system.bean.vo.device.info.DeviceChangeLocationVO;
+import com.hk.system.bean.vo.device.info.DeviceInfoPageDTO;
+import com.hk.system.bean.vo.device.info.DeviceInfoPageVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.system.dao.DeviceLocationMapper;
 import jakarta.annotation.Resource;
@@ -44,5 +47,9 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
         deviceInfoLambdaUpdateWrapper.eq(DeviceInfo::getId, vo.getDeviceId());
         deviceInfoLambdaUpdateWrapper.set(DeviceInfo::getDeviceLocationId, vo.getLocationId());
         this.update(deviceInfoLambdaUpdateWrapper);
+    }
+
+    public Page<DeviceInfoPageVO> page(DeviceInfoPageDTO vo) {
+        return null;
     }
 }
