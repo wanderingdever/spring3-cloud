@@ -1,5 +1,5 @@
 server:
-  port: 9527
+  port: 30420
   netty:
     connection-timeout: 60000
 spring:

@@ -1,5 +1,5 @@
 server:
-  port: 10015
+  port: 30430
   # 下面是配置undertow作为服务器的参数
   undertow:
     # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
