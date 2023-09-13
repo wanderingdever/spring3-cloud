@@ -4,10 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.framework.exception.CustomizeException;
+import com.hk.system.bean.dto.IdDTO;
+import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceLocation;
-import com.hk.system.bean.vo.IdVO;
-import com.hk.system.bean.vo.device.location.DeviceLocationTreeSearchVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
@@ -35,10 +35,10 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
     @Resource
     private DeviceInfoMapper deviceInfoMapper;
 
-    public List<DeviceLocationTreeVO> tree(DeviceLocationTreeSearchVO vo) {
+    public List<DeviceLocationTreeVO> tree(DeviceLocationTreeDTO dto) {
 
         LambdaQueryWrapper<DeviceLocation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(StringUtils.isNotBlank(vo.getOrgId()), DeviceLocation::getOrgId, vo.getOrgId());
+        lambdaQueryWrapper.eq(StringUtils.isNotBlank(dto.getOrgId()), DeviceLocation::getOrgId, dto.getOrgId());
         List<DeviceLocation> list = list(lambdaQueryWrapper);
         return buildTree(list);
     }
@@ -75,33 +75,33 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         }
     }
 
-    private DeviceLocationTreeVO toDeviceLocationTreeVO(DeviceLocation vo) {
-        DeviceLocationTreeVO deviceLocationTreeVO = new DeviceLocationTreeVO();
-        BeanUtil.copyProperties(vo, deviceLocationTreeVO);
-        deviceLocationTreeVO.setChildren(new ArrayList<>());
-        return deviceLocationTreeVO;
+    private DeviceLocationTreeVO toDeviceLocationTreeVO(DeviceLocation deviceLocation) {
+        DeviceLocationTreeVO vo = new DeviceLocationTreeVO();
+        BeanUtil.copyProperties(deviceLocation, vo);
+        vo.setChildren(new ArrayList<>());
+        return vo;
     }
 
-    public DeviceLocationVO info(IdVO vo) {
+    public DeviceLocationVO info(IdDTO dto) {
 
-        DeviceLocation deviceLocation = this.baseMapper.selectById(vo.getId());
+        DeviceLocation deviceLocation = this.baseMapper.selectById(dto.getId());
         if (Objects.isNull(deviceLocation)) {
             throw new CustomizeException("区域不存在");
         }
         return toDeviceLocationVO(deviceLocation);
     }
 
-    private DeviceLocationVO toDeviceLocationVO(DeviceLocation vo) {
-        DeviceLocationVO deviceLocationVO = new DeviceLocationVO();
-        BeanUtil.copyProperties(vo, deviceLocationVO);
-        return deviceLocationVO;
+    private DeviceLocationVO toDeviceLocationVO(DeviceLocation deviceLocation) {
+        DeviceLocationVO vo = new DeviceLocationVO();
+        BeanUtil.copyProperties(deviceLocation, vo);
+        return vo;
     }
 
-    public void del(IdVO vo) {
+    public void del(IdDTO dto) {
 
         // 有下级区域不允许删除
         LambdaQueryWrapper<DeviceLocation> selectLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        selectLambdaQueryWrapper.eq(DeviceLocation::getParentId, vo.getId());
+        selectLambdaQueryWrapper.eq(DeviceLocation::getParentId, dto.getId());
         List<DeviceLocation> list = list(selectLambdaQueryWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
             throw new CustomizeException("存在下级区域，不允许删除");
@@ -109,13 +109,13 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         // 有挂载设备不允许删除
         LambdaQueryWrapper<DeviceInfo> deviceInfoLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        deviceInfoLambdaQueryWrapper.eq(DeviceInfo::getDeviceLocationId, vo.getId());
+        deviceInfoLambdaQueryWrapper.eq(DeviceInfo::getDeviceLocationId, dto.getId());
         boolean exists = deviceInfoMapper.exists(deviceInfoLambdaQueryWrapper);
         if (exists) {
             throw new CustomizeException("有挂载设备不允许删除，不允许删除");
         }
 
         // 删除区域
-        this.removeById(vo.getId());
+        this.removeById(dto.getId());
     }
 }

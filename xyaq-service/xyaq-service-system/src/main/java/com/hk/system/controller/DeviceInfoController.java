@@ -1,8 +1,8 @@
 package com.hk.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hk.system.bean.vo.device.info.DeviceChangeLocationVO;
-import com.hk.system.bean.vo.device.info.DeviceInfoPageDTO;
+import com.hk.system.bean.dto.device.info.DeviceChangeLocationDTO;
+import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
 import com.hk.system.bean.vo.device.info.DeviceInfoPageVO;
 import com.hk.system.service.DeviceInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,13 +32,13 @@ public class DeviceInfoController {
 
     @PostMapping("/change-location")
     @Operation(summary = "更改设备区域", description = "更改设备区域")
-    public void changeLocation(@RequestBody @Valid DeviceChangeLocationVO vo) {
-        deviceInfoService.changeLocation(vo);
+    public void changeLocation(@RequestBody @Valid DeviceChangeLocationDTO dto) {
+        deviceInfoService.changeLocation(dto);
     }
 
     @PostMapping("/page")
     @Operation(summary = "设备信息分页", description = "设备信息分页查询")
-    public Page<DeviceInfoPageVO> page(@RequestBody @Valid DeviceInfoPageDTO vo) {
-        return deviceInfoService.page(vo);
+    public Page<DeviceInfoPageVO> page(@RequestBody @Valid DeviceInfoPageDTO dto) {
+        return deviceInfoService.page(dto);
     }
 }

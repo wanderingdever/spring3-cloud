@@ -1,4 +1,4 @@
-package com.hk.system.bean.vo;
+package com.hk.system.bean.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "id 请求参数")
-public class IdVO {
+public class IdDTO {
 
     @NotBlank(message = "id" + "不能为空")
     @Schema(title = "id")

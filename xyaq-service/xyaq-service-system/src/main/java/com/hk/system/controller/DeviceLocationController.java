@@ -1,7 +1,7 @@
 package com.hk.system.controller;
 
-import com.hk.system.bean.vo.IdVO;
-import com.hk.system.bean.vo.device.location.DeviceLocationTreeSearchVO;
+import com.hk.system.bean.dto.IdDTO;
+import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.service.DeviceLocationService;
@@ -34,19 +34,19 @@ public class DeviceLocationController {
 
     @PostMapping("/tree")
     @Operation(summary = "区域树查询", description = "使用 orgId 查询机构下的树")
-    public List<DeviceLocationTreeVO> tree(@RequestBody @Valid DeviceLocationTreeSearchVO vo) {
-        return deviceLocationService.tree(vo);
+    public List<DeviceLocationTreeVO> tree(@RequestBody @Valid DeviceLocationTreeDTO dto) {
+        return deviceLocationService.tree(dto);
     }
 
     @PostMapping("/info")
     @Operation(summary = "区域查询", description = "使用 Id 查询详情")
-    public DeviceLocationVO tree(@RequestBody @Valid IdVO vo) {
-        return deviceLocationService.info(vo);
+    public DeviceLocationVO tree(@RequestBody @Valid IdDTO dto) {
+        return deviceLocationService.info(dto);
     }
 
     @PostMapping("/del")
     @Operation(summary = "区域删除", description = "使用 Id 删除区域")
-    public void del(@RequestBody @Valid IdVO vo) {
+    public void del(@RequestBody @Valid IdDTO vo) {
         deviceLocationService.del(vo);
     }
 }

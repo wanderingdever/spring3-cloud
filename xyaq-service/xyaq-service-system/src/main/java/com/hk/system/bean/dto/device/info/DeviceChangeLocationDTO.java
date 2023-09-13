@@ -1,4 +1,4 @@
-package com.hk.system.bean.vo.device.info;
+package com.hk.system.bean.dto.device.info;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "设备信息-修改区域-请求参数")
-public class DeviceChangeLocationVO {
+public class DeviceChangeLocationDTO {
 
     @NotBlank(message = "设备id" + "不能为空")
     @Schema(title = "设备id")
