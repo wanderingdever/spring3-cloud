@@ -4,6 +4,7 @@ import com.hk.framework.bean.vo.UserVO;
 import com.hk.framework.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 用户信息
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
  *
  * @author Matt
  */
-@FeignClient(name = "xyaq-service-system", contextId = "service-system", path = "/api/user", configuration = FeignConfig.class)
+@FeignClient(name = "service-system", contextId = "service-system", path = "/api/user", configuration =
+        FeignConfig.class)
 public interface RemoteUserService {
 
 
@@ -22,5 +24,5 @@ public interface RemoteUserService {
      * @return {@link com.hk.framework.bean.vo.UserVO}
      */
     @PostMapping("/selectUserByUsername")
-    UserVO selectUserByUsername(String username);
+    UserVO selectUserByUsername(@RequestBody String username);
 }

@@ -28,6 +28,9 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         // 通过账号/邮箱/手机号查询用户
         queryWrapper.lambda().eq(User::getUsername, username).or().eq(User::getEmail, username).or().eq(User::getPhone, username);
         User user = baseMapper.selectOne(queryWrapper);
+        if (user == null) {
+            return null;
+        }
         UserVO target = new UserVO();
         BeanCopier beanCopier = BeanCopier.create(User.class, UserVO.class, false);
         beanCopier.copy(user, target, null);

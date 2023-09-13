@@ -3,6 +3,7 @@ package com.hk.system.api;
 import com.hk.framework.bean.vo.UserVO;
 import com.hk.system.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class UserRemoteApi {
      * @return {@link com.hk.framework.bean.vo.UserVO}
      */
     @PostMapping("/selectUserByUsername")
-    public UserVO selectUserByUsername(String username) {
+    public UserVO selectUserByUsername(@RequestBody String username) {
         return userService.selectUserByUsername(username);
     }
 }

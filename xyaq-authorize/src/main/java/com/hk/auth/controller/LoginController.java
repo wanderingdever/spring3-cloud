@@ -2,6 +2,7 @@ package com.hk.auth.controller;
 
 import com.hk.auth.bean.PwdLogin;
 import com.hk.auth.bean.TokenInfo;
+import com.hk.auth.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -18,11 +19,16 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "登录")
 public class LoginController {
 
+    private final LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @GetMapping("/check_user/{username}")
     @Operation(description = "检查用户")
     public boolean checkUser(@PathVariable String username) {
-        return true;
+        return loginService.checkUser(username);
     }
 
     @PostMapping("/pwd_login")

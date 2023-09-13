@@ -8,7 +8,7 @@
         <artifactId>xyaq-api</artifactId>
         <version>0.0.1</version>
     </parent>
-
+    <packaging>jar</packaging>
     <artifactId>xyaq-api-system</artifactId>
 
     <properties>

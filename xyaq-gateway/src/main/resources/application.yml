@@ -17,6 +17,14 @@ spring:
     gateway:
       routes:
         - metadata:
+            serviceName: 'xyaq-authorize'
+          id: xyaq-authorize         # 路由ID
+          uri: lb://xyaq-authorize   # 目标服务URI
+          predicates:
+            - Path=/authorize/**
+          filters:
+            - StripPrefix=1
+        - metadata:
             serviceName: 'xyaq-services-system'
           id: xyaq-service-system         # 路由ID
           uri: lb://xyaq-service-system   # 目标服务URI

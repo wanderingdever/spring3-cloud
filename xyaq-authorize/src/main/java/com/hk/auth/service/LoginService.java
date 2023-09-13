@@ -1,6 +1,7 @@
 package com.hk.auth.service;
 
 import com.hk.api.service.RemoteUserService;
+import com.hk.framework.bean.vo.UserVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,5 +19,8 @@ public class LoginService {
         this.remoteUserService = remoteUserService;
     }
 
-
+    public boolean checkUser(String username) {
+        UserVO userVO = remoteUserService.selectUserByUsername(username);
+        return userVO != null;
+    }
 }

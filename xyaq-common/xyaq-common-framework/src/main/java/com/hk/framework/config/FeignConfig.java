@@ -2,12 +2,12 @@ package com.hk.framework.config;
 
 import feign.Logger;
 import feign.RequestInterceptor;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 /**
@@ -31,7 +31,7 @@ public class FeignConfig {
                 if (headerNames != null) {
                     while (headerNames.hasMoreElements()) {
                         String name = headerNames.nextElement();
-                        if (!name.equals("content-length")) {
+                        if (!"content-length".equals(name)) {
                             String values = request.getHeader(name);
                             requestTemplate.header(name, values);
                         }
