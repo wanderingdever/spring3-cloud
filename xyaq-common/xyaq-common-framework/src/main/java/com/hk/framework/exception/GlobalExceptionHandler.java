@@ -1,6 +1,6 @@
 package com.hk.framework.exception;
 
-import com.hk.framework.vo.R;
+import com.hk.framework.bean.base.R;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 用户相关的内部接口
+ * 用户相关的内部远程接口
  * </p>
  *
  * @author Matt
  */
 @RestController
 @RequestMapping("/api/user")
-public class UserApi {
+public class UserRemoteApi {
 
     private final UserService userService;
 
-    public UserApi(UserService userService) {
+    public UserRemoteApi(UserService userService) {
         this.userService = userService;
     }
 

@@ -1,7 +1,7 @@
 package com.hk.framework.exception;
 
+import com.hk.framework.bean.base.R;
 import com.hk.framework.enums.REnum;
-import com.hk.framework.vo.R;
 
 /**
  * 自定义异常
