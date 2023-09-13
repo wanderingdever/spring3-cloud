@@ -22,4 +22,17 @@ public class DeviceLocationAddDTO {
     @NotBlank(message = "区域名称" + "不能为空")
     @Schema(title = "区域名称")
     private String name;
+
+    @Schema(description = "经度")
+    private String longitude;
+
+    @Schema(description = "纬度")
+    private String latitude;
+
+    @NotBlank(message = "是否启用" + "不能为空")
+    @Schema(description = "是否启用")
+    private String del;
+
+    @Schema(description = "备注")
+    private String remark;
 }

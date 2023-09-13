@@ -39,4 +39,15 @@ public class DeviceLocation extends BaseEntity {
     @Schema(description = "地点名称")
     private String name;
 
+    @TableField(value = "longitude")
+    @Schema(description = "经度")
+    private String longitude;
+
+    @TableField(value = "latitude")
+    @Schema(description = "纬度")
+    private String latitude;
+
+    @TableField(value = "remark")
+    @Schema(description = "备注")
+    private String remark;
 }

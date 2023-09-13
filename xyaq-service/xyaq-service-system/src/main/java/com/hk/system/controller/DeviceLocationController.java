@@ -24,7 +24,7 @@ import java.util.List;
  * @author 小徐
  * @since 2023/9/12 13:38
  */
-@Tag(name = "设备位置")
+@Tag(name = "区域")
 @Slf4j
 @RestController
 @RequestMapping("/device-location")
@@ -32,6 +32,12 @@ public class DeviceLocationController {
 
     @Resource
     private DeviceLocationService deviceLocationService;
+
+    @PostMapping("/add")
+    @Operation(summary = "新增区域", description = "新增区域")
+    public void add(@RequestBody @Valid DeviceLocationAddDTO dto) {
+        deviceLocationService.add(dto);
+    }
 
     @PostMapping("/tree")
     @Operation(summary = "查询区域树", description = "使用 orgId 查询机构下的树")
@@ -49,11 +55,5 @@ public class DeviceLocationController {
     @Operation(summary = "删除区域", description = "使用 Id 删除区域")
     public void del(@RequestBody @Valid IdDTO dto) {
         deviceLocationService.del(dto);
-    }
-
-    @PostMapping("/add")
-    @Operation(summary = "新增区域", description = "新增区域")
-    public void add(@RequestBody @Valid DeviceLocationAddDTO dto) {
-        deviceLocationService.add(dto);
     }
 }
