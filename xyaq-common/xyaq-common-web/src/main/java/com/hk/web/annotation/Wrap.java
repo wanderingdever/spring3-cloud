@@ -1,4 +1,4 @@
-package com.hk.framework.annotation;
+package com.hk.web.annotation;
 
 import com.hk.framework.bean.base.R;
 

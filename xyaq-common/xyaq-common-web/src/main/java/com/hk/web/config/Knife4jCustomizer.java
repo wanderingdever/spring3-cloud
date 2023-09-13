@@ -1,4 +1,4 @@
-package com.hk.framework.config;
+package com.hk.web.config;
 
 import io.swagger.v3.core.converter.AnnotatedType;
 import io.swagger.v3.oas.models.media.Schema;

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
@@ -23,6 +24,7 @@ public class GatewayApplication {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(GatewayApplication.class);
+        app.setApplicationStartup(new BufferingApplicationStartup(2048));
         ConfigurableApplicationContext run = app.run(args);
         Environment env = run.getEnvironment();
         String severPort = env.getProperty("server.port");
