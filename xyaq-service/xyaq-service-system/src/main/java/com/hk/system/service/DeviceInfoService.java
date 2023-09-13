@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.datasource.utils.PageUtil;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.dto.device.info.DeviceChangeLocationDTO;
@@ -72,5 +73,11 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
         DeviceInfoPageVO vo = new DeviceInfoPageVO();
         BeanUtil.copyProperties(deviceInfo, vo);
         return vo;
+    }
+
+    public void del(IdDTO dto) {
+
+        // 删除区域
+        this.removeById(dto.getId());
     }
 }
