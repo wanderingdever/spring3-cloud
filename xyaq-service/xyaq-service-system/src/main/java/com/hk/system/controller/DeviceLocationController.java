@@ -54,7 +54,6 @@ public class DeviceLocationController {
     @PostMapping("/add")
     @Operation(summary = "新增区域", description = "新增区域")
     public void add(@RequestBody @Valid DeviceLocationAddDTO dto) {
-
         deviceLocationService.add(dto);
     }
 }
