@@ -1,7 +1,10 @@
 package com.hk.framework.bean.base;
 
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,7 +63,7 @@ public class BaseEntity implements Serializable {
     /**
      * 逻辑删除
      */
-    @TableLogic(value = "del")
+    @TableField(value = "del")
     @Schema(description = "逻辑删除")
     private String del;
 }

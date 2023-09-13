@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  *
  * @author Matt
  */
-@FeignClient(name = "service-system", contextId = "service-system", path = "/api/user", configuration =
+@FeignClient(name = "xyaq-service-system", contextId = "xyaq-service-system", path = "/api/user", configuration =
         FeignConfig.class)
 public interface RemoteUserService {
 

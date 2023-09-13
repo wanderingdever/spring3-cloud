@@ -1,7 +1,9 @@
 package com.hk.auth.bean;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,6 +14,8 @@ import java.io.Serializable;
  * @author Matt
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(title = "登录信息")
 public class TokenInfo implements Serializable {
 
@@ -19,7 +23,7 @@ public class TokenInfo implements Serializable {
     private String accessToken;
 
     @Schema(name = "过期时间")
-    private String timeOut;
+    private Long timeOut;
 
     @Schema(name = "设备信息")
     private String device;

@@ -39,6 +39,10 @@
             <artifactId>xyaq-common-redis</artifactId>
             <version>0.0.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>xyaq-common-satoken</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 </project>

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping()
-@Tag(name = "登录")
+@Tag(name = "授权接口")
 public class LoginController {
 
     private final LoginService loginService;
@@ -34,8 +34,7 @@ public class LoginController {
     @PostMapping("/pwd_login")
     @Operation(description = "密码登录")
     public TokenInfo pwdLogin(@Valid PwdLogin login) {
-        // TODO 密码登录
-        return null;
+        return loginService.pwdLogin(login);
     }
 
     @PostMapping("/code_login")

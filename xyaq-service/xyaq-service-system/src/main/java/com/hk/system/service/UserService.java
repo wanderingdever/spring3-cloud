@@ -1,8 +1,10 @@
 package com.hk.system.service;
 
+import cn.dev33.satoken.secure.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.framework.bean.vo.UserVO;
+import com.hk.system.bean.dto.UserAddDTO;
 import com.hk.system.bean.pojo.User;
 import com.hk.system.dao.UserMapper;
 import org.springframework.cglib.beans.BeanCopier;
@@ -35,5 +37,13 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         BeanCopier beanCopier = BeanCopier.create(User.class, UserVO.class, false);
         beanCopier.copy(user, target, null);
         return target;
+    }
+
+    public String addUser(UserAddDTO add) {
+        User user = new User();
+        BeanCopier beanCopier = BeanCopier.create(UserAddDTO.class, User.class, false);
+        user.setPassword(BCrypt.hashpw(add.getPassword()));
+        this.baseMapper.insert(user);
+        return "操作成功";
     }
 }

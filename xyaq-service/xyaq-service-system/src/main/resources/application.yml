@@ -76,6 +76,7 @@ mybatis-plus:
     db-config:
       #主键类型
       id-type: ASSIGN_ID
+      logic-delete-field: del
       # 逻辑已删除值
       logicDeleteValue: 1
       # 逻辑未删除值
@@ -118,3 +119,6 @@ knife4j:
     enable-footer: true
     enable-footer-custom: true
     footer-custom-content: Copyright © 2021-2023 HK. All Rights Reserved.
+  documents:
+    - group: default
+      name: 系统管理

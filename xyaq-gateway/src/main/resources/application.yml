@@ -55,8 +55,10 @@ knife4j:
   # 聚合swagger文档
   gateway:
     enabled: true
-    routes:
-      - name: 系统服务
-        url: /service-system/v3/api-docs?group=default
-        service-name: xyaq-service-system
-        order: 2
+    discover:
+      enabled: true
+      oas3:
+        url: /v3/api-docs?group=default
+      excluded-services:
+        - xyaq-gateway
+    strategy: discover

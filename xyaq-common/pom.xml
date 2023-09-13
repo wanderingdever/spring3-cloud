@@ -18,6 +18,7 @@
         <module>xyaq-common-web</module>
         <module>xyaq-common-datasource</module>
         <module>xyaq-common-redis</module>
+        <module>xyaq-common-satoken</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
