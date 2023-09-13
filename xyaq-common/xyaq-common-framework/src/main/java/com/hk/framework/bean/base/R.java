@@ -1,16 +1,29 @@
 package com.hk.framework.bean.base;
 
+import com.hk.framework.constant.Constants;
 import com.hk.framework.enums.REnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 
+/**
+ * 响应类
+ *
+ * @author 小徐
+ */
 @Data
-@Slf4j
 @AllArgsConstructor
 public class R<T> {
+    /**
+     * 成功
+     */
+    public static final int SUCCESS = Constants.SUCCESS;
+
+    /**
+     * 失败
+     */
+    public static final int FAIL = Constants.FAIL;
 
     @Schema(name = "返回编码", example = "0")
     public int code;
@@ -60,7 +73,6 @@ public class R<T> {
 
         R<T> r = new R<>(rEnum);
         if (null != e) {
-            log.error("调用异常", e);
             r.setMsg(e.getMessage());
         }
         return r;

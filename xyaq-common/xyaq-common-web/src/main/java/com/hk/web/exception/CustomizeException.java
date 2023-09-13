@@ -1,4 +1,4 @@
-package com.hk.framework.exception;
+package com.hk.web.exception;
 
 import com.hk.framework.bean.base.R;
 import com.hk.framework.enums.REnum;
