@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.datasource.bean.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
