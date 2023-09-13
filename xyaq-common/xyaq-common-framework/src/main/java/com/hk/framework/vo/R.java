@@ -31,9 +31,9 @@ public class R<T> {
 
     public static <T> R<T> success(T t) {
 
-        R<T> respVo = new R<>(REnum.SUCCESS);
-        respVo.setBody(t);
-        return respVo;
+        R<T> r = new R<>(REnum.SUCCESS);
+        r.setBody(t);
+        return r;
     }
 
     public static <T> R<T> success() {
@@ -41,21 +41,29 @@ public class R<T> {
         return success(null);
     }
 
+    public static <T> R<T> fail(int code, String msg) {
+
+        R<T> r = new R<>();
+        r.setCode(code);
+        r.setMsg(msg);
+        return r;
+    }
+
     public static <T> R<T> fail(String msg) {
 
-        R<T> respVo = new R<>(REnum.CUSTOM);
-        respVo.setMsg(msg);
-        return respVo;
+        R<T> r = new R<>(REnum.RUNTIME_EXCEPTION);
+        r.setMsg(msg);
+        return r;
     }
 
     public static <T> R<T> fail(REnum rEnum, Exception e) {
 
-        R<T> respVo = new R<>(rEnum);
+        R<T> r = new R<>(rEnum);
         if (null != e) {
             log.error("调用异常", e);
-            respVo.setMsg(e.getMessage());
+            r.setMsg(e.getMessage());
         }
-        return respVo;
+        return r;
     }
 
     public static <T> R<T> fail(REnum rEnum) {
@@ -65,8 +73,8 @@ public class R<T> {
 
     public static <T> R<T> fail(ObjectError objectError) {
 
-        R<T> respVo = new R<>(REnum.PARAM_ERROR);
-        respVo.setMsg(objectError.getDefaultMessage());
-        return respVo;
+        R<T> r = new R<>(REnum.RUNTIME_EXCEPTION);
+        r.setMsg(objectError.getDefaultMessage());
+        return r;
     }
 }
