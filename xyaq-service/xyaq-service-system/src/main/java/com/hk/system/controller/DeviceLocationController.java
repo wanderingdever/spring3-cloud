@@ -53,7 +53,7 @@ public class DeviceLocationController {
 
     @PostMapping("/info")
     @Operation(summary = "查询区域", description = "使用 Id 查询详情")
-    public DeviceLocationVO tree(@RequestBody @Valid IdDTO dto) {
+    public DeviceLocationVO info(@RequestBody @Valid IdDTO dto) {
         return deviceLocationService.info(dto);
     }
 }
