@@ -17,6 +17,7 @@
         <module>xyaq-common</module>
         <module>xyaq-authorize</module>
         <module>xyaq-service</module>
+        <module>xyaq-api</module>
     </modules>
 
 

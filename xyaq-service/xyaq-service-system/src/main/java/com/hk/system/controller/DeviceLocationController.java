@@ -1,7 +1,7 @@
 package com.hk.system.controller;
 
-import com.hk.system.bean.vo.DeviceLocationTreeSearchVO;
-import com.hk.system.bean.vo.DeviceLocationTreeVO;
+import com.hk.system.bean.vo.device.location.DeviceLocationTreeSearchVO;
+import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.service.DeviceLocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
