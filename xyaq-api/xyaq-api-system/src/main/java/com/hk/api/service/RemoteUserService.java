@@ -1,4 +1,4 @@
-package com.hk.api.client;
+package com.hk.api.service;
 
 import com.hk.framework.bean.vo.UserVO;
 import com.hk.framework.config.FeignConfig;
