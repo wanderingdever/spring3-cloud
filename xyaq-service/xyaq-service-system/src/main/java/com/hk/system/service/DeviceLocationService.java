@@ -4,7 +4,6 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.datasource.bean.dto.IdDTO;
-import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
@@ -14,6 +13,7 @@ import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.system.dao.DeviceLocationMapper;
+import com.hk.web.exception.CustomizeException;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -150,6 +150,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         DeviceLocation vo = new DeviceLocation();
         BeanUtil.copyProperties(dto, vo);
+        vo.setLabel(String.join(",", dto.getLabelList()));
         return vo;
     }
 }
