@@ -9,6 +9,7 @@ import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceLocation;
 import com.hk.system.bean.pojo.Org;
+import com.hk.system.bean.vo.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
@@ -152,5 +153,14 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         BeanUtil.copyProperties(dto, vo);
         vo.setLabel(String.join(",", dto.getLabelList()));
         return vo;
+    }
+
+    public void edit(DeviceLocationEditDTO dto) {
+
+        DeviceLocation deviceLocation = this.baseMapper.selectById(dto.getId());
+        if (Objects.isNull(deviceLocation)) {
+            throw new CustomizeException("数据不存在");
+        }
+        // TODO 编辑
     }
 }

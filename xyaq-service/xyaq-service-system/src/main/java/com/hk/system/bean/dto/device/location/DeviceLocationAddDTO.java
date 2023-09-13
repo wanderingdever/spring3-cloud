@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class DeviceLocationAddDTO {
     private String shortName;
 
     @Schema(description = "标签")
-    private String label;
+    private List<String> labelList;
 
     @Schema(description = "经度")
     private String longitude;

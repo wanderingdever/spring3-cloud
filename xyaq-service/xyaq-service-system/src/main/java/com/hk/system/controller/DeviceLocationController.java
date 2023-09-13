@@ -3,6 +3,7 @@ package com.hk.system.controller;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
+import com.hk.system.bean.vo.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.service.DeviceLocationService;
@@ -55,5 +56,11 @@ public class DeviceLocationController {
     @Operation(summary = "查询区域", description = "使用 Id 查询详情")
     public DeviceLocationVO info(@RequestBody @Valid IdDTO dto) {
         return deviceLocationService.info(dto);
+    }
+
+    @PostMapping("/edit")
+    @Operation(summary = "编辑区域", description = "使用 Id 查询详情")
+    public void edit(@RequestBody @Valid DeviceLocationEditDTO dto) {
+        deviceLocationService.edit(dto);
     }
 }
