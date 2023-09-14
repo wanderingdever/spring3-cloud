@@ -12,7 +12,6 @@
         <result column="dict_sort" jdbcType="INTEGER" property="dictSort"/>
         <result column="css_class" jdbcType="VARCHAR" property="cssClass"/>
         <result column="list_class" jdbcType="VARCHAR" property="listClass"/>
-        <result column="is_default" jdbcType="CHAR" property="isDefault"/>
         <result column="enable" jdbcType="CHAR" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -22,7 +21,19 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, dict_type_id, dict_type, dict_label, dict_value, dict_sort, css_class, list_class,
-        is_default, `enable`, create_by, create_time, update_by, update_time, del
+        id,
+        dict_type_id,
+        dict_type,
+        dict_label,
+        dict_value,
+        dict_sort,
+        css_class,
+        list_class,
+        `enable`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
     </sql>
 </mapper>

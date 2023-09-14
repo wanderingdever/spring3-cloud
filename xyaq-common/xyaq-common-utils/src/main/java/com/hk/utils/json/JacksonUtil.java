@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.TimeZone;
 
 
@@ -69,6 +71,25 @@ public class JacksonUtil {
         try {
             return OBJECT_MAPPER.readValue(jsonString, clazz);
         } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 将json数据转换成pojo对象list
+     * <p>Title: jsonToList</p>
+     * <p>Description: </p>
+     *
+     * @param jsonData json数据
+     * @param beanType bean类型
+     * @return List<T>
+     */
+    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType) {
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
+        try {
+            return OBJECT_MAPPER.readValue(jsonData, javaType);
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e);
         }
     }

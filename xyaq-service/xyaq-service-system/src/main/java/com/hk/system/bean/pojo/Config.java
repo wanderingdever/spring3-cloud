@@ -3,6 +3,7 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
+import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,8 +45,8 @@ public class Config extends BaseEntity {
      */
     @TableField(value = "is_system")
     @Schema(description = "是否是系统内置")
-    private String isSystem;
-    ;
+    private YesOrNo isSystem;
+
 
     /**
      * 是否启用

@@ -1,10 +1,10 @@
 package com.hk.system.service;
 
 import cn.dev33.satoken.secure.BCrypt;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteUserService;
-import com.hk.framework.bean.vo.UserVO;
+import com.hk.api.vo.UserVO;
 import com.hk.system.bean.dto.UserAddDTO;
 import com.hk.system.bean.pojo.User;
 import com.hk.system.dao.UserMapper;
@@ -26,14 +26,14 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
      * 根据账号信息获取用户信息
      *
      * @param username 账号/手机号/邮箱
-     * @return {@link com.hk.framework.bean.vo.UserVO}
+     * @return {@link UserVO}
      */
     @Override
     public UserVO selectUserByUsername(String username) {
         // 查询用户信息
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         // 通过账号/邮箱/手机号查询用户
-        queryWrapper.lambda().eq(User::getUsername, username).or().eq(User::getEmail, username).or().eq(User::getPhone, username);
+        queryWrapper.eq(User::getUsername, username).or().eq(User::getEmail, username).or().eq(User::getPhone, username);
         User user = baseMapper.selectOne(queryWrapper);
         if (user == null) {
             return null;

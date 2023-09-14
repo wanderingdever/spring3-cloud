@@ -1,4 +1,4 @@
-package com.hk.framework.bean.vo;
+package com.hk.api.vo;
 
 import com.hk.framework.bean.base.BaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,6 +1,6 @@
 package com.hk.api.service;
 
-import com.hk.framework.bean.vo.UserVO;
+import com.hk.api.vo.UserVO;
 
 /**
  * 用户信息
@@ -15,7 +15,7 @@ public interface RemoteUserService {
      * 根据账号信息获取用户信息
      *
      * @param username 账号/手机号/邮箱
-     * @return {@link com.hk.framework.bean.vo.UserVO}
+     * @return {@link UserVO}
      */
     UserVO selectUserByUsername(String username);
 }

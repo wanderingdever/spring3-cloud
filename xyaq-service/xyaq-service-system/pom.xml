@@ -29,11 +29,6 @@
             <artifactId>xyaq-common-datasource</artifactId>
             <version>0.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>xyaq-common-framework</artifactId>
-            <version>0.0.1</version>
-        </dependency>
 
         <dependency>
             <groupId>com.hk</groupId>
@@ -55,7 +50,6 @@
             <groupId>com.hk</groupId>
             <artifactId>xyaq-api-system</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
 
 

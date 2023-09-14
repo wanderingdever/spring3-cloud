@@ -68,13 +68,6 @@ public class DictData extends BaseEntity {
     private String listClass;
 
     /**
-     * 是否默认
-     */
-    @TableField(value = "is_default")
-    @Schema(description = "是否默认")
-    private String isDefault;
-
-    /**
      * 是否启用
      */
     @TableField(value = "`enable`")

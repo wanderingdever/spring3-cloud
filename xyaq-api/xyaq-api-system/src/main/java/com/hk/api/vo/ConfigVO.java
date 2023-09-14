@@ -1,11 +1,10 @@
-package com.hk.framework.bean.vo;
+package com.hk.api.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hk.framework.bean.base.BaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 系统参数配置
@@ -13,9 +12,10 @@ import java.io.Serializable;
  *
  * @author Matt
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "系统参数配置")
-public class ConfigVO implements Serializable {
+public class ConfigVO extends BaseVO {
 
     @Schema(description = "主键ID")
     private String id;
@@ -50,37 +50,4 @@ public class ConfigVO implements Serializable {
      */
     @Schema(description = "是否启用")
     private String enable;
-
-    /**
-     * 创建人
-     */
-    @Schema(description = "创建人")
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @Schema(description = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String createTime;
-
-    /**
-     * 更新人
-     */
-    @Schema(description = "更新人")
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    @Schema(description = "更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String updateTime;
-
-
-    /**
-     * 逻辑删除
-     */
-    @Schema(description = "逻辑删除")
-    private String del;
 }

@@ -128,17 +128,21 @@ dubbo:
   application:
     id: ${spring.application.name}
     name: ${dubbo.application.id}
+    qos-enable: true
+    qos-port: 23334
+    qos-accept-foreign-ip: false
   protocol:
     name: dubbo
     port: -1
   # 注册中心配置
   registry:
-    address: nacos://192.168.200.103:8848
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}
     group: DUBBO_GROUP
     parameters:
-      namespace: matt
-    username: nacos
-    password: nacos
+      namespace: ${spring.cloud.nacos.discovery.namespace}
+    username: ${spring.cloud.nacos.discovery.username}
+    password: ${spring.cloud.nacos.discovery.password}
+    enable-empty-protection: false
   # 消费者相关配置
   consumer:
     # 结果缓存(LRU算法)
