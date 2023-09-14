@@ -8,12 +8,12 @@ import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceLocation;
-import com.hk.system.bean.pojo.Org;
 import com.hk.system.bean.vo.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.system.dao.DeviceLocationMapper;
+import com.hk.system.manager.Condition;
 import com.hk.web.exception.CustomizeException;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
@@ -124,17 +124,8 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
     public void add(DeviceLocationAddDTO dto) {
 
-        // 验证组织存在
-        boolean exists = orgService.lambdaQuery().eq(Org::getId, dto.getOrgId()).exists();
-        if (!exists) {
-            throw new CustomizeException("该组织不存在");
-        }
-
-        if (StringUtils.isNotBlank(dto.getParentId())) {
-            // 验证上级区域
-            getLocation(dto.getParentId());
-        }
-
+        orgService.getOrg(dto.getOrgId());
+        Condition.of(dto.getParentId(), StringUtils::isNotBlank).handle(k -> getLocation(dto.getParentId()));
         this.save(toDeviceLocation(dto));
     }
 

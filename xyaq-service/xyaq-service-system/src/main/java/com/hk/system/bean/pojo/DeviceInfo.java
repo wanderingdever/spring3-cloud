@@ -39,6 +39,10 @@ public class DeviceInfo extends BaseEntity {
     @Schema(description = "设备名称简称")
     private String shortName;
 
+    @TableField(value = "brand")
+    @Schema(description = "品牌")
+    private String brand;
+
     @TableField(value = "`label`")
     @Schema(description = "标签")
     private String label;
@@ -55,6 +59,10 @@ public class DeviceInfo extends BaseEntity {
     @Schema(description = "设备ip")
     private String ip;
 
+    @TableField(value = "identification")
+    @Schema(description = "设备标识")
+    private String identification;
+
     @TableField(value = "account")
     @Schema(description = "设备账号")
     private String account;
@@ -62,6 +70,14 @@ public class DeviceInfo extends BaseEntity {
     @TableField(value = "`password`")
     @Schema(description = "设备密码")
     private String password;
+
+    @TableField(value = "link_gb_platform")
+    @Schema(description = "是否接入国标平台 0：接入；1：不接入")
+    private Integer LinkGbPlatform;
+
+    @TableField(value = "remark")
+    @Schema(description = "备注")
+    private String remark;
 
     @TableField(value = "sort")
     @Schema(description = "排序")

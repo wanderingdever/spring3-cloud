@@ -56,7 +56,6 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
 
     public void del(IdDTO dto) {
 
-        // 删除区域
         this.removeById(dto.getId());
     }
 

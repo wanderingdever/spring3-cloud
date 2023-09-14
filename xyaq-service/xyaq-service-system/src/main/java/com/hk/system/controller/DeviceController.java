@@ -1,5 +1,6 @@
 package com.hk.system.controller;
 
+import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationMountedDeviceDTO;
 import com.hk.system.manager.DeviceManager;
 import com.hk.web.exception.CustomizeException;
@@ -37,5 +38,11 @@ public class DeviceController {
             throw new CustomizeException("请选择设备");
         }
         deviceManager.mountedDevice(dto);
+    }
+
+    @PostMapping("/add")
+    @Operation(summary = "新增设备", description = "新增设备")
+    public void add(@RequestBody @Valid DeviceInfoAddDTO dto) {
+        deviceManager.add(dto);
     }
 }
