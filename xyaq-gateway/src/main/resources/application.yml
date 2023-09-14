@@ -55,10 +55,10 @@ knife4j:
   # 聚合swagger文档
   gateway:
     enabled: true
+    strategy: discover
     discover:
       enabled: true
       oas3:
         url: /v3/api-docs?group=default
       excluded-services:
         - xyaq-gateway
-    strategy: discover

@@ -7,6 +7,7 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="dict_name" jdbcType="VARCHAR" property="dictName"/>
         <result column="dict_type" jdbcType="VARCHAR" property="dictType"/>
+        <result column="is_system" jdbcType="CHAR" property="isSystem"/>
         <result column="enable" jdbcType="CHAR" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -16,7 +17,15 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, dict_name, dict_type, `enable`, create_by, create_time, update_by, update_time,
+        id,
+        dict_name,
+        dict_type,
+        is_system,
+        `enable`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
         del
     </sql>
 </mapper>

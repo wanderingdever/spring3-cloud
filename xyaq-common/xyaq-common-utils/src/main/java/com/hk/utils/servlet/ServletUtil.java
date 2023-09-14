@@ -92,7 +92,7 @@ public class ServletUtil extends cn.hutool.extra.servlet.ServletUtil {
     public static Map<String, String> getParamMap(ServletRequest request) {
         Map<String, String> params = new HashMap<>();
         for (Map.Entry<String, String[]> entry : getParams(request).entrySet()) {
-            params.put(entry.getKey(), org.apache.commons.lang3.StringUtils.join(entry.getValue(), StringUtil.SEPARATOR));
+            params.put(entry.getKey(), org.apache.commons.lang3.StringUtils.join(entry.getValue(), StringUtil.COMMA));
         }
         return params;
     }
