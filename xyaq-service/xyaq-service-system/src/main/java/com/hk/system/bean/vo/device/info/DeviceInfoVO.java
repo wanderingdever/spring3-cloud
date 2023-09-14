@@ -1,16 +1,17 @@
 package com.hk.system.bean.vo.device.info;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "设备信息-分页-响应参数")
-public class DeviceInfoPageVO {
+public class DeviceInfoVO {
 
     @Schema(description = "位置id")
     private String deviceLocationId;
@@ -24,10 +25,15 @@ public class DeviceInfoPageVO {
     @Schema(description = "设备名称")
     private String name;
 
+    @Schema(description = "设备名称简称")
+    private String shortName;
+
+    @Schema(description = "标签")
+    private List<String> labelList;
+
     @Schema(description = "经度")
     private String longitude;
 
-    @TableField(value = "latitude")
     @Schema(description = "纬度")
     private String latitude;
 
@@ -36,4 +42,7 @@ public class DeviceInfoPageVO {
 
     @Schema(description = "设备账号")
     private String account;
+
+    @Schema(description = "排序")
+    private Integer sort;
 }

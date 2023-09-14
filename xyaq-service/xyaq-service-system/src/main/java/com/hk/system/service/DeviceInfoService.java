@@ -7,9 +7,10 @@ import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.datasource.utils.PageUtil;
 import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
-import com.hk.system.bean.vo.device.info.DeviceInfoPageVO;
+import com.hk.system.bean.vo.device.info.DeviceInfoVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.web.exception.CustomizeException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +26,19 @@ import java.util.List;
 @Service
 public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo> {
 
-    public Page<DeviceInfoPageVO> page(DeviceInfoPageDTO dto) {
+    public Page<DeviceInfoVO> page(DeviceInfoPageDTO dto) {
 
         Page<DeviceInfo> deviceInfoPage = lambdaQuery()
                 .eq(StringUtils.isNotBlank(dto.getType()), DeviceInfo::getType, dto.getType())
-                .like(StringUtils.isNotBlank(dto.getCode()), DeviceInfo::getCode, dto.getCode())
+                .like(StringUtils.isNotBlank(dto.getName()), DeviceInfo::getName, dto.getName())
+                .like(StringUtils.isNotBlank(dto.getShortName()), DeviceInfo::getShortName, dto.getShortName())
+                .like(StringUtils.isNotBlank(dto.getDeviceLocationId()), DeviceInfo::getDeviceLocationId, dto.getDeviceLocationId())
+                .like(StringUtils.isNotBlank(dto.getIp()), DeviceInfo::getIp, dto.getIp())
+                .and(CollectionUtils.isNotEmpty(dto.getLabelList()), a -> dto.getLabelList().forEach(k -> a.like(DeviceInfo::getLabel, k).or()))
                 .and(StringUtils.isNotBlank(dto.getKeyword()), a -> a.like(DeviceInfo::getCode, dto.getKeyword())
                         .or().like(DeviceInfo::getName, dto.getKeyword())
+                        .or().like(DeviceInfo::getShortName, dto.getKeyword())
+                        .or().like(DeviceInfo::getLabel, dto.getKeyword())
                         .or().like(DeviceInfo::getLatitude, dto.getKeyword())
                         .or().like(DeviceInfo::getLongitude, dto.getKeyword())
                         .or().like(DeviceInfo::getIp, dto.getKeyword())
@@ -40,9 +47,9 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
         return PageUtil.getPage(deviceInfoPage, this::toDeviceInfoPageVO);
     }
 
-    private DeviceInfoPageVO toDeviceInfoPageVO(DeviceInfo deviceInfo) {
+    private DeviceInfoVO toDeviceInfoPageVO(DeviceInfo deviceInfo) {
 
-        DeviceInfoPageVO vo = new DeviceInfoPageVO();
+        DeviceInfoVO vo = new DeviceInfoVO();
         BeanUtil.copyProperties(deviceInfo, vo);
         return vo;
     }

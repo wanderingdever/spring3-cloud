@@ -18,66 +18,52 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "xyaq_device_info")
 public class DeviceInfo extends BaseEntity {
-    /**
-     * 位置id
-     */
+
     @TableField(value = "device_location_id")
     @Schema(description = "位置id")
     private String deviceLocationId;
 
-    /**
-     * 设备类型
-     */
     @TableField(value = "`type`")
     @Schema(description = "设备类型")
     private String type;
 
-    /**
-     * 设备code
-     */
     @TableField(value = "code")
     @Schema(description = "设备code")
     private String code;
 
-    /**
-     * 设备名称
-     */
     @TableField(value = "`name`")
     @Schema(description = "设备名称")
     private String name;
 
-    /**
-     * 经度
-     */
+    @TableField(value = "`short_name`")
+    @Schema(description = "设备名称简称")
+    private String shortName;
+
+    @TableField(value = "`label`")
+    @Schema(description = "标签")
+    private String label;
+
     @TableField(value = "longitude")
     @Schema(description = "经度")
     private String longitude;
 
-    /**
-     * 纬度
-     */
     @TableField(value = "latitude")
     @Schema(description = "纬度")
     private String latitude;
 
-    /**
-     * 设备ip
-     */
     @TableField(value = "ip")
     @Schema(description = "设备ip")
     private String ip;
 
-    /**
-     * 设备账号
-     */
     @TableField(value = "account")
     @Schema(description = "设备账号")
     private String account;
 
-    /**
-     * 设备密码
-     */
     @TableField(value = "`password`")
     @Schema(description = "设备密码")
     private String password;
+
+    @TableField(value = "sort")
+    @Schema(description = "排序")
+    private Integer sort;
 }

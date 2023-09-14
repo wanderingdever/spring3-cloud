@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -21,6 +23,18 @@ public class DeviceInfoPageDTO extends PageDTO {
     @Schema(title = "设备类型")
     private String type;
 
-    @Schema(title = "设备code")
-    private String code;
+    @Schema(description = "设备名称")
+    private String name;
+
+    @Schema(description = "设备名称简称")
+    private String shortName;
+
+    @Schema(description = "位置id")
+    private String deviceLocationId;
+
+    @Schema(description = "设备ip")
+    private String ip;
+
+    @Schema(description = "标签")
+    private List<String> labelList;
 }

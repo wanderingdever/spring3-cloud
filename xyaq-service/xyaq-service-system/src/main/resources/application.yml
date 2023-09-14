@@ -91,7 +91,7 @@ mybatis-plus:
 
 logging:
   level:
-    root: info
+    root: DEBUG
   file:
     path: ./logs
   config: classpath:Spring-logback.xml
