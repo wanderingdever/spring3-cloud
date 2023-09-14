@@ -19,7 +19,6 @@ import java.util.Arrays;
 @SpringBootApplication(scanBasePackages = {"com.hk.system"})
 @EnableDiscoveryClient
 @EnableDubbo
-// @EnableFeignClients(basePackages = "com.hk.api.*")
 public class SystemApplication {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SystemApplication.class);
