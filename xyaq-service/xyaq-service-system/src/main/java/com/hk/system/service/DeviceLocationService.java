@@ -93,10 +93,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
     public DeviceLocationVO info(IdDTO dto) {
 
-        DeviceLocation deviceLocation = this.baseMapper.selectById(dto.getId());
-        if (Objects.isNull(deviceLocation)) {
-            throw new CustomizeException("区域不存在");
-        }
+        DeviceLocation deviceLocation = getLocation(dto.getId());
         return toDeviceLocationVO(deviceLocation);
     }
 
@@ -108,7 +105,6 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
     public void del(IdDTO dto) {
 
-        // 有下级区域不允许删除
         LambdaQueryWrapper<DeviceLocation> selectLambdaQueryWrapper = new LambdaQueryWrapper<>();
         selectLambdaQueryWrapper.eq(DeviceLocation::getParentId, dto.getId());
         List<DeviceLocation> list = list(selectLambdaQueryWrapper);
@@ -116,11 +112,9 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
             throw new CustomizeException("存在下级区域，不允许删除");
         }
 
-        // 有挂载设备不允许删除
         LambdaQueryWrapper<DeviceInfo> deviceInfoLambdaQueryWrapper = new LambdaQueryWrapper<>();
         deviceInfoLambdaQueryWrapper.eq(DeviceInfo::getDeviceLocationId, dto.getId());
-        boolean exists = deviceInfoMapper.exists(deviceInfoLambdaQueryWrapper);
-        if (exists) {
+        if (deviceInfoMapper.exists(deviceInfoLambdaQueryWrapper)) {
             throw new CustomizeException("有挂载设备不允许删除，不允许删除");
         }
 
@@ -138,10 +132,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         if (StringUtils.isNotBlank(dto.getParentId())) {
             // 验证上级区域
-            exists = lambdaQuery().eq(DeviceLocation::getId, dto.getParentId()).exists();
-            if (!exists) {
-                throw new CustomizeException("上级区域不存在");
-            }
+            getLocation(dto.getParentId());
         }
 
         this.save(toDeviceLocation(dto));
@@ -155,12 +146,23 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         return vo;
     }
 
+    public DeviceLocation getLocation(String id) {
+        return getLocation(List.of(id)).get(0);
+    }
+
+    public List<DeviceLocation> getLocation(List<String> idList) {
+
+        HashSet<String> idSet = new HashSet<>(idList);
+        List<DeviceLocation> list = lambdaQuery().in(DeviceLocation::getId, idSet).list();
+        if (list.size() != idSet.size()) {
+            throw new CustomizeException("区域不存在");
+        }
+        return list;
+    }
+
     public void edit(DeviceLocationEditDTO dto) {
 
-        DeviceLocation deviceLocation = this.baseMapper.selectById(dto.getId());
-        if (Objects.isNull(deviceLocation)) {
-            throw new CustomizeException("数据不存在");
-        }
+        getLocation(dto.getId());
         // 编辑
         lambdaUpdate()
                 .eq(DeviceLocation::getId, dto.getId())

@@ -2,7 +2,6 @@ package com.hk.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.datasource.bean.dto.IdDTO;
-import com.hk.system.bean.dto.device.info.DeviceChangeLocationDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
 import com.hk.system.bean.vo.device.info.DeviceInfoPageVO;
 import com.hk.system.service.DeviceInfoService;
@@ -30,12 +29,6 @@ public class DeviceInfoController {
 
     @Resource
     private DeviceInfoService deviceInfoService;
-
-    @PostMapping("/change-location")
-    @Operation(summary = "更改设备区域", description = "更改设备区域")
-    public void changeLocation(@RequestBody @Valid DeviceChangeLocationDTO dto) {
-        deviceInfoService.changeLocation(dto);
-    }
 
     @PostMapping("/page")
     @Operation(summary = "分页查询设备信息", description = "设备信息分页查询")

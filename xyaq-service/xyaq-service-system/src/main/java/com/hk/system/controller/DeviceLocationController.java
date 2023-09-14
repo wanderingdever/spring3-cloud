@@ -59,7 +59,7 @@ public class DeviceLocationController {
     }
 
     @PostMapping("/edit")
-    @Operation(summary = "编辑区域", description = "使用 Id 查询详情")
+    @Operation(summary = "编辑区域", description = "编辑区域")
     public void edit(@RequestBody @Valid DeviceLocationEditDTO dto) {
         deviceLocationService.edit(dto);
     }
