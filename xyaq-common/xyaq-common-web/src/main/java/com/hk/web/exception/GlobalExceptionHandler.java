@@ -37,10 +37,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        log.error("参数校验异常拦截-> e={}", e.getMessage());
-        e.printStackTrace();
-        // 从异常对象中拿到ObjectError对象
+
+        // 从异常对象中拿到 ObjectError 对象
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
+        log.error("参数校验异常拦截 --> e={}", objectError.getDefaultMessage());
         // 然后提取错误提示信息进行返回
         return R.fail(objectError.getDefaultMessage());
     }
