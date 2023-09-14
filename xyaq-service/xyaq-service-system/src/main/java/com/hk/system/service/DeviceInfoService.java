@@ -14,6 +14,7 @@ import com.hk.web.exception.CustomizeException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -56,6 +57,7 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
         return vo;
     }
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(IdDTO dto) {
 
         this.removeById(dto.getId());
@@ -75,6 +77,7 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
         return list;
     }
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void edit(DeviceInfoEditDTO dto) {
 
         getDevice(dto.getId());

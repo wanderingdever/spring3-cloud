@@ -2,18 +2,28 @@ package com.hk.system.manager;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
+import com.hk.system.bean.dto.device.nearby.DeviceNearbyAddDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
+import com.hk.system.bean.pojo.DeviceNearby;
+import com.hk.system.bean.vo.device.nearby.DeviceInfoNearByVO;
 import com.hk.system.service.DeviceInfoService;
 import com.hk.system.service.DeviceLocationService;
+import com.hk.system.service.DeviceNearbyService;
 import com.hk.system.service.OrgService;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class DeviceManager {
@@ -25,8 +35,12 @@ public class DeviceManager {
     private DeviceInfoService deviceInfoService;
 
     @Resource
+    private DeviceNearbyService deviceNearbyService;
+
+    @Resource
     private DeviceLocationService deviceLocationService;
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void mountedDevice(DeviceLocationMountedDeviceDTO dto) {
 
         deviceLocationService.getLocation(List.of(dto.getLocationId()));
@@ -38,7 +52,8 @@ public class DeviceManager {
         deviceInfoService.update(deviceInfoLambdaUpdateWrapper);
     }
 
-    public void add(DeviceInfoAddDTO dto) {
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void addDevice(DeviceInfoAddDTO dto) {
 
         orgService.getOrg(dto.getOrgId());
         Condition.of(dto.getDeviceLocationId(), StringUtils::isNotBlank).handle(k -> deviceLocationService.getLocation(dto.getDeviceLocationId()));
@@ -51,5 +66,51 @@ public class DeviceManager {
         BeanUtil.copyProperties(dto, deviceInfo);
         Condition.of(dto.getLabelList(), CollectionUtils::isNotEmpty).handle(k -> deviceInfo.setLabel(String.join(",", dto.getLabelList())));
         return deviceInfo;
+    }
+
+    public List<DeviceInfoNearByVO> list(IdDTO dto) {
+
+        List<DeviceNearby> list = deviceNearbyService.lambdaQuery()
+                .eq(DeviceNearby::getDeviceId, dto.getId())
+                .or()
+                .eq(DeviceNearby::getNearbyDeviceId, dto.getId())
+                .list();
+        Set<String> deviceIdSet = list.stream()
+                .map(k -> List.of(k.getNearbyDeviceId(), k.getDeviceId()))
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toSet());
+
+        List<DeviceInfo> deviceInfoList = deviceInfoService.lambdaQuery()
+                .in(DeviceInfo::getId, deviceIdSet)
+                .list();
+
+        return deviceInfoList.stream()
+                .map(k -> toDeviceInfoNearByVO(k, deviceIdSet))
+                .toList();
+    }
+
+    private DeviceInfoNearByVO toDeviceInfoNearByVO(DeviceInfo deviceInfo, Set<String> deviceIdSet) {
+
+        DeviceInfoNearByVO vo = new DeviceInfoNearByVO();
+        BeanUtil.copyProperties(deviceInfo, vo);
+        vo.setNearby(deviceIdSet.contains(vo.getId()));
+        return vo;
+    }
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void addDeviceNearby(DeviceNearbyAddDTO dto) {
+
+        List<String> idList = new ArrayList<>(dto.getNearbyIdList());
+        idList.add(dto.getDeviceId());
+        deviceInfoService.getDevice(idList);
+
+        List<DeviceNearby> nearbyList = new ArrayList<>();
+        for (String s : dto.getNearbyIdList()) {
+            DeviceNearby nearby = new DeviceNearby();
+            nearby.setDeviceId(dto.getDeviceId());
+            nearby.setNearbyDeviceId(s);
+        }
+        deviceNearbyService.saveBatch(nearbyList);
     }
 }
