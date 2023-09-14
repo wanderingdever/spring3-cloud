@@ -1,13 +1,14 @@
 package com.hk.gateway.handler;
 
 import com.hk.gateway.utils.WebFluxUtils;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -18,13 +19,14 @@ import reactor.core.publisher.Mono;
  * @author matt
  */
 @Order(-1)
-@Configuration
+@Component
 public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GatewayExceptionHandler.class);
 
+    @NotNull
     @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+    public Mono<Void> handle(ServerWebExchange exchange, @NotNull Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
 
         if (exchange.getResponse().isCommitted()) {

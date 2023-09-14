@@ -8,8 +8,11 @@ import com.hk.api.vo.UserVO;
 import com.hk.system.bean.dto.UserAddDTO;
 import com.hk.system.bean.pojo.User;
 import com.hk.system.dao.UserMapper;
+import com.hk.web.exception.CustomizeException;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * ${desc}
@@ -41,6 +44,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         return toUserVO(user);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public String addUser(UserAddDTO add) {
         User user = new User();
         user.setUsername(add.getUsername());
@@ -48,7 +52,15 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         user.setClient("PC");
         user.setSort(1);
         user.setStatus("NORMAL");
-        this.baseMapper.insert(user);
+        try {
+            this.baseMapper.insert(user);
+        } catch (Exception ex) {
+            if (ex instanceof DuplicateKeyException) {
+                throw new CustomizeException("账号已存在");
+            } else {
+                throw new CustomizeException("操作失败");
+            }
+        }
         return "操作成功";
     }
 

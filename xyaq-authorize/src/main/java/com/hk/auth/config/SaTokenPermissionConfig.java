@@ -1,20 +1,19 @@
-package com.hk.auth.service;
+package com.hk.auth.config;
 
 import cn.dev33.satoken.stp.StpInterface;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * oauth
+ * satoken权限认证的接口实现类
  * </p>
  *
  * @author Matt
  */
-@Service
-public class StpInterfaceImpl implements StpInterface {
-
+@Component
+public class SaTokenPermissionConfig implements StpInterface {
 
     /**
      * 返回一个账号所拥有的权限码集合

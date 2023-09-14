@@ -23,6 +23,17 @@ import java.util.Set;
 public class GlobalExceptionHandler {
 
     /**
+     * 全局异常拦截
+     */
+    @ExceptionHandler(value = Exception.class)
+    public R<String> handleCustom(Exception e) {
+        log.error("全局异常拦截-> e={}", e.getMessage());
+        e.printStackTrace();
+        return R.fail(e.getMessage());
+    }
+
+
+    /**
      * 自定义异常
      */
     @ExceptionHandler(value = CustomizeException.class)

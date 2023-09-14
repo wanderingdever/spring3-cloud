@@ -13,6 +13,9 @@ server:
       # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
       worker: 20
 spring:
+  config:
+    import:
+      - optional:application-token.yml
   application:
     name: xyaq-authorize
   profiles:
@@ -21,14 +24,10 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.200.103:8848
-        namespace: matt
+        namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
         username: nacos
         password: nacos
-sa-token:
-  # token前缀
-  token-prefix: Bearer
-  jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
-  token-name: AQ-Token
+
 # springdoc-openapi项目配置
 springdoc:
   swagger-ui:
@@ -41,6 +40,7 @@ springdoc:
     - group: 'default'
       paths-to-match: '/**'
       packages-to-scan: com.hk.auth
+
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true

@@ -15,6 +15,9 @@ server:
 spring:
   application:
     name: xyaq-service-system
+  config:
+    import:
+      - optional:application-token.yml
   profiles:
     active: dev
   datasource:
@@ -42,7 +45,7 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.200.103:8848
-        namespace: matt
+        namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
         username: nacos
         password: nacos
 
