@@ -13,7 +13,7 @@ import java.util.List;
 @Schema(description = "设备信息-分页-响应参数")
 public class DeviceInfoVO {
 
-    @Schema(title = "组织id")
+    @Schema(description = "所属组织id")
     private String orgId;
 
     @Schema(description = "位置id")
