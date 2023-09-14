@@ -1,7 +1,6 @@
 package com.hk.system.controller;
 
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
-import com.hk.system.bean.dto.device.info.DeviceInfoEditDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
 import com.hk.system.manager.DeviceManager;
 import com.hk.web.exception.CustomizeException;
@@ -45,11 +44,5 @@ public class DeviceController {
     @Operation(summary = "新增设备", description = "新增设备")
     public void add(@RequestBody @Valid DeviceInfoAddDTO dto) {
         deviceManager.add(dto);
-    }
-
-    @PostMapping("/edit")
-    @Operation(summary = "编辑设备", description = "编辑设备")
-    public void edit(@RequestBody @Valid DeviceInfoEditDTO dto) {
-        deviceManager.edit(dto);
     }
 }

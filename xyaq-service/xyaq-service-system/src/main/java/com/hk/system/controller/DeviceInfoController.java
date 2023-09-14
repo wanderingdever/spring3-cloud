@@ -2,6 +2,7 @@ package com.hk.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.datasource.bean.dto.IdDTO;
+import com.hk.system.bean.dto.device.info.DeviceInfoEditDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
 import com.hk.system.bean.vo.device.info.DeviceInfoVO;
 import com.hk.system.service.DeviceInfoService;
@@ -40,5 +41,11 @@ public class DeviceInfoController {
     @Operation(summary = "删除设备", description = "使用 Id 删除设备")
     public void del(@RequestBody @Valid IdDTO dto) {
         deviceInfoService.del(dto);
+    }
+
+    @PostMapping("/edit")
+    @Operation(summary = "编辑设备", description = "编辑设备")
+    public void edit(@RequestBody @Valid DeviceInfoEditDTO dto) {
+        deviceInfoService.edit(dto);
     }
 }
