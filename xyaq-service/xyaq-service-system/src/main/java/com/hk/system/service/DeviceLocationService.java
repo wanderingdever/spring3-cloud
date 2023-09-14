@@ -19,6 +19,7 @@ import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -103,6 +104,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         return vo;
     }
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(IdDTO dto) {
 
         LambdaQueryWrapper<DeviceLocation> selectLambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -122,6 +124,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         this.removeById(dto.getId());
     }
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void add(DeviceLocationAddDTO dto) {
 
         orgService.getOrg(dto.getOrgId());
@@ -151,6 +154,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         return list;
     }
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void edit(DeviceLocationEditDTO dto) {
 
         getLocation(dto.getId());
