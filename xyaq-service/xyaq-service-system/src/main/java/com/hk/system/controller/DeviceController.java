@@ -43,6 +43,6 @@ public class DeviceController {
     @PostMapping("/add")
     @Operation(summary = "新增设备", description = "新增设备")
     public void add(@RequestBody @Valid DeviceInfoAddDTO dto) {
-        deviceManager.add(dto);
+        deviceManager.addDevice(dto);
     }
 }

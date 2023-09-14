@@ -1,6 +1,7 @@
 package com.hk.system.controller;
 
 import com.hk.datasource.bean.dto.IdDTO;
+import com.hk.system.bean.dto.device.nearby.DeviceNearbyAddDTO;
 import com.hk.system.bean.vo.device.nearby.DeviceInfoNearByVO;
 import com.hk.system.manager.DeviceManager;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,13 @@ public class DeviceNearbyController {
 
     @Resource
     private DeviceManager deviceManager;
+
+    @PostMapping("/add")
+    @Operation(summary = "周边设备列表", description = "周边设备列表")
+    public void add(@RequestBody @Valid DeviceNearbyAddDTO dto) {
+
+        deviceManager.addDeviceNearby(dto);
+    }
 
     @PostMapping("/list")
     @Operation(summary = "周边设备列表", description = "周边设备列表")

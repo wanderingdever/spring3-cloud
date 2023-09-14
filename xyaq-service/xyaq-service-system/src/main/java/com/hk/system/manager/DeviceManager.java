@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
+import com.hk.system.bean.dto.device.nearby.DeviceNearbyAddDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceNearby;
 import com.hk.system.bean.vo.device.nearby.DeviceInfoNearByVO;
@@ -16,7 +17,9 @@ import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +40,7 @@ public class DeviceManager {
     @Resource
     private DeviceLocationService deviceLocationService;
 
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void mountedDevice(DeviceLocationMountedDeviceDTO dto) {
 
         deviceLocationService.getLocation(List.of(dto.getLocationId()));
@@ -48,7 +52,8 @@ public class DeviceManager {
         deviceInfoService.update(deviceInfoLambdaUpdateWrapper);
     }
 
-    public void add(DeviceInfoAddDTO dto) {
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void addDevice(DeviceInfoAddDTO dto) {
 
         orgService.getOrg(dto.getOrgId());
         Condition.of(dto.getDeviceLocationId(), StringUtils::isNotBlank).handle(k -> deviceLocationService.getLocation(dto.getDeviceLocationId()));
@@ -91,5 +96,21 @@ public class DeviceManager {
         BeanUtil.copyProperties(deviceInfo, vo);
         vo.setNearby(deviceIdSet.contains(vo.getId()));
         return vo;
+    }
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void addDeviceNearby(DeviceNearbyAddDTO dto) {
+
+        List<String> idList = new ArrayList<>(dto.getNearbyIdList());
+        idList.add(dto.getDeviceId());
+        deviceInfoService.getDevice(idList);
+
+        List<DeviceNearby> nearbyList = new ArrayList<>();
+        for (String s : dto.getNearbyIdList()) {
+            DeviceNearby nearby = new DeviceNearby();
+            nearby.setDeviceId(dto.getDeviceId());
+            nearby.setNearbyDeviceId(s);
+        }
+        deviceNearbyService.saveBatch(nearbyList);
     }
 }
