@@ -32,7 +32,7 @@ public class DeviceNearbyController {
     private DeviceManager deviceManager;
 
     @PostMapping("/add")
-    @Operation(summary = "周边设备列表", description = "周边设备列表")
+    @Operation(summary = "新增周边设备关系", description = "新增周边设备关系")
     public void add(@RequestBody @Valid DeviceNearbyAddDTO dto) {
 
         deviceManager.addDeviceNearby(dto);
