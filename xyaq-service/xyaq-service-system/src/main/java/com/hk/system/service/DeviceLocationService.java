@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
+import com.hk.system.bean.dto.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceLocation;
-import com.hk.system.bean.vo.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
@@ -133,7 +133,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         DeviceLocation vo = new DeviceLocation();
         BeanUtil.copyProperties(dto, vo);
-        vo.setLabel(String.join(",", dto.getLabelList()));
+        Condition.of(dto.getLabelList(), CollectionUtils::isNotEmpty).handle(k -> vo.setLabel(String.join(",", dto.getLabelList())));
         return vo;
     }
 
@@ -161,7 +161,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
                 .set(StringUtils.isNotBlank(dto.getParentId()), DeviceLocation::getParentId, dto.getParentId())
                 .set(StringUtils.isNotBlank(dto.getName()), DeviceLocation::getName, dto.getName())
                 .set(StringUtils.isNotBlank(dto.getShortName()), DeviceLocation::getShortName, dto.getShortName())
-                .set(CollectionUtils.isNotEmpty(dto.getLabelList()), DeviceLocation::getLabel, String.join(",", dto.getLabelList()))
+                .set(CollectionUtils.isNotEmpty(dto.getLabelList()), DeviceLocation::getLabel, dto.getLabel())
                 .set(StringUtils.isNotBlank(dto.getLongitude()), DeviceLocation::getLongitude, dto.getLongitude())
                 .set(StringUtils.isNotBlank(dto.getLatitude()), DeviceLocation::getLatitude, dto.getLatitude())
                 .set(StringUtils.isNotBlank(dto.getRemark()), DeviceLocation::getRemark, dto.getRemark())

@@ -2,8 +2,8 @@ package com.hk.system.controller;
 
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
+import com.hk.system.bean.dto.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
-import com.hk.system.bean.vo.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.service.DeviceLocationService;
@@ -61,6 +61,7 @@ public class DeviceLocationController {
     @PostMapping("/edit")
     @Operation(summary = "编辑区域", description = "编辑区域")
     public void edit(@RequestBody @Valid DeviceLocationEditDTO dto) {
+
         deviceLocationService.edit(dto);
     }
 }

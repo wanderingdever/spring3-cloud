@@ -1,4 +1,4 @@
-package com.hk.system.bean.vo.device.location;
+package com.hk.system.bean.dto.device.location;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

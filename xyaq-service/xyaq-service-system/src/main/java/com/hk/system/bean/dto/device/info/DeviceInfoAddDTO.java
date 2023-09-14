@@ -3,6 +3,9 @@ package com.hk.system.bean.dto.device.info;
 import com.hk.system.bean.enums.DeviceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,11 +18,13 @@ import java.util.List;
 @Schema(description = "设备信息-新增-请求参数")
 public class DeviceInfoAddDTO {
 
-    @NotBlank(message = "组织id" + "不能为空")
+    @Pattern(regexp = "\\d.*", message = "id只能为数字")
+    @NotBlank(message = "请选择" + "组织")
     @Schema(title = "组织id")
     private String orgId;
 
-    @NotBlank(message = "请选择位置")
+    @Pattern(regexp = "\\d.*", message = "id只能为数字")
+    @NotBlank(message = "请选择" + "位置")
     @Schema(description = "位置id")
     private String deviceLocationId;
 
@@ -63,12 +68,20 @@ public class DeviceInfoAddDTO {
     @Schema(description = "设备密码")
     private String password;
 
+    @Pattern(regexp = "[01]", message = "0：接入；1：不接入")
     @Schema(description = "是否接入国标平台 0：接入；1：不接入")
-    private Integer LinkGbPlatform;
+    private String LinkGbPlatform;
 
+    @Size(max = 300, message = "备注只能在 0-300 之间")
     @Schema(description = "备注")
     private String remark;
 
+    @Pattern(regexp = "\\d.*", message = "排序只能为数字")
     @Schema(description = "排序")
-    private Integer sort;
+    private String sort;
+
+    @Pattern(regexp = "[01]", message = "0：启用；1：不启用")
+    @NotNull(message = "请选择" + "是否启用" + "0：启用；1：不启用")
+    @Schema(description = "是否启用")
+    private String del;
 }

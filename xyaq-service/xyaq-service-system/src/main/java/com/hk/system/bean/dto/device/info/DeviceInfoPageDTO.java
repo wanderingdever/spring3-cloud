@@ -3,6 +3,7 @@ package com.hk.system.bean.dto.device.info;
 import com.hk.datasource.bean.dto.PageDTO;
 import com.hk.system.bean.enums.DeviceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,7 @@ public class DeviceInfoPageDTO extends PageDTO {
     @Schema(description = "设备名称简称")
     private String shortName;
 
+    @Pattern(regexp = "\\d.*", message = "id只能为数字")
     @Schema(description = "位置id")
     private String deviceLocationId;
 

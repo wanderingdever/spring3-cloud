@@ -1,7 +1,7 @@
 package com.hk.system.controller;
 
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
-import com.hk.system.bean.vo.device.location.DeviceLocationMountedDeviceDTO;
+import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
 import com.hk.system.manager.DeviceManager;
 import com.hk.web.exception.CustomizeException;
 import io.swagger.v3.oas.annotations.Operation;
