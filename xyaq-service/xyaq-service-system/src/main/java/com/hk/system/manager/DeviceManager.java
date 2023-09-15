@@ -78,7 +78,6 @@ public class DeviceManager {
         Set<String> deviceIdSet = list.stream()
                 .map(k -> List.of(k.getNearbyDeviceId(), k.getDeviceId()))
                 .flatMap(Collection::stream)
-                .distinct()
                 .collect(Collectors.toSet());
 
         List<DeviceInfo> deviceInfoList = deviceInfoService.lambdaQuery()
