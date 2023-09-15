@@ -68,7 +68,7 @@ public class DeviceManager {
         return deviceInfo;
     }
 
-    public List<DeviceInfoNearByVO> list(IdDTO dto) {
+    public List<DeviceInfoNearByVO> listDeviceNearby(IdDTO dto) {
 
         List<DeviceNearby> list = deviceNearbyService.lambdaQuery()
                 .eq(DeviceNearby::getDeviceId, dto.getId())

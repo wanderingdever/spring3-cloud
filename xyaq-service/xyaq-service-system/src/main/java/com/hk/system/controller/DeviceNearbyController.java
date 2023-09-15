@@ -42,6 +42,6 @@ public class DeviceNearbyController {
     @Operation(summary = "周边设备列表", description = "周边设备列表")
     public List<DeviceInfoNearByVO> list(@RequestBody @Valid IdDTO dto) {
 
-        return deviceManager.list(dto);
+        return deviceManager.listDeviceNearby(dto);
     }
 }

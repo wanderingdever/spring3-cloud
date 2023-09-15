@@ -2,9 +2,11 @@ package com.hk.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.datasource.bean.dto.IdDTO;
+import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoEditDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
 import com.hk.system.bean.vo.device.info.DeviceInfoVO;
+import com.hk.system.manager.DeviceManager;
 import com.hk.system.service.DeviceInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,6 +32,15 @@ public class DeviceInfoController {
 
     @Resource
     private DeviceInfoService deviceInfoService;
+
+    @Resource
+    private DeviceManager deviceManager;
+
+    @PostMapping("/add-device")
+    @Operation(summary = "新增设备", description = "新增设备")
+    public void addDevice(@RequestBody @Valid DeviceInfoAddDTO dto) {
+        deviceManager.addDevice(dto);
+    }
 
     @PostMapping("/page")
     @Operation(summary = "分页查询设备信息", description = "设备信息分页查询")
