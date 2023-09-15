@@ -39,7 +39,5 @@ public class AuthorizeApplication {
                 PROFILE: %s
                 SERVER PORT: %s""";
         LOGGER.warn("\n" + String.format(logo, Arrays.toString(env.getActiveProfiles()), severPort));
-
-        System.out.println("333333333333333:" + env.getProperty("sa-token.jwt-secret-key"));
     }
 }

@@ -11,8 +11,11 @@
         <result column="path" jdbcType="VARCHAR" property="path"/>
         <result column="component" jdbcType="VARCHAR" property="component"/>
         <result column="is_frame" jdbcType="CHAR" property="isFrame"/>
+        <result column="is_link" jdbcType="TINYINT" property="isLink"/>
+        <result column="link" jdbcType="VARCHAR" property="link"/>
+        <result column="is_hide" jdbcType="TINYINT" property="isHide"/>
+        <result column="is_keep_alive" jdbcType="TINYINT" property="isKeepAlive"/>
         <result column="menu_type" jdbcType="CHAR" property="menuType"/>
-        <result column="show" jdbcType="CHAR" property="show"/>
         <result column="perms" jdbcType="VARCHAR" property="perms"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="enable" jdbcType="CHAR" property="enable"/>
@@ -24,7 +27,56 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, menu_name, parent_id, order_num, `path`, component, is_frame, menu_type, `show`,
-        perms, icon, `enable`, create_by, create_time, update_by, update_time, del
+        id,
+        menu_name,
+        parent_id,
+        order_num,
+        `path`,
+        component,
+        is_frame,
+        is_link,
+        link,
+        is_keep_alive,
+        is_hide,
+        menu_type,
+        perms,
+        icon,
+        `enable`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
     </sql>
+
+    <select id="getUserRouter" resultType="com.hk.system.bean.vo.MenuTreeVO">
+        SELECT DISTINCT m.id as id,
+        m.menu_name as menuName,
+        m.parent_id as parentId,
+        m.order_num as orderNum,
+        m.`path` as `path`,
+        m.component as component,
+        m.menu_type as menuType,
+        m.is_frame as isIframe,
+        m.is_link as isLink,
+        m.link as link,
+        m.is_hide as isHide,
+        m.`is_keep_alive` as isKeepAlive,
+        m.`enable` as `enable`,
+        m.perms as perms,
+        m.icon as icon
+        FROM xyaq_menu m
+        LEFT JOIN xyaq_role_menu rm ON m.id = rm.menu_id
+        LEFT JOIN xyaq_user_role user_role ON rm.role_id = user_role.role_id
+        LEFT JOIN xyaq_role ro ON user_role.role_id = ro.id
+        <where>
+            <if test="userId != null and userId != ''">
+                user_role.user_id = #{userId}
+            </if>
+        </where>
+        and m.menu_type != 2
+        and m.enable = 1
+        AND ro.enable = 1
+        order by m.order_num
+    </select>
 </mapper>

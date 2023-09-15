@@ -77,6 +77,11 @@ public interface Constants {
     long CAPTCHA_EXPIRATION = 2;
 
     /**
+     * 菜单根节点id
+     */
+    String ROOT = "0";
+
+    /**
      * 防重提交 redis key
      */
     String REPEAT_SUBMIT_KEY = "repeat_submit:";

@@ -1,121 +1,111 @@
-package com.hk.system.bean.pojo;
+package com.hk.system.bean.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hk.framework.bean.base.BaseEntity;
+import com.hk.framework.bean.base.BaseVO;
 import com.hk.framework.enums.YesOrNo;
+import com.hk.system.bean.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
- * 菜单权限信息
- * </p>
+ * 菜单
  *
  * @author Matt
  */
-@Schema(description = "菜单权限信息")
-@Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_menu")
-public class Menu extends BaseEntity {
+@Schema(description = "菜单")
+@Data
+public class MenuTreeVO extends BaseVO {
+
+
     /**
      * 菜单名称
      */
-    @TableField(value = "menu_name")
     @Schema(description = "菜单名称")
     private String menuName;
 
     /**
      * 父菜单ID
      */
-    @TableField(value = "parent_id")
     @Schema(description = "父菜单ID")
     private String parentId;
 
     /**
      * 显示顺序
      */
-    @TableField(value = "order_num")
     @Schema(description = "显示顺序")
     private Integer orderNum;
 
     /**
      * 路由地址
      */
-    @TableField(value = "`path`")
     @Schema(description = "路由地址")
     private String path;
 
     /**
      * 组件路径
      */
-    @TableField(value = "component")
     @Schema(description = "组件路径")
     private String component;
 
     /**
-     * 是否为外链
+     * 菜单类型（0-目录;1-页面;2-按钮）
      */
-    @TableField(value = "is_frame")
-    @Schema(description = "是否为外链")
-    private String isFrame;
+    @Schema(description = "菜单类型（0目录;1页面;2按钮）")
+    private MenuType menuType;
+
+    /**
+     * 是否内嵌(0-否;1-是)
+     */
+    @Schema(description = "是否内嵌(0-否;1-是),")
+    private Boolean isIframe;
 
     /**
      * 是否为外链
      */
-    @TableField(value = "is_link")
     @Schema(description = "是否为外链")
     private Boolean isLink;
-
     /**
      * 地址
      */
-    @TableField(value = "link")
     @Schema(description = "地址")
     private String link;
 
     /**
      * 菜单是否显示
      */
-    @TableField(value = "is_hide")
     @Schema(description = "菜单是否显示")
     private Boolean isHide;
 
     /**
      * 是否缓存
      */
-    @TableField(value = "is_keep_alive")
     @Schema(description = "是否缓存")
     private Boolean isKeepAlive;
 
     /**
-     * 菜单类型
-     */
-    @TableField(value = "menu_type")
-    @Schema(description = "菜单类型")
-    private String menuType;
-
-    /**
      * 权限标识
      */
-    @TableField(value = "perms")
     @Schema(description = "权限标识")
     private String perms;
 
     /**
      * 菜单图标
      */
-    @TableField(value = "icon")
     @Schema(description = "菜单图标")
     private String icon;
 
     /**
-     * 是否启用
+     * 菜单是否启用（0-否;1-是）
      */
-    @TableField(value = "`enable`")
-    @Schema(description = "是否启用")
+    @Schema(description = "菜单是否启用（0-否;1-是）")
     private YesOrNo enable;
 
-
+    /**
+     * 子菜单
+     */
+    @Schema(description = "子菜单")
+    private List<MenuTreeVO> children;
 }
