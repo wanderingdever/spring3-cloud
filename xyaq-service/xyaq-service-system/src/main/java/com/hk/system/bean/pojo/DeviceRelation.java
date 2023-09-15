@@ -32,4 +32,7 @@ public class DeviceRelation extends BaseEntity {
     @Schema(description = "挂载的设备id")
     private String mountedDeviceId;
 
+    @TableField(value = "device_channel")
+    @Schema(description = "摄像头通道")
+    private String deviceChannel;
 }

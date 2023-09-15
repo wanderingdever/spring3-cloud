@@ -144,9 +144,9 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         return getLocation(List.of(id)).get(0);
     }
 
-    public List<DeviceLocation> getLocation(List<String> idList) {
+    public List<DeviceLocation> getLocation(Collection<String> idColl) {
 
-        HashSet<String> idSet = new HashSet<>(idList);
+        HashSet<String> idSet = idColl instanceof HashSet ? (HashSet<String>) idColl : new HashSet<>(idColl);
         List<DeviceLocation> list = lambdaQuery().in(DeviceLocation::getId, idSet).list();
         if (list.size() != idSet.size()) {
             throw new CustomizeException("区域不存在");

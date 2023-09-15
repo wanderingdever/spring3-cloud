@@ -6,13 +6,13 @@ import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
 import com.hk.system.bean.dto.device.nearby.DeviceNearbyAddDTO;
+import com.hk.system.bean.dto.device.relation.DeviceRelationAddDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceNearby;
+import com.hk.system.bean.pojo.DeviceRelation;
 import com.hk.system.bean.vo.device.nearby.DeviceInfoNearByVO;
-import com.hk.system.service.DeviceInfoService;
-import com.hk.system.service.DeviceLocationService;
-import com.hk.system.service.DeviceNearbyService;
-import com.hk.system.service.OrgService;
+import com.hk.system.bean.vo.device.relation.DeviceInfoRelationVO;
+import com.hk.system.service.*;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +39,9 @@ public class DeviceManager {
 
     @Resource
     private DeviceLocationService deviceLocationService;
+
+    @Resource
+    private DeviceRelationService deviceRelationService;
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void mountedDevice(DeviceLocationMountedDeviceDTO dto) {
@@ -111,5 +114,41 @@ public class DeviceManager {
             nearby.setNearbyDeviceId(s);
         }
         deviceNearbyService.saveBatch(nearbyList);
+    }
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void addRelation(DeviceRelationAddDTO dto) {
+
+        deviceInfoService.getDevice(List.of(dto.getDeviceId(), dto.getMountedDeviceId()));
+        DeviceRelation relation = new DeviceRelation();
+        BeanUtil.copyProperties(dto, relation);
+        deviceRelationService.save(relation);
+    }
+
+    public List<DeviceInfoRelationVO> listRelation(IdDTO dto) {
+
+        List<DeviceRelation> list = deviceRelationService.lambdaQuery()
+                .eq(DeviceRelation::getDeviceId, dto.getId())
+                .or()
+                .eq(DeviceRelation::getMountedDeviceId, dto.getId())
+                .list();
+        Set<String> deviceIdSet = list.stream()
+                .map(k -> List.of(k.getDeviceId(), k.getMountedDeviceId()))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+        List<DeviceInfo> deviceInfoList = deviceInfoService.getDevice(deviceIdSet);
+
+        return deviceInfoList.stream()
+                .map(k -> toDeviceInfoRelationVO(k, deviceIdSet))
+                .toList();
+    }
+
+    private DeviceInfoRelationVO toDeviceInfoRelationVO(DeviceInfo deviceInfo, Set<String> deviceIdSet) {
+
+        DeviceInfoRelationVO vo = new DeviceInfoRelationVO();
+        BeanUtil.copyProperties(deviceInfo, vo);
+        vo.setRelation(deviceIdSet.contains(vo.getId()));
+        return vo;
     }
 }

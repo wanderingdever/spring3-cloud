@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -67,9 +68,9 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
         return getDevice(List.of(id)).get(0);
     }
 
-    public List<DeviceInfo> getDevice(List<String> idList) {
+    public List<DeviceInfo> getDevice(Collection<String> idColl) {
 
-        HashSet<String> idSet = new HashSet<>(idList);
+        HashSet<String> idSet = idColl instanceof HashSet ? (HashSet<String>) idColl : new HashSet<>(idColl);
         List<DeviceInfo> list = lambdaQuery().in(DeviceInfo::getId, idSet).list();
         if (list.size() != idSet.size()) {
             throw new CustomizeException("设备不存在");
