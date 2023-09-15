@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "周边设备-列表-响应参数")
-public class DeviceInfoNearByVO {
+public class DeviceInfoNearbyVO {
 
     @Schema(description = "主键ID")
     private String id;

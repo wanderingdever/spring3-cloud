@@ -10,7 +10,7 @@ import com.hk.system.bean.dto.device.relation.DeviceRelationAddDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceNearby;
 import com.hk.system.bean.pojo.DeviceRelation;
-import com.hk.system.bean.vo.device.nearby.DeviceInfoNearByVO;
+import com.hk.system.bean.vo.device.nearby.DeviceInfoNearbyVO;
 import com.hk.system.bean.vo.device.relation.DeviceInfoRelationVO;
 import com.hk.system.service.*;
 import jakarta.annotation.Resource;
@@ -71,7 +71,7 @@ public class DeviceManager {
         return deviceInfo;
     }
 
-    public List<DeviceInfoNearByVO> listDeviceNearby(IdDTO dto) {
+    public List<DeviceInfoNearbyVO> listDeviceNearby(IdDTO dto) {
 
         List<DeviceNearby> list = deviceNearbyService.lambdaQuery()
                 .eq(DeviceNearby::getDeviceId, dto.getId())
@@ -88,13 +88,13 @@ public class DeviceManager {
                 .list();
 
         return deviceInfoList.stream()
-                .map(k -> toDeviceInfoNearByVO(k, deviceIdSet))
+                .map(k -> toDeviceInfoNearbyVO(k, deviceIdSet))
                 .toList();
     }
 
-    private DeviceInfoNearByVO toDeviceInfoNearByVO(DeviceInfo deviceInfo, Set<String> deviceIdSet) {
+    private DeviceInfoNearbyVO toDeviceInfoNearbyVO(DeviceInfo deviceInfo, Set<String> deviceIdSet) {
 
-        DeviceInfoNearByVO vo = new DeviceInfoNearByVO();
+        DeviceInfoNearbyVO vo = new DeviceInfoNearbyVO();
         BeanUtil.copyProperties(deviceInfo, vo);
         vo.setNearby(deviceIdSet.contains(vo.getId()));
         return vo;
