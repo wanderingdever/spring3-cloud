@@ -24,7 +24,6 @@ public class DeviceInfoAddDTO {
     private String orgId;
 
     @Pattern(regexp = "\\d.*", message = "id只能为数字")
-    @NotBlank(message = "请选择" + "位置")
     @Schema(description = "位置id")
     private String deviceLocationId;
 

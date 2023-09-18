@@ -27,7 +27,6 @@ public class Condition<T> {
 
     public static <T> Condition<T> of(T t, Function<T, Boolean> function) {
 
-        Objects.requireNonNull(t);
         Objects.requireNonNull(function);
         return new Condition<>(t, function);
     }

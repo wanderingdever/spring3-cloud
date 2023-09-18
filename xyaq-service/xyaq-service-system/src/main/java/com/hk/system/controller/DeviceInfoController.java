@@ -57,6 +57,6 @@ public class DeviceInfoController {
     @PostMapping("/edit")
     @Operation(summary = "编辑设备", description = "编辑设备")
     public void edit(@RequestBody @Valid DeviceInfoEditDTO dto) {
-        deviceInfoService.edit(dto);
+        deviceManager.editDevice(dto);
     }
 }

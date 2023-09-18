@@ -84,11 +84,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
         DeviceLocationTreeVO vo = new DeviceLocationTreeVO();
         BeanUtil.copyProperties(deviceLocation, vo);
         vo.setChildren(new ArrayList<>());
-        if (StringUtils.isNotBlank(deviceLocation.getLabel())) {
-            vo.setLabelList(Arrays.asList(deviceLocation.getLabel().split(",")));
-        } else {
-            vo.setLabelList(new ArrayList<>());
-        }
+        Condition.of(deviceLocation.getLabel(), StringUtils::isNotBlank).handle(k -> vo.setLabelList(Arrays.asList(deviceLocation.getLabel().split(","))));
         return vo;
     }
 

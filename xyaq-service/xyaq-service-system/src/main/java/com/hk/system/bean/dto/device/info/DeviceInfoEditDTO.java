@@ -82,10 +82,6 @@ public class DeviceInfoEditDTO {
     @Schema(description = "排序")
     private String sort;
 
-    @Pattern(regexp = "[01]", message = "0：启用；1：不启用")
-    @Schema(description = "是否启用")
-    private String del;
-
     public String getLabel() {
         return CollectionUtils.isEmpty(labelList) ? "" : String.join(",", labelList);
     }

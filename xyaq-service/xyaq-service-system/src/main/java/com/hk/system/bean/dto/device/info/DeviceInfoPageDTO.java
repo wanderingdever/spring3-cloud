@@ -30,7 +30,7 @@ public class DeviceInfoPageDTO extends PageDTO {
     @Schema(description = "设备名称简称")
     private String shortName;
 
-    @Pattern(regexp = "\\d.*", message = "id只能为数字")
+    @Pattern(regexp = "\\d.*", message = "位置id只能为数字")
     @Schema(description = "位置id")
     private String deviceLocationId;
 
