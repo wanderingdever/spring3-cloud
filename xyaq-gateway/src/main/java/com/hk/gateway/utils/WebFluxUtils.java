@@ -11,6 +11,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -122,7 +123,7 @@ public class WebFluxUtils {
      * @param value    响应内容
      * @return Mono<Void>
      */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, HttpStatus status, Object value, int code) {
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, HttpStatusCode status, Object value, int code) {
         return webFluxResponseWriter(response, MediaType.APPLICATION_JSON_VALUE, status, value, code);
     }
 
@@ -136,7 +137,7 @@ public class WebFluxUtils {
      * @param value       响应内容
      * @return Mono<Void>
      */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatus status, Object value, int code) {
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatusCode status, Object value, int code) {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
         R<?> result = R.fail(code, value.toString());

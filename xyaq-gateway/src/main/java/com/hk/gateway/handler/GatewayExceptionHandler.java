@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +46,10 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
         LOGGER.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
 
+        if (ex instanceof ResponseStatusException) {
+            HttpStatusCode statusCode = ((ResponseStatusException) ex).getStatusCode();
+            return WebFluxUtils.webFluxResponseWriter(response, statusCode, msg, statusCode.value());
+        }
         return WebFluxUtils.webFluxResponseWriter(response, msg);
     }
 }
