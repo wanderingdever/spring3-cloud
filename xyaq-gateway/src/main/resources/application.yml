@@ -62,3 +62,18 @@ knife4j:
         url: /v3/api-docs?group=default
       excluded-services:
         - xyaq-gateway
+#    strategy: manual
+#    routes:
+#      - name: 认证服务
+#        # 真实子服务访问url地址-提供OpenAPI的文档
+#        url: /authorize/v3/api-docs?group=default
+#        service-name: xyaq-authorize
+#        # 路由前缀
+#        # 兼容OpenAPI3规范在聚合时丢失contextPath属性的异常情况，由开发者自己配置contextPath,Knife4j的前端Ui做兼容处理,与url属性独立不冲突，仅OpenAPI3规范聚合需要，OpenAPI2规范不需要设置此属性,默认为(apiPathPrefix)
+#        context-path: /authorize
+#        order: 2
+#      - name: 系统服务
+#        url: /service-system/v3/api-docs?group=default
+#        service-name: xyaq-service-system
+#        context-path: /service-system
+#        order: 3
