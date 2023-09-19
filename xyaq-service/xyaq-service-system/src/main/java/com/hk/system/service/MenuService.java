@@ -3,6 +3,7 @@ package com.hk.system.service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.framework.constant.Constants;
 import com.hk.system.bean.dto.MenuDTO;
+import com.hk.system.bean.dto.MenuListDTO;
 import com.hk.system.bean.enums.MenuType;
 import com.hk.system.bean.pojo.Menu;
 import com.hk.system.bean.vo.MenuTreeVO;
@@ -27,6 +28,46 @@ import java.util.List;
 @Service
 public class MenuService extends ServiceImpl<MenuMapper, Menu> {
 
+
+    /**
+     * 获取菜单树
+     *
+     * @param dto {@link MenuListDTO}}
+     * @return {@link List<MenuTreeVO>}
+     */
+    public List<MenuTreeVO> getTreeMenu(MenuListDTO dto) {
+        // if (!SecurityUtils.isAdmin()) {
+        //     dto.setUserId(SecurityUtils.getUserId());
+        // }
+        // List<MenuTreeVO> treeList = this.baseMapper.getTreeMenu(dto);
+        List<MenuTreeVO> treeList = new ArrayList<>();
+        return buildMenuTree(treeList);
+    }
+
+    /**
+     * 构建菜单树
+     *
+     * @param menus {@link List<MenuTreeVO>}
+     * @return {@link List<MenuTreeVO>}
+     */
+    public List<MenuTreeVO> buildMenuTree(List<MenuTreeVO> menus) {
+        List<MenuTreeVO> returnList = new ArrayList<MenuTreeVO>();
+        List<String> tempList = new ArrayList<String>();
+        for (MenuTreeVO dept : menus) {
+            tempList.add(dept.getId());
+        }
+        for (MenuTreeVO menu : menus) {
+            // 如果是顶级节点, 遍历该父节点的所有子节点
+            if (!tempList.contains(menu.getParentId())) {
+                recursionFn(menus, menu);
+                returnList.add(menu);
+            }
+        }
+        if (returnList.isEmpty()) {
+            returnList = menus;
+        }
+        return returnList;
+    }
 
     /**
      * 更新菜单

@@ -18,6 +18,14 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "xyaq_post")
 public class Post extends BaseEntity {
+
+    /**
+     * 机构ID
+     */
+    @TableField(value = "org_id")
+    @Schema(description = "机构ID")
+    private String orgId;
+
     /**
      * 岗位编码
      */

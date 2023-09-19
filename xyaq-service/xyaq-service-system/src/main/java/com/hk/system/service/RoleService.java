@@ -3,10 +3,12 @@ package com.hk.system.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hk.datasource.utils.PageUtil;
 import com.hk.system.bean.dto.RoleDTO;
 import com.hk.system.bean.dto.RoleSearchDTO;
 import com.hk.system.bean.pojo.Role;
 import com.hk.system.dao.RoleMapper;
+import com.hk.utils.lang.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +24,13 @@ import java.util.List;
 public class RoleService extends ServiceImpl<RoleMapper, Role> {
 
     public Page<Role> pageRole(RoleSearchDTO dto) {
-        Page<Role> page = new Page<>();
-        page.setCurrent(dto.getCurrent());
-        page.setSize(dto.getSize());
-        page.setOptimizeCountSql(false);
-        // page.setRecords(this.baseMapper.selectPageRole(page, dto));
-        return page;
+
+        return lambdaQuery().eq(StringUtil.isNotBlank(dto.getRoleName()), Role::getRoleName, dto.getRoleName())
+                .eq(StringUtil.isNotBlank(dto.getRoleKey()), Role::getRoleKey, dto.getRoleKey())
+                .eq(StringUtil.isNotNull(dto.getAuthorityLevel()), Role::getAuthorityLevel, dto.getAuthorityLevel())
+                .eq(StringUtil.isNotNull(dto.getEnable()), Role::getEnable, dto.getEnable())
+                .eq(StringUtil.isNotBlank(dto.getOrgId()), Role::getOrgId, dto.getOrgId())
+                .page(PageUtil.getPage(dto));
     }
 
     @Transactional(rollbackFor = Exception.class)

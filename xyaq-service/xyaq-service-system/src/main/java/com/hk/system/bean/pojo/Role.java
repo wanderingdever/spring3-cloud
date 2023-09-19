@@ -3,6 +3,7 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
+import com.hk.system.bean.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,11 +34,18 @@ public class Role extends BaseEntity {
     private String roleKey;
 
     /**
-     * 角色级别
+     * 权限级别
      */
-    @TableField(value = "role_level")
-    @Schema(description = "角色级别")
-    private String roleLevel;
+    @TableField(value = "authority_level")
+    @Schema(description = "权限级别")
+    private AuthorityLevel authorityLevel;
+
+    /**
+     * 角色所属机构ID
+     */
+    @TableField(value = "org_id")
+    @Schema(description = "角色所属机构ID")
+    private String orgId;
 
     /**
      * 显示顺序

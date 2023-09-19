@@ -23,7 +23,6 @@ public class SaTokenConfig implements WebMvcConfigurer {
                 // .addPathPatterns("/**")
                 // 手动放行
                 .excludePathPatterns("/**", "/**/*.js", "/lang/*.json", "/**/*.css", "/**/*.js", "/**/*.map", "/**/*.html", "/**/*.png",
-                        "/**/*.ico", "/**/*.jpg", "/favicon.ico", "/doc.html", "/webjars/**", "/swagger**/**", "/v2" +
-                                "/**", "/v3/**");
+                        "/**/*.ico", "/**/*.jpg", "/favicon.ico", "/doc.html", "/webjars/**", "/swagger**/**", "/v2/**", "/v3/**");
     }
 }

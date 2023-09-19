@@ -5,6 +5,7 @@
         <!--@mbg.generated-->
         <!--@Table xyaq_post-->
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
         <result column="post_code" jdbcType="VARCHAR" property="postCode"/>
         <result column="post_name" jdbcType="VARCHAR" property="postName"/>
         <result column="post_sort" jdbcType="INTEGER" property="postSort"/>
@@ -18,7 +19,17 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, post_code, post_name, post_sort, is_rotation, `enable`, create_by, create_time,
-        update_by, update_time, del
+        id,
+        org_id,
+        post_code,
+        post_name,
+        post_sort,
+        is_rotation,
+        `enable`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
     </sql>
 </mapper>
