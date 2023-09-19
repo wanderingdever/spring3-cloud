@@ -22,7 +22,7 @@ import java.util.List;
  * @author 小徐
  * @since 2023/9/14 14:53
  */
-@Tag(name = "设备周边关系")
+@Tag(name = "设备关系")
 @Slf4j
 @RestController
 @RequestMapping("/device-relation")
@@ -32,14 +32,14 @@ public class DeviceRelationController {
     private DeviceManager deviceManager;
 
     @PostMapping("/add")
-    @Operation(summary = "新增设备关系", description = "新增设备关系")
+    @Operation(summary = "新增", description = "新增设备关系")
     public void add(@RequestBody @Valid DeviceRelationAddDTO dto) {
 
         deviceManager.addRelation(dto);
     }
 
     @PostMapping("/list")
-    @Operation(summary = "周边设备列表", description = "周边设备列表")
+    @Operation(summary = "列表", description = "设备关系列表")
     public List<DeviceInfoRelationVO> list(@RequestBody @Valid IdDTO dto) {
 
         return deviceManager.listRelation(dto);

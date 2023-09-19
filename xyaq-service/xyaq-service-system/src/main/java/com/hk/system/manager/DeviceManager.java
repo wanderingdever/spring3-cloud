@@ -3,11 +3,13 @@ package com.hk.system.manager;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.hk.datasource.bean.dto.IdDTO;
+import com.hk.framework.enums.DelEnum;
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoEditDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
 import com.hk.system.bean.dto.device.nearby.DeviceNearbyAddDTO;
 import com.hk.system.bean.dto.device.relation.DeviceRelationAddDTO;
+import com.hk.system.bean.dto.device.relation.DeviceRelationAddMountedDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.pojo.DeviceNearby;
 import com.hk.system.bean.pojo.DeviceRelation;
@@ -80,6 +82,7 @@ public class DeviceManager {
                 .map(k -> List.of(k.getNearbyDeviceId(), k.getDeviceId()))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
+        deviceIdSet.remove(dto.getId());
 
         List<DeviceInfo> deviceInfoList = deviceInfoService.lambdaQuery()
                 .in(DeviceInfo::getId, deviceIdSet)
@@ -105,11 +108,19 @@ public class DeviceManager {
         idList.add(dto.getDeviceId());
         deviceInfoService.getDevice(idList);
 
+        deviceNearbyService.lambdaUpdate()
+                .and(k -> k.eq(DeviceNearby::getDeviceId, dto.getDeviceId())
+                        .or()
+                        .eq(DeviceNearby::getNearbyDeviceId, dto.getDeviceId()))
+                .set(DeviceNearby::getDel, DelEnum.DELETE.getCode())
+                .update();
+
         List<DeviceNearby> nearbyList = new ArrayList<>();
         for (String s : dto.getNearbyIdList()) {
             DeviceNearby nearby = new DeviceNearby();
             nearby.setDeviceId(dto.getDeviceId());
             nearby.setNearbyDeviceId(s);
+            nearbyList.add(nearby);
         }
         deviceNearbyService.saveBatch(nearbyList);
     }
@@ -117,10 +128,22 @@ public class DeviceManager {
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void addRelation(DeviceRelationAddDTO dto) {
 
-        deviceInfoService.getDevice(List.of(dto.getDeviceId(), dto.getMountedDeviceId()));
-        DeviceRelation relation = new DeviceRelation();
-        BeanUtil.copyProperties(dto, relation);
-        deviceRelationService.save(relation);
+        Set<String> idSet = dto.getMountedList().stream().map(DeviceRelationAddMountedDTO::getMountedDeviceId).collect(Collectors.toSet());
+        idSet.add(dto.getDeviceId());
+        deviceInfoService.getDevice(idSet);
+        deviceRelationService.lambdaUpdate()
+                .eq(DeviceRelation::getDeviceId, dto.getDeviceId())
+                .set(DeviceRelation::getDel, DelEnum.DELETE.getCode())
+                .update();
+
+        List<DeviceRelation> deviceRelationList = dto.getMountedList().stream().map(k -> {
+            DeviceRelation relation = new DeviceRelation();
+            relation.setDeviceId(dto.getDeviceId());
+            relation.setMountedDeviceId(k.getMountedDeviceId());
+            relation.setDeviceChannel(k.getDeviceChannel());
+            return relation;
+        }).toList();
+        deviceRelationService.saveBatch(deviceRelationList);
     }
 
     public List<DeviceInfoRelationVO> listRelation(IdDTO dto) {
