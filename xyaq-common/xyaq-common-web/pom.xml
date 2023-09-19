@@ -29,6 +29,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- webflux -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
 
         <!-- web 容器使用 undertow 性能更强 -->
         <dependency>

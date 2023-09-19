@@ -3,12 +3,19 @@ package com.hk.system.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hk.api.service.RemoteRoleService;
+import com.hk.api.vo.UserRoleAndPermissionVO;
 import com.hk.datasource.utils.PageUtil;
 import com.hk.system.bean.dto.RoleDTO;
 import com.hk.system.bean.dto.RoleSearchDTO;
 import com.hk.system.bean.pojo.Role;
+import com.hk.system.bean.pojo.UserRole;
 import com.hk.system.dao.RoleMapper;
 import com.hk.utils.lang.StringUtil;
+import lombok.AllArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +28,37 @@ import java.util.List;
  * @author Matt
  */
 @Service
-public class RoleService extends ServiceImpl<RoleMapper, Role> {
+@AllArgsConstructor
+@DubboService(interfaceClass = RemoteRoleService.class)
+public class RoleService extends ServiceImpl<RoleMapper, Role> implements RemoteRoleService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(RoleService.class);
+    private final UserRoleService userRoleService;
+    private final RoleMenuService roleMenuService;
+
+    /**
+     * 根据用户ID获取用户的角色列表KEY
+     *
+     * @param userId 用户ID
+     * @return {@link  List<String>} 用户的角色key
+     */
+    @Override
+    public UserRoleAndPermissionVO getUserRoleKeyList(String userId) {
+        // 查询用户角色关联
+        List<UserRole> userRoleList = userRoleService.lambdaQuery().eq(UserRole::getUserId, userId).list();
+        if (userRoleList.isEmpty()) {
+            LOGGER.error("DUBBO调用->未查询到用户角色关联");
+            return null;
+        }
+        // 查询role id
+        List<String> roleIdList = userRoleList.stream().map(UserRole::getRoleId).toList();
+        // 查询权限集合
+        List<String> permissions = roleMenuService.getBaseMapper().selectRolePermissions(roleIdList);
+        // 查询角色key集合
+        List<String> roles = lambdaQuery().in(Role::getId, roleIdList).list().stream().map(Role::getRoleKey).toList();
+        return new UserRoleAndPermissionVO(roles, permissions);
+    }
 
     public Page<Role> pageRole(RoleSearchDTO dto) {
-
         return lambdaQuery().eq(StringUtil.isNotBlank(dto.getRoleName()), Role::getRoleName, dto.getRoleName())
                 .eq(StringUtil.isNotBlank(dto.getRoleKey()), Role::getRoleKey, dto.getRoleKey())
                 .eq(StringUtil.isNotNull(dto.getAuthorityLevel()), Role::getAuthorityLevel, dto.getAuthorityLevel())
