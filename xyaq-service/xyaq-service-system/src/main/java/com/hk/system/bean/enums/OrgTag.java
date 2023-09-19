@@ -5,24 +5,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 菜单类型枚举
+ * 机构标签
  * </p>
  *
  * @author Matt
  */
+
 @Getter
 @AllArgsConstructor
-public enum MenuType {
+public enum OrgTag {
 
     /**
-     * 菜单类型
+     * 机构标签
      */
-    DIRECTORY(0, "目录"),
-    PAGE(1, "页面"),
-    BUTTON(2, "按钮");
+    PROVINCE("PROVINCE", "省级单位"),
+    CITY("CITY", "市级单位"),
+    DISTRICT("DISTRICT", "区县级单位"),
+    ;
 
     @EnumValue
-    private final Integer value;
+    private final String value;
 
     private final String desc;
+
 }

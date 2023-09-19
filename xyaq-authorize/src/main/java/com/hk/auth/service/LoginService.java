@@ -25,12 +25,23 @@ public class LoginService {
     @DubboReference
     private RemoteUserService remoteUserService;
 
-
+    /**
+     * 检查用户是否已存在
+     *
+     * @param username 用户名
+     * @return 存在true; 不存在false;
+     */
     public boolean checkUser(String username) {
         UserVO userVO = remoteUserService.selectUserByUsername(username);
         return userVO != null;
     }
 
+    /**
+     * 账号密码登录
+     *
+     * @param login 登录信息 {@link  PwdLogin}
+     * @return {@link  TokenInfo}
+     */
     public TokenInfo pwdLogin(PwdLogin login) {
         UserVO user = remoteUserService.selectUserByUsername(login.getUsername());
         if (user == null) {
@@ -40,8 +51,11 @@ public class LoginService {
         if (!BCrypt.checkpw(login.getPassword(), user.getPassword())) {
             throw new RuntimeException("密码错误");
         }
+        // 登录
         StpUtil.login(user.getId(), new SaLoginModel().build().setDevice(login.getDevice()));
+        // 获取登录信息
         SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
+        StpUtil.getRoleList();
         return new TokenInfo(saTokenInfo.getTokenValue(), saTokenInfo.getTokenTimeout(), saTokenInfo.getLoginDevice());
     }
 }

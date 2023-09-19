@@ -5,24 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 菜单类型枚举
+ * 数据权限级别
  * </p>
  *
  * @author Matt
  */
 @Getter
 @AllArgsConstructor
-public enum MenuType {
+public enum AuthorityLevel {
 
     /**
      * 菜单类型
      */
-    DIRECTORY(0, "目录"),
-    PAGE(1, "页面"),
-    BUTTON(2, "按钮");
+    ONESELF("ONESELF", "本级"),
+    LOWER("LOWER", "本级及下级");
 
     @EnumValue
-    private final Integer value;
+    private final String value;
 
     private final String desc;
 }

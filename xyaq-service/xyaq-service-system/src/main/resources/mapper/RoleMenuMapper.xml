@@ -17,4 +17,16 @@
         <!--@mbg.generated-->
         id, role_id, menu_id, create_by, create_time, update_by, update_time, del
     </sql>
+
+    <select id="selectRolePermissions" resultType="java.lang.String">
+        SELECT DISTINCT m.perms
+        FROM xyaq_menu m
+        LEFT JOIN xyaq_role_menu rm ON m.id = rm.menu_id
+        WHERE m.perms IS NOT NULL
+        AND m.enable = 1
+        and rm.role_id in
+        <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+    </select>
 </mapper>

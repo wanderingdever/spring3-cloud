@@ -1,6 +1,7 @@
 package com.hk.system.bean.dto;
 
 import com.hk.framework.enums.YesOrNo;
+import com.hk.system.bean.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,7 +27,17 @@ public class RoleDTO {
      */
     @Schema(description = "角色权限字表示")
     private String roleKey;
+    /**
+     * 权限级别
+     */
+    @Schema(description = "权限级别")
+    private AuthorityLevel authorityLevel;
 
+    /**
+     * 角色所属机构ID
+     */
+    @Schema(description = "角色所属机构ID")
+    private String orgId;
     /**
      * 显示顺序
      */

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
 import com.hk.framework.enums.YesOrNo;
+import com.hk.system.bean.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -59,14 +60,14 @@ public class Menu extends BaseEntity {
      */
     @TableField(value = "is_frame")
     @Schema(description = "是否为外链")
-    private String isFrame;
+    private YesOrNo isFrame;
 
     /**
      * 是否为外链
      */
     @TableField(value = "is_link")
     @Schema(description = "是否为外链")
-    private Boolean isLink;
+    private YesOrNo isLink;
 
     /**
      * 地址
@@ -80,21 +81,21 @@ public class Menu extends BaseEntity {
      */
     @TableField(value = "is_hide")
     @Schema(description = "菜单是否显示")
-    private Boolean isHide;
+    private YesOrNo isHide;
 
     /**
      * 是否缓存
      */
     @TableField(value = "is_keep_alive")
     @Schema(description = "是否缓存")
-    private Boolean isKeepAlive;
+    private YesOrNo isKeepAlive;
 
     /**
      * 菜单类型
      */
     @TableField(value = "menu_type")
     @Schema(description = "菜单类型")
-    private String menuType;
+    private MenuType menuType;
 
     /**
      * 权限标识

@@ -7,7 +7,8 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
         <result column="role_key" jdbcType="VARCHAR" property="roleKey"/>
-        <result column="role_level" jdbcType="CHAR" property="roleLevel"/>
+        <result column="authority_level" jdbcType="CHAR" property="authorityLevel"/>
+        <result column="org_id" jdbcType="CHAR" property="orgId"/>
         <result column="role_sort" jdbcType="INTEGER" property="roleSort"/>
         <result column="enable" jdbcType="CHAR" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
@@ -18,7 +19,17 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, role_name, role_key, role_level, role_sort, `enable`, create_by, create_time,
-        update_by, update_time, del
+        id,
+        org_id,
+        role_name,
+        role_key,
+        authority_level,
+        role_sort,
+        `enable`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
     </sql>
 </mapper>
