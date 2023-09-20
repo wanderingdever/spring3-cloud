@@ -1,12 +1,16 @@
 package com.hk.system.service;
 
 import cn.dev33.satoken.secure.BCrypt;
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteUserService;
 import com.hk.api.vo.UserVO;
+import com.hk.framework.enums.AccountClient;
+import com.hk.framework.enums.AccountStatus;
 import com.hk.system.bean.dto.UserAddDTO;
 import com.hk.system.bean.pojo.User;
+import com.hk.system.bean.vo.UserInfoVO;
 import com.hk.system.dao.UserMapper;
 import com.hk.web.exception.CustomizeException;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -49,9 +53,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         User user = new User();
         user.setUsername(add.getUsername());
         user.setPassword(BCrypt.hashpw(add.getPassword()));
-        user.setClient("PC");
+        user.setClient(AccountClient.WEB);
         user.setSort(1);
-        user.setStatus("NORMAL");
+        user.setStatus(AccountStatus.NORMAL);
         try {
             this.baseMapper.insert(user);
         } catch (Exception ex) {
@@ -83,5 +87,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         userVO.setUpdateTime(user.getUpdateTime());
         userVO.setDel(user.getDel());
         return userVO;
+    }
+
+    public UserInfoVO getUserInfo() {
+        UserInfoVO userInfo = this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
+        return userInfo;
     }
 }

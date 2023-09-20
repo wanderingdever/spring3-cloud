@@ -6,6 +6,8 @@
         <!--@Table xyaq_user_info-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="id_card" jdbcType="CHAR" property="idCard"/>
         <result column="gender" jdbcType="CHAR" property="gender"/>
@@ -19,7 +21,19 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, user_id, `name`, id_card, gender, face_id, user_type, create_by, create_time,
-        update_by, update_time, del
+        id,
+        user_id,
+        avatar,
+        nickname,
+        `name`,
+        id_card,
+        gender,
+        face_id,
+        user_type,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
     </sql>
 </mapper>

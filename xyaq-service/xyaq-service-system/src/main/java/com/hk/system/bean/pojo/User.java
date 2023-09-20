@@ -3,6 +3,8 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
+import com.hk.framework.enums.AccountClient;
+import com.hk.framework.enums.AccountStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,7 +53,7 @@ public class User extends BaseEntity {
      */
     @TableField(value = "client")
     @Schema(description = "所属客户端")
-    private String client;
+    private AccountClient client;
 
     /**
      * 排序
@@ -65,7 +67,7 @@ public class User extends BaseEntity {
      */
     @TableField(value = "`status`")
     @Schema(description = "账号状态")
-    private String status;
+    private AccountStatus status;
 
 
 }

@@ -1,6 +1,8 @@
 package com.hk.api.vo;
 
 import com.hk.framework.bean.base.BaseVO;
+import com.hk.framework.enums.AccountClient;
+import com.hk.framework.enums.AccountStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,7 +45,7 @@ public class UserVO extends BaseVO {
      * 所属客户端
      */
     @Schema(description = "所属客户端")
-    private String client;
+    private AccountClient client;
 
     /**
      * 排序
@@ -55,5 +57,5 @@ public class UserVO extends BaseVO {
      * 账号状态
      */
     @Schema(description = "账号状态")
-    private String status;
+    private AccountStatus status;
 }

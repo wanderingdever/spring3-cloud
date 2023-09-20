@@ -3,6 +3,7 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
+import com.hk.system.bean.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +25,22 @@ public class UserInfo extends BaseEntity {
     @TableField(value = "user_id")
     @Schema(description = "用户信息ID")
     private String userId;
+
+
+    /**
+     * 昵称
+     */
+    @TableField(value = "nickname")
+    @Schema(description = "昵称")
+    private String nickname;
+
+
+    /**
+     * 头像
+     */
+    @TableField(value = "avatar")
+    @Schema(description = "头像")
+    private String avatar;
 
     /**
      * 姓名
@@ -58,6 +75,6 @@ public class UserInfo extends BaseEntity {
      */
     @TableField(value = "user_type")
     @Schema(description = "用户类型")
-    private String userType;
+    private UserType userType;
 
 }

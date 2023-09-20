@@ -23,4 +23,24 @@
         id, username, `password`, email, phone, client, sort, `status`, create_by, create_time,
         update_by, update_time, del
     </sql>
+
+    <select id="selectUserInfo" resultType="com.hk.system.bean.vo.UserInfoVO">
+        select u.id as id,
+        u.username as username,
+        u.email as email,
+        u.phone as phone,
+        u.client as client,
+        u.`status` as status,
+        u.create_time as createTime,
+        ui.avatar as avatar,
+        ui.nickname as nickname,
+        ui.gender as gender,
+        ui.name as name,
+        ui.id_card as idCard,
+        ui.user_type as userType
+        from xyaq_user u
+        left join xyaq_user_info ui on u.id = ui.user_id
+        where u.id = #{userId}
+        and u.del = 0
+    </select>
 </mapper>

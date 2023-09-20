@@ -1,6 +1,7 @@
 package com.hk.system.controller;
 
 import com.hk.system.bean.dto.UserAddDTO;
+import com.hk.system.bean.vo.UserInfoVO;
 import com.hk.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,6 +25,17 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @return UserInfoVO
+     */
+    @PostMapping(value = "/user_info")
+    @Operation(description = "获取用户信息")
+    public UserInfoVO userInfo() {
+        return userService.getUserInfo();
     }
 
     @PostMapping("/add")
