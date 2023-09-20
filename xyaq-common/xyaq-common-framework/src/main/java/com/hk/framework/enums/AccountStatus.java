@@ -17,12 +17,12 @@ public enum AccountStatus {
     /**
      * 账号状态
      */
-    INACTIVATED(0, "未激活"),
-    NORMAL(1, "正常"),
-    STOP(9, "停用"),
+    INACTIVATED("INACTIVATED", "未激活"),
+    NORMAL("NORMAL", "正常"),
+    STOP("STOP", "停用"),
     ;
     @EnumValue
-    private final Integer value;
+    private final String value;
 
     private final String desc;
 

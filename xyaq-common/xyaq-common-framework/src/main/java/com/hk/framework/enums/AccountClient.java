@@ -16,11 +16,11 @@ public enum AccountClient {
     /**
      * 账号客户端枚举
      */
-    WEB(0, "WEP"),
-    APP(1, "APP"),
+    WEB("WEB", "WEB"),
+    APP("APP", "APP"),
     ;
     @EnumValue
-    private final Integer value;
+    private final String value;
 
     private final String desc;
 }
