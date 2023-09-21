@@ -1,5 +1,6 @@
 package com.hk.system.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.hk.system.bean.dto.UserAddDTO;
 import com.hk.system.bean.vo.UserInfoVO;
 import com.hk.system.service.UserService;
@@ -35,6 +36,10 @@ public class UserController {
     @PostMapping(value = "/user_info")
     @Operation(description = "获取用户信息")
     public UserInfoVO userInfo() {
+        StpUtil.getLoginId();
+        StpUtil.getSession();
+        StpUtil.getRoleList();
+        StpUtil.getPermissionList();
         return userService.getUserInfo();
     }
 

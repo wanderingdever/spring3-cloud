@@ -1,8 +1,11 @@
 package com.hk.satoken.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.jwt.StpLogicJwtForSimple;
+import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -12,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * @author Matt
  */
-@Component
+@Configuration
 public class SaTokenConfig implements WebMvcConfigurer {
 
     // 注册拦截器
@@ -24,5 +27,13 @@ public class SaTokenConfig implements WebMvcConfigurer {
                 // 手动放行
                 .excludePathPatterns("/**", "/**/*.js", "/lang/*.json", "/**/*.css", "/**/*.js", "/**/*.map", "/**/*.html", "/**/*.png",
                         "/**/*.ico", "/**/*.jpg", "/favicon.ico", "/doc.html", "/webjars/**", "/swagger**/**", "/v2/**", "/v3/**");
+    }
+
+    /**
+     * Sa-Token 整合 jwt (Simple 简单模式)
+     */
+    @Bean
+    public StpLogic getStpLogicJwt() {
+        return new StpLogicJwtForSimple();
     }
 }

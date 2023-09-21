@@ -17,12 +17,12 @@ public enum MenuType {
     /**
      * 菜单类型
      */
-    DIRECTORY(0, "目录"),
-    PAGE(1, "页面"),
-    BUTTON(2, "按钮");
+    DIRECTORY("DIRECTORY", "目录"),
+    PAGE("PAGE", "页面"),
+    BUTTON("BUTTON", "按钮");
 
     @EnumValue
-    private final Integer value;
+    private final String value;
 
     private final String desc;
 }

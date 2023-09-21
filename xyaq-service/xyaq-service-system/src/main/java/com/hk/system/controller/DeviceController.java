@@ -1,8 +1,8 @@
 package com.hk.system.controller;
 
+import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
 import com.hk.system.manager.DeviceManager;
-import com.hk.web.exception.CustomizeException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

@@ -29,12 +29,6 @@
 
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>xyaq-common-utils</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
             <artifactId>xyaq-common-framework</artifactId>
             <version>0.0.1</version>
         </dependency>

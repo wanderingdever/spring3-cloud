@@ -1,9 +1,9 @@
-package com.hk.auth.config;
+package com.hk.satoken.config;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.hk.api.service.RemoteRoleService;
 import com.hk.api.vo.UserRoleAndPermissionVO;
-import com.hk.web.exception.CustomizeException;
+import com.hk.framework.exception.CustomizeException;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,7 @@
 package com.hk.web.exception;
 
 import com.hk.framework.bean.base.R;
+import com.hk.framework.exception.CustomizeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

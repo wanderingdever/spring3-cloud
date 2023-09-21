@@ -1,9 +1,9 @@
 package com.hk.system.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.pojo.Org;
 import com.hk.system.dao.OrgMapper;
-import com.hk.web.exception.CustomizeException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
