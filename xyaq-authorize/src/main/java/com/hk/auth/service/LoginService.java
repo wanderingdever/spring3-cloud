@@ -8,12 +8,9 @@ import com.hk.api.service.RemoteUserService;
 import com.hk.api.vo.UserVO;
 import com.hk.auth.bean.PwdLogin;
 import com.hk.auth.bean.TokenInfo;
-import com.hk.satoken.constant.SaConstant;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.List;
 
 /**
  * 登录服务
@@ -54,15 +51,10 @@ public class LoginService {
         if (!BCrypt.checkpw(login.getPassword(), user.getPassword())) {
             throw new RuntimeException("密码错误");
         }
-        // 获取授权部门
-        List<String> orgIdList = remoteUserService.authorizedOrgIdList(false);
-        List<String> orgIdListContainsChild = remoteUserService.authorizedOrgIdList(true);
         // 登录
         SaLoginModel loginModel = new SaLoginModel()
                 .build()
-                .setDevice(login.getDevice())
-                .setExtra(SaConstant.AUTHORIZED_ORG_ID_LIST, orgIdList)
-                .setExtra(SaConstant.AUTHORIZED_ORG_ID_LIST_AND_CHILD, orgIdListContainsChild);
+                .setDevice(login.getDevice());
         StpUtil.login(user.getId(), loginModel);
         // 获取登录信息
         SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();

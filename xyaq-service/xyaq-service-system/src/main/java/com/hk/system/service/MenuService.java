@@ -125,12 +125,12 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
             router.setPath(getRouterPath(menu));
             router.setName(getRouterName(menu.getPath()));
             router.setComponent(menu.getComponent());
+            router.setRedirect(menu.getRedirect());
             router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), menu.getIsHide(), menu.getIsKeepAlive(),
                     menu.getIsIframe(), menu.getIsAffix(), menu.getLink()));
             List<MenuTreeVO> cMenus = menu.getChildren();
             // 目录&&有子菜单
             if (StringUtil.isNotEmpty(cMenus)) {
-                // router.setRedirect("noRedirect");
                 router.setChildren(buildRouter(cMenus));
             }
             routers.add(router);
