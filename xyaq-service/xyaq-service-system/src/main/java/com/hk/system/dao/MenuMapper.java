@@ -1,6 +1,7 @@
 package com.hk.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hk.system.bean.dto.MenuListDTO;
 import com.hk.system.bean.pojo.Menu;
 import com.hk.system.bean.vo.MenuTreeVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,10 +18,11 @@ import java.util.List;
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
     /**
-     * 获取用户路由(按钮除外)
+     * 获取菜单列表
      *
-     * @param userId 用户id
+     * @param search 查询条件
      * @return {@link List<MenuTreeVO> }
      */
-    List<MenuTreeVO> getUserRouter(@Param("userId") String userId);
+    List<MenuTreeVO> getMenuList(@Param("search") MenuListDTO search);
+
 }

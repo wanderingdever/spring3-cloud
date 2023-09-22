@@ -1,7 +1,9 @@
 package com.hk.system.bean.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 菜单集合入参
@@ -11,13 +13,12 @@ import lombok.Data;
  */
 @Schema(description = "菜单集合入参")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MenuListDTO {
 
     @Schema(description = "用户ID")
     private String userId;
-
-    @Schema(description = "用户角色")
-    private String roleKey;
 
     @Schema(description = "菜单名字")
     private String menuName;

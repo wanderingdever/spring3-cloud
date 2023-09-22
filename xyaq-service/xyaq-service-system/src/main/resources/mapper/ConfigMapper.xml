@@ -9,7 +9,7 @@
         <result column="config_key" jdbcType="VARCHAR" property="configKey"/>
         <result column="config_value" jdbcType="VARCHAR" property="configValue"/>
         <result column="is_system" jdbcType="CHAR" property="isSystem"/>
-        <result column="enable" jdbcType="CHAR" property="enable"/>
+        <result column="enable" jdbcType="TINYINT" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="CHAR" property="updateBy"/>

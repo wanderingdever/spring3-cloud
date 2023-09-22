@@ -56,11 +56,18 @@ public class Menu extends BaseEntity {
     private String component;
 
     /**
+     * 重定向
+     */
+    @TableField(value = "redirect")
+    @Schema(description = "重定向")
+    private String redirect;
+
+    /**
      * 是否为外链
      */
-    @TableField(value = "is_frame")
+    @TableField(value = "is_iframe")
     @Schema(description = "是否为外链")
-    private YesOrNo isFrame;
+    private YesOrNo isIframe;
 
     /**
      * 是否为外链
@@ -89,6 +96,13 @@ public class Menu extends BaseEntity {
     @TableField(value = "is_keep_alive")
     @Schema(description = "是否缓存")
     private YesOrNo isKeepAlive;
+
+    /**
+     * 是否固定
+     */
+    @TableField(value = "is_affix")
+    @Schema(description = "是否固定")
+    private YesOrNo isAffix;
 
     /**
      * 菜单类型
