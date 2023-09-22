@@ -47,7 +47,7 @@ public class DictType extends BaseEntity {
      */
     @TableField(value = "`enable`")
     @Schema(description = "是否启用")
-    private String enable;
+    private YesOrNo enable;
 
     @TableField(exist = false)
     @Schema(description = "字典数据")

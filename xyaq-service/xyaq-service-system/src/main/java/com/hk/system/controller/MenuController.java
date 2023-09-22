@@ -52,7 +52,7 @@ public class MenuController {
      */
     @PostMapping(value = "/tree")
     @Operation(description = "树形菜单")
-    @SaCheckPermission("system.menu.tree")
+    // @SaCheckPermission("system.menu.tree")
     public List<MenuTreeVO> getTreeMenu(@RequestBody MenuListDTO dto) {
         return menuService.getTreeMenu(dto);
     }

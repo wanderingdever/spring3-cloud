@@ -51,6 +51,12 @@ public class MenuTreeVO extends BaseVO {
     private String component;
 
     /**
+     * 重定向
+     */
+    @Schema(description = "重定向")
+    private String redirect;
+
+    /**
      * 菜单类型（0-目录;1-页面;2-按钮）
      */
     @Schema(description = "菜单类型（0目录;1页面;2按钮）")
@@ -61,6 +67,9 @@ public class MenuTreeVO extends BaseVO {
      */
     @Schema(description = "是否内嵌(0-否;1-是),")
     private Boolean isIframe;
+
+    @Schema(description = "是否固定")
+    private Boolean isAffix;
 
     /**
      * 是否为外链

@@ -46,6 +46,12 @@ public class MenuDTO {
     private String component;
 
     /**
+     * 重定向
+     */
+    @Schema(description = "重定向")
+    private String redirect;
+
+    /**
      * 菜单类型（0-目录;1-页面;2-按钮）
      */
     @Schema(description = "菜单类型（0目录;1页面;2按钮）")

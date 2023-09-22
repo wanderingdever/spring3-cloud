@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Tag(name = "字典类型")
 @RestController
-@RequestMapping("/dictType")
+@RequestMapping("/dict_type")
 public class DictTypeController {
 
 
@@ -87,7 +87,7 @@ public class DictTypeController {
     @PostMapping(value = "/list")
     @Operation(description = "集合查询")
     public List<DictType> listDictType(@RequestBody DictTypeSearchDTO dto) {
-        return dictTypeService.listDictType(dto);
+        return dictTypeService.getDictList(dto);
     }
 
     /**

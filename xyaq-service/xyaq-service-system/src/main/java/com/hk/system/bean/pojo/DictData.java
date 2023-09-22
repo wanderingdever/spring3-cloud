@@ -3,6 +3,7 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
+import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -72,7 +73,7 @@ public class DictData extends BaseEntity {
      */
     @TableField(value = "`enable`")
     @Schema(description = "是否启用")
-    private String enable;
+    private YesOrNo enable;
 
 
 }

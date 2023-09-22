@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteDictService;
 import com.hk.api.vo.DictTypeVO;
 import com.hk.datasource.utils.PageUtil;
-import com.hk.framework.bean.base.BaseEntity;
 import com.hk.framework.enums.YesOrNo;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.redis.constant.CacheConstants;
@@ -56,21 +55,6 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
             // 设置缓存
             RedisUtils.setCacheObject(CacheConstants.SYSTEM_DICT, JacksonUtil.toJsonString(dictTypeList));
         }
-    }
-
-    /**
-     * 查询字典列表
-     *
-     * @param search 查询条件
-     * @return {@link List<DictType>}
-     */
-    public List<DictType> listDictType(DictTypeSearchDTO search) {
-        return lambdaQuery()
-                .like(StringUtil.isNotEmpty(search.getDictName()), DictType::getDictName, search.getDictName())
-                .eq(StringUtil.isNotBlank(search.getDictType()), DictType::getDictType, search.getDictType())
-                .eq(StringUtil.isNotNull(search.getIsSystem()), DictType::getIsSystem, search.getIsSystem())
-                .eq(StringUtil.isNotNull(search.getEnable()), DictType::getEnable, search.getEnable())
-                .list();
     }
 
     /**
@@ -165,7 +149,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
     }
 
     /**
-     * 获取字典集合
+     * 获取字典集合-包含dict data数据
      *
      * @param search 查询条件
      * @return {@link List<DictType>}
@@ -183,8 +167,8 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         }
         // 查询出所有关联的data
         LambdaQueryWrapper<DictData> dictDataQueryWrapper = new LambdaQueryWrapper<>();
-        dictDataQueryWrapper.eq(DictData::getDictType,
-                dictTypeList.stream().map(BaseEntity::getId).collect(Collectors.toList()));
+        dictDataQueryWrapper.in(DictData::getDictTypeId,
+                dictTypeList.stream().map(DictType::getId).collect(Collectors.toList()));
         List<DictData> dictDataList = dictDataMapper.selectList(dictDataQueryWrapper);
         // 组装数据
         dictTypeList.forEach(type ->

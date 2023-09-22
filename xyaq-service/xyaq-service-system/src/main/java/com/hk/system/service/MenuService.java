@@ -1,5 +1,6 @@
 package com.hk.system.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.framework.constant.Constants;
 import com.hk.system.bean.dto.MenuDTO;
@@ -36,11 +37,8 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      * @return {@link List<MenuTreeVO>}
      */
     public List<MenuTreeVO> getTreeMenu(MenuListDTO dto) {
-        // if (!SecurityUtils.isAdmin()) {
-        //     dto.setUserId(SecurityUtils.getUserId());
-        // }
-        // List<MenuTreeVO> treeList = this.baseMapper.getTreeMenu(dto);
-        List<MenuTreeVO> treeList = new ArrayList<>();
+        dto.setUserId(StpUtil.getLoginId().toString());
+        List<MenuTreeVO> treeList = this.baseMapper.getMenuList(dto);
         return buildMenuTree(treeList);
     }
 
@@ -107,11 +105,10 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      * @return {@link  List<RouterVO>}
      */
     public List<RouterVO> getUserRouter() {
-        String userId = null;
-        // if (!SecurityUtils.isAdmin()) {
-        //     userId = SecurityUtils.getUserId();
-        // }
-        List<MenuTreeVO> list = getChildPerms(this.baseMapper.getUserRouter(userId), Constants.ROOT);
+        String userId = StpUtil.getLoginId().toString();
+        List<MenuTreeVO> menuList =
+                this.baseMapper.getMenuList(new MenuListDTO(userId, null)).stream().filter(menu -> menu.getMenuType() == MenuType.MENU).toList();
+        List<MenuTreeVO> list = getChildPerms(menuList, Constants.ROOT);
         return buildRouter(list);
     }
 
@@ -128,10 +125,11 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
             router.setPath(getRouterPath(menu));
             router.setName(getRouterName(menu.getPath()));
             router.setComponent(menu.getComponent());
-            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), menu.getIsHide(), menu.getIsKeepAlive(), menu.getIsIframe(), menu.getLink()));
+            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), menu.getIsHide(), menu.getIsKeepAlive(),
+                    menu.getIsIframe(), menu.getIsAffix(), menu.getLink()));
             List<MenuTreeVO> cMenus = menu.getChildren();
             // 目录&&有子菜单
-            if (StringUtil.isNotEmpty(cMenus) && MenuType.DIRECTORY.equals(menu.getMenuType())) {
+            if (StringUtil.isNotEmpty(cMenus)) {
                 // router.setRedirect("noRedirect");
                 router.setChildren(buildRouter(cMenus));
             }
