@@ -3,7 +3,6 @@ package com.hk.datasource.bean.enums;
 import com.hk.utils.enums.EnumInterface;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>数据权限类型</p>
@@ -23,17 +22,13 @@ public enum DataScopeType implements EnumInterface<String> {
     /**
      * 部门权限
      */
-    ORG_LIST_AND_CHILD("2", " org_id IN ( #{@dataScopeService.authorizedOrgIdListAndChild()} )", "部门及以下"),
+    ORG_LIST_AND_CHILD("2", " org_id IN ( #{@dataScopeService.authorizedOrgIdList()} )", "部门及以下"),
 
     /**
      * 部门
      */
-    ORG_LIST("3", " org_id IN ( #{@dataScopeService.authorizedOrgIdList()} )", "部门"),
+    ORG_LIST("3", " org_id IN ( #{@dataScopeService.authorizedOrgIdListOneSelf()} )", "部门"),
 
-    /**
-     * 自定数据权限
-     */
-    CUSTOM("4", " org_id IN ( #{@sdss.getRoleCustom( #user.roleId )} ) ", "自定义"),
     ;
 
     private final String code;
@@ -47,16 +42,4 @@ public enum DataScopeType implements EnumInterface<String> {
      * 描述
      */
     private final String introduction;
-
-    public static DataScopeType findCode(String code) {
-        if (StringUtils.isBlank(code)) {
-            return null;
-        }
-        for (DataScopeType type : values()) {
-            if (type.getCode().equals(code)) {
-                return type;
-            }
-        }
-        return null;
-    }
 }

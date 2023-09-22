@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.datasource.utils.PageUtil;
 import com.hk.framework.exception.CustomizeException;
+import com.hk.satoken.service.DataScopeService;
 import com.hk.system.bean.dto.device.info.DeviceInfoPageDTO;
 import com.hk.system.bean.pojo.DeviceInfo;
 import com.hk.system.bean.vo.device.info.DeviceInfoVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.system.manager.Condition;
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -30,9 +32,13 @@ import java.util.List;
 @Service
 public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo> {
 
+    @Resource
+    private DataScopeService dataScopeService;
+
     public Page<DeviceInfoVO> page(DeviceInfoPageDTO dto) {
 
         Page<DeviceInfo> deviceInfoPage = lambdaQuery()
+                .in(DeviceInfo::getOrgId, dataScopeService.authorizedOrgIdList())
                 .eq(StringUtils.isNotBlank(dto.getType()), DeviceInfo::getType, dto.getType())
                 .like(StringUtils.isNotBlank(dto.getName()), DeviceInfo::getName, dto.getName())
                 .like(StringUtils.isNotBlank(dto.getShortName()), DeviceInfo::getShortName, dto.getShortName())
@@ -62,6 +68,13 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(IdDTO dto) {
 
+        DeviceInfo deviceInfo = this.lambdaQuery()
+                .eq(DeviceInfo::getId, dto.getId())
+                .in(DeviceInfo::getOrgId, dataScopeService.authorizedOrgIdList())
+                .one();
+        if (null == deviceInfo) {
+            throw new CustomizeException("设备不存在");
+        }
         this.removeById(dto.getId());
     }
 
@@ -72,7 +85,10 @@ public class DeviceInfoService extends ServiceImpl<DeviceInfoMapper, DeviceInfo>
     public List<DeviceInfo> getDevice(Collection<String> idColl) {
 
         HashSet<String> idSet = idColl instanceof HashSet ? (HashSet<String>) idColl : new HashSet<>(idColl);
-        List<DeviceInfo> list = lambdaQuery().in(DeviceInfo::getId, idSet).list();
+        List<DeviceInfo> list = lambdaQuery()
+                .in(DeviceInfo::getId, idSet)
+                .in(DeviceInfo::getOrgId, dataScopeService.authorizedOrgIdList())
+                .list();
         if (list.size() != idSet.size()) {
             throw new CustomizeException("设备不存在");
         }

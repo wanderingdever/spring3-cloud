@@ -21,5 +21,7 @@ public interface RemoteUserService {
      */
     UserVO selectUserByUsername(String username);
 
-    List<String> authorizedOrgIdList(boolean containsChild);
+    List<String> authorizedOrgIdListOneSelf();
+
+    List<String> authorizedOrgIdList();
 }

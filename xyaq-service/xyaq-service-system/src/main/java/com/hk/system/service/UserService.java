@@ -19,7 +19,6 @@ import com.hk.system.bean.vo.UserInfoVO;
 import com.hk.system.dao.OrgMapper;
 import com.hk.system.dao.RoleMapper;
 import com.hk.system.dao.UserMapper;
-import com.hk.system.dao.UserOrgMapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -39,9 +38,6 @@ import java.util.stream.Collectors;
 @Service
 @DubboService(interfaceClass = RemoteUserService.class)
 public class UserService extends ServiceImpl<UserMapper, User> implements RemoteUserService {
-
-    @Resource
-    private UserOrgMapper userOrgMapper;
 
     @Resource
     private OrgMapper orgMapper;
@@ -110,19 +106,29 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     @Override
-    public List<String> authorizedOrgIdList(boolean containsChild) {
+    public List<String> authorizedOrgIdListOneSelf() {
+
+        return getAuthorizedOrgIdList(false);
+    }
+
+    @Override
+    public List<String> authorizedOrgIdList() {
+        return getAuthorizedOrgIdList(true);
+    }
+
+    private List<String> getAuthorizedOrgIdList(boolean containsChild) {
 
         String userId = (String) StpUtil.getLoginId();
         List<Role> authRoleList = roleMapper.getAuthRoleList(userId);
         if (CollectionUtils.isEmpty(authRoleList)) {
             return new ArrayList<>();
         }
-        Map<String, AuthorityLevel> authOrgChildMap = authRoleList.stream()
-                .collect(Collectors.toMap(Role::getOrgId, Role::getAuthorityLevel, (c1, c2) -> c1.getPriorityLevel() > c2.getPriorityLevel() ? c1 : c2));
-
         Set<String> orgIdSet = authRoleList.stream().map(Role::getOrgId).collect(Collectors.toSet());
+
+        // 需要返回子部门
         if (containsChild) {
-            // 需要返回子部门
+            Map<String, AuthorityLevel> authOrgChildMap = authRoleList.stream()
+                    .collect(Collectors.toMap(Role::getOrgId, Role::getAuthorityLevel, (c1, c2) -> c1.getPriorityLevel() > c2.getPriorityLevel() ? c1 : c2));
             List<Org> allOrgList = orgMapper.selectList(new QueryWrapper<>());
             LinkedList<Org> tempOrgList = new LinkedList<>();
             Map<String, List<Org>> orgListMap = allOrgList.stream().peek(k -> {

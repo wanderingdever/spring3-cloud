@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.framework.enums.DelEnum;
+import com.hk.satoken.service.DataScopeService;
 import com.hk.system.bean.dto.device.info.DeviceInfoAddDTO;
 import com.hk.system.bean.dto.device.info.DeviceInfoEditDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationMountedDeviceDTO;
@@ -43,6 +44,9 @@ public class DeviceManager {
     @Resource
     private DeviceRelationService deviceRelationService;
 
+    @Resource
+    private DataScopeService dataScopeService;
+
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void mountedDevice(DeviceLocationMountedDeviceDTO dto) {
 
@@ -52,6 +56,7 @@ public class DeviceManager {
         LambdaUpdateWrapper<DeviceInfo> deviceInfoLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         deviceInfoLambdaUpdateWrapper.in(DeviceInfo::getId, dto.getDeviceIdList());
         deviceInfoLambdaUpdateWrapper.set(DeviceInfo::getDeviceLocationId, dto.getLocationId());
+        deviceInfoLambdaUpdateWrapper.set(DeviceInfo::getOrgId, dataScopeService.authorizedOrgIdList());
         deviceInfoService.update(deviceInfoLambdaUpdateWrapper);
     }
 
@@ -185,6 +190,7 @@ public class DeviceManager {
         }
         // 编辑
         deviceInfoService.lambdaUpdate()
+                .in(DeviceInfo::getOrgId, dataScopeService.authorizedOrgIdList())
                 .eq(DeviceInfo::getId, dto.getId())
                 .set(StringUtils.isNotBlank(dto.getOrgId()), DeviceInfo::getOrgId, dto.getOrgId())
                 .set(StringUtils.isNotBlank(dto.getDeviceLocationId()), DeviceInfo::getDeviceLocationId, dto.getDeviceLocationId())

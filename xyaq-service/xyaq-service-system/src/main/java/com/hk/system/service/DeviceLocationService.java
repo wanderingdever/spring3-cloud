@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.framework.exception.CustomizeException;
+import com.hk.satoken.service.DataScopeService;
 import com.hk.system.bean.dto.device.location.DeviceLocationAddDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationEditDTO;
 import com.hk.system.bean.dto.device.location.DeviceLocationTreeDTO;
@@ -39,10 +40,14 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
     @Resource
     private OrgService orgService;
 
+    @Resource
+    private DataScopeService dataScopeService;
+
     public List<DeviceLocationTreeVO> tree(DeviceLocationTreeDTO dto) {
 
         LambdaQueryWrapper<DeviceLocation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(StringUtils.isNotBlank(dto.getOrgId()), DeviceLocation::getOrgId, dto.getOrgId());
+        lambdaQueryWrapper.in(DeviceLocation::getOrgId, dataScopeService.authorizedOrgIdList());
         List<DeviceLocation> list = list(lambdaQueryWrapper);
         return buildTree(list);
     }
@@ -103,8 +108,17 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(IdDTO dto) {
 
+        DeviceLocation deviceLocation = this.lambdaQuery()
+                .in(DeviceLocation::getOrgId, dataScopeService.authorizedOrgIdList())
+                .eq(DeviceLocation::getId, dto.getId())
+                .one();
+        if (Objects.isNull(deviceLocation)) {
+            throw new CustomizeException("区域不存在");
+        }
+
         LambdaQueryWrapper<DeviceLocation> selectLambdaQueryWrapper = new LambdaQueryWrapper<>();
         selectLambdaQueryWrapper.eq(DeviceLocation::getParentId, dto.getId());
+        selectLambdaQueryWrapper.in(DeviceLocation::getOrgId, dataScopeService.authorizedOrgIdList());
         List<DeviceLocation> list = list(selectLambdaQueryWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
             throw new CustomizeException("存在下级区域，不允许删除");
@@ -112,6 +126,7 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
 
         LambdaQueryWrapper<DeviceInfo> deviceInfoLambdaQueryWrapper = new LambdaQueryWrapper<>();
         deviceInfoLambdaQueryWrapper.eq(DeviceInfo::getDeviceLocationId, dto.getId());
+        deviceInfoLambdaQueryWrapper.in(DeviceInfo::getOrgId, dataScopeService.authorizedOrgIdList());
         if (deviceInfoMapper.exists(deviceInfoLambdaQueryWrapper)) {
             throw new CustomizeException("有挂载设备不允许删除，不允许删除");
         }
@@ -143,7 +158,10 @@ public class DeviceLocationService extends ServiceImpl<DeviceLocationMapper, Dev
     public List<DeviceLocation> getLocation(Collection<String> idColl) {
 
         HashSet<String> idSet = idColl instanceof HashSet ? (HashSet<String>) idColl : new HashSet<>(idColl);
-        List<DeviceLocation> list = lambdaQuery().in(DeviceLocation::getId, idSet).list();
+        List<DeviceLocation> list = lambdaQuery()
+                .in(DeviceLocation::getId, idSet)
+                .in(DeviceLocation::getOrgId, dataScopeService.authorizedOrgIdList())
+                .list();
         if (list.size() != idSet.size()) {
             throw new CustomizeException("区域不存在");
         }
