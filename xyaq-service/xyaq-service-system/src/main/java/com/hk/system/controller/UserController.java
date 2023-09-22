@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 用户
  * </p>
@@ -47,5 +49,17 @@ public class UserController {
     @Operation(description = "新增用户")
     public String addUser(@RequestBody UserAddDTO add) {
         return userService.addUser(add);
+    }
+
+    @PostMapping("/authorized_org_id_list")
+    @Operation(summary = "查询用户授权的部门id列表")
+    public List<String> authorizedOrgIdList() {
+        return userService.authorizedOrgIdList(false);
+    }
+
+    @PostMapping("/authorized_org_id_list_and_child")
+    @Operation(summary = "查询用户授权的部门id列表（包含）")
+    public List<String> authorizedOrgIdListAndChild() {
+        return userService.authorizedOrgIdList(true);
     }
 }

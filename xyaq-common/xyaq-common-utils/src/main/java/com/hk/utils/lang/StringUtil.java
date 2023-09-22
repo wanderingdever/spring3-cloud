@@ -1,5 +1,6 @@
 package com.hk.utils.lang;
 
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
@@ -516,5 +517,16 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * 查找指定字符串是否包含指定字符串列表中的任意一个字符串同时串忽略大小写
+     *
+     * @param cs                  指定字符串
+     * @param searchCharSequences 需要检查的字符串数组
+     * @return 是否包含任意一个字符串
+     */
+    public static boolean containsAnyIgnoreCase(CharSequence cs, CharSequence... searchCharSequences) {
+        return StrUtil.containsAnyIgnoreCase(cs, searchCharSequences);
     }
 }

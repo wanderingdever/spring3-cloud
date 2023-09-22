@@ -2,6 +2,8 @@ package com.hk.api.service;
 
 import com.hk.api.vo.UserVO;
 
+import java.util.List;
+
 /**
  * 用户信息
  * </p>
@@ -18,4 +20,6 @@ public interface RemoteUserService {
      * @return {@link UserVO}
      */
     UserVO selectUserByUsername(String username);
+
+    List<String> authorizedOrgIdList(boolean containsChild);
 }
