@@ -17,7 +17,8 @@ public enum MenuType {
     /**
      * 菜单类型
      */
-    MENU("MENU", "菜单"),
+    CATALOGUE("CATALOGUE", "目录"),
+    PAGE("PAGE", "页面"),
     BUTTON("BUTTON", "按钮");
 
     @EnumValue

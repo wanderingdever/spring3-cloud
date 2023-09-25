@@ -78,7 +78,7 @@ public class MenuDTO {
      * 菜单是否显示
      */
     @Schema(description = "菜单是否显示")
-    private Boolean isHide;
+    private YesOrNo isHide;
 
     /**
      * 是否缓存

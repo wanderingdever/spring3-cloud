@@ -107,7 +107,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
     public List<RouterVO> getUserRouter() {
         String userId = StpUtil.getLoginId().toString();
         List<MenuTreeVO> menuList =
-                this.baseMapper.getMenuList(new MenuListDTO(userId, null)).stream().filter(menu -> menu.getMenuType() == MenuType.MENU).toList();
+                this.baseMapper.getMenuList(new MenuListDTO(userId, null)).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();
         List<MenuTreeVO> list = getChildPerms(menuList, Constants.ROOT);
         return buildRouter(list);
     }
