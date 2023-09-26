@@ -62,5 +62,7 @@ public class Role extends BaseEntity {
     @Schema(description = "是否启用")
     private YesOrNo enable;
 
-
+    @TableField(value = "remark")
+    @Schema(description = "备注")
+    private String remark;
 }

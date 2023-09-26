@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.system.bean.dto.role;
 
 import com.hk.datasource.bean.dto.PageDTO;
 import com.hk.framework.enums.YesOrNo;

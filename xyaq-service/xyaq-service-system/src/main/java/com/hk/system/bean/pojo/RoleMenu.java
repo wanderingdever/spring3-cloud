@@ -31,6 +31,4 @@ public class RoleMenu extends BaseEntity {
     @TableField(value = "menu_id")
     @Schema(description = "菜单ID")
     private String menuId;
-
-
 }
