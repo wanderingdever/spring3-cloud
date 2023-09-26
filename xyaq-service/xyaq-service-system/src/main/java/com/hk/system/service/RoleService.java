@@ -40,7 +40,9 @@ import java.util.List;
 @AllArgsConstructor
 @DubboService(interfaceClass = RemoteRoleService.class)
 public class RoleService extends ServiceImpl<RoleMapper, Role> implements RemoteRoleService {
+
     private final static Logger LOGGER = LoggerFactory.getLogger(RoleService.class);
+
     private final UserRoleService userRoleService;
     private final RoleMenuService roleMenuService;
 
@@ -94,6 +96,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
      * @param roleId  角色id
      * @param menuIdS 菜单ID数组
      */
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void saveRoleMenu(String roleId, List<String> menuIdS) {
         List<RoleMenu> roleMenuList = getRoleMenuList(roleId, menuIdS);
         roleMenuService.saveBatch(roleMenuList);
