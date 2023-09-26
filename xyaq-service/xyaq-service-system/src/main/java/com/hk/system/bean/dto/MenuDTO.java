@@ -61,13 +61,13 @@ public class MenuDTO {
      * 是否内嵌(0-否;1-是)
      */
     @Schema(description = "是否内嵌(0-否;1-是),")
-    private YesOrNo isIframe;
+    private Boolean isIframe;
 
     /**
      * 是否为外链
      */
     @Schema(description = "是否为外链")
-    private YesOrNo isLink;
+    private Boolean isLink;
     /**
      * 地址
      */
@@ -84,7 +84,7 @@ public class MenuDTO {
      * 是否缓存
      */
     @Schema(description = "是否缓存")
-    private YesOrNo isKeepAlive;
+    private Boolean isKeepAlive;
 
     /**
      * 权限标识

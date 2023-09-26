@@ -67,14 +67,14 @@ public class Menu extends BaseEntity {
      */
     @TableField(value = "is_iframe")
     @Schema(description = "是否为外链")
-    private YesOrNo isIframe;
+    private Boolean isIframe;
 
     /**
      * 是否为外链
      */
     @TableField(value = "is_link")
     @Schema(description = "是否为外链")
-    private YesOrNo isLink;
+    private Boolean isLink;
 
     /**
      * 地址
@@ -88,21 +88,21 @@ public class Menu extends BaseEntity {
      */
     @TableField(value = "is_hide")
     @Schema(description = "菜单是否显示")
-    private YesOrNo isHide;
+    private Boolean isHide;
 
     /**
      * 是否缓存
      */
     @TableField(value = "is_keep_alive")
     @Schema(description = "是否缓存")
-    private YesOrNo isKeepAlive;
+    private Boolean isKeepAlive;
 
     /**
      * 是否固定
      */
     @TableField(value = "is_affix")
     @Schema(description = "是否固定")
-    private YesOrNo isAffix;
+    private Boolean isAffix;
 
     /**
      * 菜单类型
