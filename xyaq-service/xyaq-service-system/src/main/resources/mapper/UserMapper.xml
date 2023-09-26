@@ -18,6 +18,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del" jdbcType="INTEGER" property="del"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, username, `password`, email, phone, client, sort, `status`, create_by, create_time,

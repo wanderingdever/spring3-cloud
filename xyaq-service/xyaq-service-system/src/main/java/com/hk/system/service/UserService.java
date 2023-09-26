@@ -4,17 +4,20 @@ import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteUserService;
 import com.hk.api.vo.UserVO;
 import com.hk.framework.enums.AccountClient;
 import com.hk.framework.enums.AccountStatus;
 import com.hk.framework.exception.CustomizeException;
-import com.hk.system.bean.dto.UserAddDTO;
+import com.hk.system.bean.dto.user.UserAddDTO;
+import com.hk.system.bean.dto.user.UserSearchDTO;
 import com.hk.system.bean.enums.AuthorityLevel;
 import com.hk.system.bean.pojo.Org;
 import com.hk.system.bean.pojo.Role;
 import com.hk.system.bean.pojo.User;
+import com.hk.system.bean.pojo.UserInfo;
 import com.hk.system.bean.vo.UserInfoVO;
 import com.hk.system.dao.OrgMapper;
 import com.hk.system.dao.RoleMapper;
@@ -22,6 +25,7 @@ import com.hk.system.dao.UserMapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -153,7 +157,62 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     public UserInfoVO getUserInfo() {
-        UserInfoVO userInfo = this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
-        return userInfo;
+        return this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
+    }
+
+    public Page<UserInfoVO> pageUser(UserSearchDTO dto) {
+        Page<UserInfoVO> page = new Page<>();
+        page.setCurrent(dto.getCurrent());
+        page.setSize(dto.getSize());
+        page.setOptimizeCountSql(false);
+        // TODO 分页
+//        List<UserInfoVO> userInfo = baseMapper.selectPageUserInfo(page, dto);
+//        page.setRecords(userInfo);
+        return page;
+    }
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void updateUser(UserInfoVO userVo) {
+
+        // TODO 编辑
+        User user = new User();
+        BeanUtils.copyProperties(userVo, user);
+        // 更新账号
+        this.updateById(user);
+        // 用户信息
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(userVo, userInfo);
+        userInfo.setUserId(userVo.getId());
+        // 更新用户信息
+//        userInfoMapper.updateByUserId(userInfo);
+        // 更新用户机构信息
+//        this.baseMapper.updateUserOrg(user.getId(), userVo.getOrgId());
+        // 处理用户角色信息
+        if (userVo.getRoles().size() > 0) {
+            // 删除原有用户角色信息
+//            this.baseMapper.delBatchUserRole(Collections.singletonList(user.getId()));
+            // 新增用户角色信息
+//            List<UserRole> userRoleList = userVo.getRoles().stream().map(role -> new UserRole(user.getId(), role)).collect(Collectors.toList());
+            // 用户角色信息
+//            userRoleService.saveBatch(userRoleList);
+        }
+        // 处理用户岗位信息 删除原有用户岗位信息 在保存
+//        if (StringUtils.isNotBlank(userVo.getPost())) {
+//            userPostService.getBaseMapper().delBatchUserPost(Collections.singletonList(user.getId()));
+//            userPostService.save(new UserPost(user.getId(), userVo.getPost()));
+//        }
+    }
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void delUser(List<String> ids) {
+        // TODO 删除
+        // 删除用户机构信息
+//        this.baseMapper.delBatchUserOrg(ids);
+        // 删除用户角色信息
+//        this.baseMapper.delBatchUserRole(ids);
+        // 删除用户信息
+//        userInfoMapper.delBatchByUserId(ids);
+        // 删除账号
+        this.baseMapper.deleteBatchIds(ids);
     }
 }

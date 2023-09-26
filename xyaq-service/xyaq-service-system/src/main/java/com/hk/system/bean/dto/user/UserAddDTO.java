@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.system.bean.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.Data;
  * @author Matt
  */
 @Data
-@Schema(description = "用户新增-入参")
+@Schema(title = "用户新增-入参")
 public class UserAddDTO {
 
     @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
