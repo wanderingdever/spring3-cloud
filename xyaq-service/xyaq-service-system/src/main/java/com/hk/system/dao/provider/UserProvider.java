@@ -31,6 +31,7 @@ public class UserProvider extends BaseProvider<User> {
         excludeFieldSet.addAll(BaseEntityProvider.get().getColumnList());
         excludeFieldSet.addAll(UserProvider.get().getColumnList());
         join(sql, userInfoProvider, excludeFieldSet, "id", "user_id");
+        sql.SELECT(UserInfoProvider.get().getTableSuffix() + ".`id` AS `userInfoId`");
 
         // 性别
         if (Objects.nonNull(dto.getGender())) {
