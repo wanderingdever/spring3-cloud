@@ -7,6 +7,7 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="dict_name" jdbcType="VARCHAR" property="dictName"/>
         <result column="dict_type" jdbcType="VARCHAR" property="dictType"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="is_system" jdbcType="CHAR" property="isSystem"/>
         <result column="enable" jdbcType="TINYINT" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
@@ -20,6 +21,7 @@
         id,
         dict_name,
         dict_type,
+        description,
         is_system,
         `enable`,
         create_by,

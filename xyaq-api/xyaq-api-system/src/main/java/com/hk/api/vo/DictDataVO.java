@@ -1,7 +1,6 @@
 package com.hk.api.vo;
 
 import com.hk.framework.bean.base.BaseVO;
-import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -57,6 +56,6 @@ public class DictDataVO extends BaseVO {
      * 状态（0正常 1停用）
      */
     @Schema(description = "状态（0正常 1停用）")
-    private YesOrNo enable;
+    private Boolean enable;
 
 }

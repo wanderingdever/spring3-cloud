@@ -1,6 +1,5 @@
 package com.hk.system.bean.dto;
 
-import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -30,16 +29,22 @@ public class DictTypeDTO {
     private String dictType;
 
     /**
+     * 字典描述
+     */
+    @Schema(description = "字典描述")
+    private String description;
+
+    /**
      * 是否是系统内置
      */
     @Schema(description = "是否是系统内置")
-    private YesOrNo isSystem;
+    private Boolean isSystem;
 
     /**
      * 是否启用(0否,1-是)
      */
     @Schema(description = "是否启用(0否,1-是)")
     @NotNull(message = "请选择字典类型状态")
-    private YesOrNo enable;
+    private Boolean enable;
 
 }

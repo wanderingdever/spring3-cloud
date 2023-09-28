@@ -3,7 +3,6 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
-import com.hk.framework.enums.YesOrNo;
 import com.hk.system.bean.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -130,7 +129,7 @@ public class Menu extends BaseEntity {
      */
     @TableField(value = "`enable`")
     @Schema(description = "是否启用")
-    private YesOrNo enable;
+    private Boolean enable;
 
 
 }

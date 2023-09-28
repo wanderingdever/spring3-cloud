@@ -1,7 +1,6 @@
 package com.hk.system.bean.dto;
 
 import com.hk.datasource.bean.dto.PageDTO;
-import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +30,7 @@ public class ConfigSearchDTO extends PageDTO {
      * 系统内置（0-否;1-是）
      */
     @Schema(description = "系统内置（0-否;1-是）")
-    private YesOrNo isSystem;
+    private Boolean isSystem;
 
 
 }

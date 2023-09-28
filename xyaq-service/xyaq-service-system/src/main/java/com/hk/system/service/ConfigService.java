@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteConfigService;
 import com.hk.api.vo.ConfigVO;
 import com.hk.datasource.utils.PageUtil;
-import com.hk.framework.enums.YesOrNo;
 import com.hk.redis.constant.CacheConstants;
 import com.hk.redis.utils.RedisUtils;
 import com.hk.system.bean.dto.ConfigDTO;
@@ -41,7 +40,7 @@ public class ConfigService extends ServiceImpl<ConfigMapper, Config> implements 
     public void loadConfigCache() {
         ConfigSearchDTO dto = new ConfigSearchDTO();
         // 默认缓存系统级别
-        dto.setIsSystem(YesOrNo.YES);
+        dto.setIsSystem(true);
         List<Config> list = getList(dto);
         if (StringUtil.isNotEmpty(list)) {
             RedisUtils.setCacheObject(CacheConstants.SYSTEM_CONFIG, JacksonUtil.toJsonString(list));
@@ -83,7 +82,7 @@ public class ConfigService extends ServiceImpl<ConfigMapper, Config> implements 
         newConfig.setIsSystem(dto.getIsSystem());
         this.save(newConfig);
         // 更新系统参数缓存
-        if (dto.getIsSystem() == YesOrNo.YES) {
+        if (dto.getIsSystem()) {
             loadConfigCache();
         }
     }
