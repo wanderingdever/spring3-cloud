@@ -13,15 +13,17 @@ import com.hk.framework.enums.AccountClient;
 import com.hk.framework.enums.AccountStatus;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.dto.user.UserAddDTO;
+import com.hk.system.bean.dto.user.UserEditDTO;
 import com.hk.system.bean.dto.user.UserSearchDTO;
 import com.hk.system.bean.enums.AuthorityLevel;
 import com.hk.system.bean.pojo.Org;
 import com.hk.system.bean.pojo.Role;
 import com.hk.system.bean.pojo.User;
 import com.hk.system.bean.pojo.UserInfo;
-import com.hk.system.bean.vo.user.UserInfoVO;
+import com.hk.system.bean.vo.user.UserInfoExpandVO;
 import com.hk.system.dao.OrgMapper;
 import com.hk.system.dao.RoleMapper;
+import com.hk.system.dao.UserInfoMapper;
 import com.hk.system.dao.UserMapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
@@ -50,6 +52,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     @Resource
     private RoleMapper roleMapper;
 
+    @Resource
+    private UserInfoMapper userInfoMapper;
+
     /**
      * 根据账号信息获取用户信息
      *
@@ -70,13 +75,18 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public String addUser(UserAddDTO add) {
+    public String add(UserAddDTO dto) {
+
         User user = new User();
-        user.setUsername(add.getUsername());
-        user.setPassword(BCrypt.hashpw(add.getPassword()));
+        BeanUtils.copyProperties(dto, user);
+        user.setUsername(dto.getUsername());
+        user.setPassword(BCrypt.hashpw(dto.getPassword()));
         user.setClient(AccountClient.WEB);
         user.setSort(1);
         user.setStatus(AccountStatus.NORMAL);
+        // TODO 岗位、角色、部门关联新增
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(dto, userInfo);
         try {
             this.baseMapper.insert(user);
         } catch (Exception ex) {
@@ -86,6 +96,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
                 throw new CustomizeException("操作失败");
             }
         }
+        userInfo.setUserId(user.getId());
+        userInfoMapper.insert(userInfo);
         return "操作成功";
     }
 
@@ -157,49 +169,53 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         return new LinkedList<>(orgIdSet);
     }
 
-    public UserInfoVO getUserInfo() {
+    public UserInfoExpandVO getUserInfo() {
         return this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
     }
 
-    public Page<UserInfoVO> page(UserSearchDTO dto) {
+    public Page<UserInfoExpandVO> page(UserSearchDTO dto) {
 
-        return baseMapper.userInfoPage(PageUtil.getPage(dto), dto);
+        Page<UserInfoExpandVO> page = baseMapper.userInfoPage(PageUtil.getPage(dto), dto);
+        List<UserInfoExpandVO> userList = page.getRecords();
+        List<String> userIdList = userList.stream().map(UserInfoExpandVO::getId).toList();
+        // TODO 岗位、角色、部门关联查询
+        return page;
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void updateUser(UserInfoVO userVo) {
+    public void update(UserEditDTO dto) {
 
         // TODO 编辑
         User user = new User();
-        BeanUtils.copyProperties(userVo, user);
+        BeanUtils.copyProperties(dto, user);
         // 更新账号
         this.updateById(user);
         // 用户信息
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(userVo, userInfo);
-        userInfo.setUserId(userVo.getId());
+        BeanUtils.copyProperties(dto, userInfo);
+        userInfo.setUserId(dto.getId());
         // 更新用户信息
 //        userInfoMapper.updateByUserId(userInfo);
         // 更新用户机构信息
-//        this.baseMapper.updateUserOrg(user.getId(), userVo.getOrgId());
+//        this.baseMapper.updateUserOrg(user.getId(), dto.getOrgId());
         // 处理用户角色信息
-        if (userVo.getRoleList().size() > 0) {
+        if (dto.getRoleList().size() > 0) {
             // 删除原有用户角色信息
 //            this.baseMapper.delBatchUserRole(Collections.singletonList(user.getId()));
             // 新增用户角色信息
-//            List<UserRole> userRoleList = userVo.getRoles().stream().map(role -> new UserRole(user.getId(), role)).collect(Collectors.toList());
+//            List<UserRole> userRoleList = dto.getRoles().stream().map(role -> new UserRole(user.getId(), role)).collect(Collectors.toList());
             // 用户角色信息
 //            userRoleService.saveBatch(userRoleList);
         }
         // 处理用户岗位信息 删除原有用户岗位信息 在保存
-//        if (StringUtils.isNotBlank(userVo.getPost())) {
+//        if (StringUtils.isNotBlank(dto.getPost())) {
 //            userPostService.getBaseMapper().delBatchUserPost(Collections.singletonList(user.getId()));
-//            userPostService.save(new UserPost(user.getId(), userVo.getPost()));
+//            userPostService.save(new UserPost(user.getId(), dto.getPost()));
 //        }
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void delUser(List<String> ids) {
+    public void del(List<String> ids) {
         // TODO 删除
         // 删除用户机构信息
 //        this.baseMapper.delBatchUserOrg(ids);

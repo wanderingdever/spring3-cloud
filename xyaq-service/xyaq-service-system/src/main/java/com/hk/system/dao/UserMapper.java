@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.system.bean.dto.user.UserSearchDTO;
 import com.hk.system.bean.pojo.User;
+import com.hk.system.bean.vo.user.UserInfoExpandVO;
 import com.hk.system.bean.vo.user.UserInfoVO;
 import com.hk.system.dao.provider.UserProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,8 +26,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param userId 用户ID
      * @return UserInfoVO
      */
-    UserInfoVO selectUserInfo(@Param("userId") String userId);
+    UserInfoExpandVO selectUserInfo(@Param("userId") String userId);
 
     @SelectProvider(type = UserProvider.class, method = "page")
-    Page<UserInfoVO> userInfoPage(Page<UserInfoVO> page, @Param("dto") UserSearchDTO dto);
+    Page<UserInfoExpandVO> userInfoPage(Page<UserInfoVO> page, @Param("dto") UserSearchDTO dto);
 }

@@ -77,4 +77,7 @@ public class UserInfo extends BaseEntity {
     @Schema(description = "用户类型")
     private UserType userType;
 
+    @TableField(value = "remark")
+    @Schema(description = "备注")
+    private String remark;
 }

@@ -1,10 +1,10 @@
 package com.hk.system.controller;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.system.bean.dto.user.UserAddDTO;
+import com.hk.system.bean.dto.user.UserEditDTO;
 import com.hk.system.bean.dto.user.UserSearchDTO;
-import com.hk.system.bean.vo.user.UserInfoVO;
+import com.hk.system.bean.vo.user.UserInfoExpandVO;
 import com.hk.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,30 +40,26 @@ public class UserController {
      */
     @PostMapping(value = "/user_info")
     @Operation(summary = "获取用户信息")
-    public UserInfoVO userInfo() {
-        StpUtil.getLoginId();
-        StpUtil.getSession();
-        StpUtil.getRoleList();
-        StpUtil.getPermissionList();
+    public UserInfoExpandVO userInfo() {
         return userService.getUserInfo();
     }
 
     @PostMapping("/add")
     @Operation(summary = "新增用户")
-    public String addUser(@RequestBody UserAddDTO add) {
-        return userService.addUser(add);
+    public void add(@RequestBody UserAddDTO add) {
+        userService.add(add);
     }
 
     @PostMapping("/page")
     @Operation(summary = "分页查询")
-    public Page<UserInfoVO> page(@RequestBody UserSearchDTO dto) {
+    public Page<UserInfoExpandVO> page(@RequestBody UserSearchDTO dto) {
         return userService.page(dto);
     }
 
     @PostMapping("/update")
     @Operation(summary = "更新用户")
-    public void updateUser(@Valid @RequestBody UserInfoVO user) {
-        userService.updateUser(user);
+    public void update(@Valid @RequestBody UserEditDTO user) {
+        userService.update(user);
     }
 
     /**
@@ -73,7 +69,7 @@ public class UserController {
      */
     @PostMapping("/del")
     @Operation(summary = "删除用户")
-    public void delUser(@RequestBody List<String> ids) {
-        userService.delUser(ids);
+    public void del(@RequestBody List<String> ids) {
+        userService.del(ids);
     }
 }
