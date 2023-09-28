@@ -18,7 +18,7 @@ import com.hk.system.bean.pojo.Org;
 import com.hk.system.bean.pojo.Role;
 import com.hk.system.bean.pojo.User;
 import com.hk.system.bean.pojo.UserInfo;
-import com.hk.system.bean.vo.UserInfoVO;
+import com.hk.system.bean.vo.user.UserInfoVO;
 import com.hk.system.dao.OrgMapper;
 import com.hk.system.dao.RoleMapper;
 import com.hk.system.dao.UserMapper;
@@ -160,14 +160,13 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         return this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
     }
 
-    public Page<UserInfoVO> pageUser(UserSearchDTO dto) {
+    public Page<UserInfoVO> page(UserSearchDTO dto) {
         Page<UserInfoVO> page = new Page<>();
         page.setCurrent(dto.getCurrent());
         page.setSize(dto.getSize());
         page.setOptimizeCountSql(false);
-        // TODO 分页
-//        List<UserInfoVO> userInfo = baseMapper.selectPageUserInfo(page, dto);
-//        page.setRecords(userInfo);
+        List<UserInfoVO> userInfo = baseMapper.userInfoPage(page, dto);
+        page.setRecords(userInfo);
         return page;
     }
 

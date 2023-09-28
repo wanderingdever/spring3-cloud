@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.system.bean.dto.user.UserAddDTO;
 import com.hk.system.bean.dto.user.UserSearchDTO;
-import com.hk.system.bean.vo.UserInfoVO;
+import com.hk.system.bean.vo.user.UserInfoVO;
 import com.hk.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -56,8 +56,8 @@ public class UserController {
 
     @PostMapping("/page")
     @Operation(summary = "分页查询")
-    public Page<UserInfoVO> pageUser(@RequestBody UserSearchDTO dto) {
-        return userService.pageUser(dto);
+    public Page<UserInfoVO> page(@RequestBody UserSearchDTO dto) {
+        return userService.page(dto);
     }
 
     @PostMapping("/update")

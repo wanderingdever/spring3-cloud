@@ -18,12 +18,6 @@ import lombok.EqualsAndHashCode;
 @Schema(title = "用户查询/分页入参")
 public class UserSearchDTO extends PageDTO {
 
-    @Schema(title = "机构ID")
-    private String orgId;
-
-    @Schema(title = "用户特殊编码")
-    private String userKey;
-
     @Schema(title = "性别")
     private Gender gender;
 

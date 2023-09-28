@@ -25,7 +25,7 @@
         update_by, update_time, del
     </sql>
 
-    <select id="selectUserInfo" resultType="com.hk.system.bean.vo.UserInfoVO">
+    <select id="selectUserInfo" resultType="com.hk.system.bean.vo.user.UserInfoVO">
         select u.id as id,
         u.username as username,
         u.email as email,
