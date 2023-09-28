@@ -1,5 +1,7 @@
 package com.hk.system.bean.dto.user;
 
+import com.hk.framework.enums.AccountClient;
+import com.hk.framework.enums.AccountStatus;
 import com.hk.framework.enums.Gender;
 import com.hk.system.bean.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,12 +20,6 @@ import java.util.List;
 @Schema(title = "用户新增-入参")
 public class UserAddDTO {
 
-    @Schema(description = "手机号")
-    private String phone;
-
-    @Schema(description = "排序")
-    private Integer sort;
-
     @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "用户名不能为空")
     private String username;
@@ -31,6 +27,21 @@ public class UserAddDTO {
     @Schema(description = "密码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "密码不能为空")
     private String password;
+
+    @Schema(description = "邮箱")
+    private String email;
+
+    @Schema(description = "手机号")
+    private String phone;
+
+    @Schema(description = "所属客户端")
+    private AccountClient client;
+
+    @Schema(description = "排序")
+    private Integer sort;
+
+    @Schema(description = "账号状态")
+    private AccountStatus status;
 
     /* info */
 

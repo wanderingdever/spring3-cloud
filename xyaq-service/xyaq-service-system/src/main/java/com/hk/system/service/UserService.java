@@ -9,8 +9,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteUserService;
 import com.hk.api.vo.UserVO;
 import com.hk.datasource.utils.PageUtil;
-import com.hk.framework.enums.AccountClient;
-import com.hk.framework.enums.AccountStatus;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.system.bean.dto.user.UserAddDTO;
 import com.hk.system.bean.dto.user.UserEditDTO;
@@ -74,16 +72,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         return toUserVO(user);
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public String add(UserAddDTO dto) {
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void add(UserAddDTO dto) {
 
         User user = new User();
         BeanUtils.copyProperties(dto, user);
-        user.setUsername(dto.getUsername());
         user.setPassword(BCrypt.hashpw(dto.getPassword()));
-        user.setClient(AccountClient.WEB);
-        user.setSort(1);
-        user.setStatus(AccountStatus.NORMAL);
         // TODO 岗位、角色、部门关联新增
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(dto, userInfo);
@@ -98,7 +92,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         }
         userInfo.setUserId(user.getId());
         userInfoMapper.insert(userInfo);
-        return "操作成功";
     }
 
     private UserVO toUserVO(User user) {
@@ -195,34 +188,15 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         BeanUtils.copyProperties(dto, userInfo);
         userInfo.setUserId(dto.getId());
         // 更新用户信息
-//        userInfoMapper.updateByUserId(userInfo);
-        // 更新用户机构信息
-//        this.baseMapper.updateUserOrg(user.getId(), dto.getOrgId());
-        // 处理用户角色信息
-        if (dto.getRoleList().size() > 0) {
-            // 删除原有用户角色信息
-//            this.baseMapper.delBatchUserRole(Collections.singletonList(user.getId()));
-            // 新增用户角色信息
-//            List<UserRole> userRoleList = dto.getRoles().stream().map(role -> new UserRole(user.getId(), role)).collect(Collectors.toList());
-            // 用户角色信息
-//            userRoleService.saveBatch(userRoleList);
-        }
-        // 处理用户岗位信息 删除原有用户岗位信息 在保存
-//        if (StringUtils.isNotBlank(dto.getPost())) {
-//            userPostService.getBaseMapper().delBatchUserPost(Collections.singletonList(user.getId()));
-//            userPostService.save(new UserPost(user.getId(), dto.getPost()));
-//        }
+        String userInfoId = userInfoMapper.getIdByUserId(dto.getId());
+        userInfo.setId(userInfoId);
+        userInfoMapper.updateById(userInfo);
+        // TODO 岗位、角色、部门关联编辑
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(List<String> ids) {
-        // TODO 删除
-        // 删除用户机构信息
-//        this.baseMapper.delBatchUserOrg(ids);
-        // 删除用户角色信息
-//        this.baseMapper.delBatchUserRole(ids);
-        // 删除用户信息
-//        userInfoMapper.delBatchByUserId(ids);
+        // TODO 岗位、角色、部门关联删除
         // 删除账号
         this.baseMapper.deleteBatchIds(ids);
     }
