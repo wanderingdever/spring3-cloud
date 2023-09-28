@@ -72,11 +72,11 @@ public class UserInfoVO implements Serializable {
     private String orgId;
 
     @Schema(description = "角色列表")
-    private List<String> roles;
+    private List<String> roleList;
 
     @Schema(description = "权限列表")
-    private List<String> permissions;
+    private List<String> permissionList;
 
     @Schema(description = "岗位")
-    private List<String> posts;
+    private List<String> postList;
 }

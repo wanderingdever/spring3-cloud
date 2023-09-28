@@ -183,7 +183,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         // 更新用户机构信息
 //        this.baseMapper.updateUserOrg(user.getId(), userVo.getOrgId());
         // 处理用户角色信息
-        if (userVo.getRoles().size() > 0) {
+        if (userVo.getRoleList().size() > 0) {
             // 删除原有用户角色信息
 //            this.baseMapper.delBatchUserRole(Collections.singletonList(user.getId()));
             // 新增用户角色信息
