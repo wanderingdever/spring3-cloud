@@ -1,19 +1,18 @@
 package com.hk.system.bean.vo.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hk.framework.bean.base.BaseVO;
 import com.hk.framework.enums.AccountClient;
 import com.hk.framework.enums.AccountStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "用户")
-public class UserVO implements Serializable {
-
-    @Schema(description = "主键ID")
-    private String id;
+public class UserVO extends BaseVO implements Serializable {
 
     @Schema(description = "账号")
     private String username;
@@ -32,8 +31,4 @@ public class UserVO implements Serializable {
 
     @Schema(description = "账号状态")
     private AccountStatus status;
-
-    @Schema(description = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String createTime;
 }

@@ -1,6 +1,5 @@
 package com.hk.system.dao.provider;
 
-import com.hk.datasource.dao.BaseEntityProvider;
 import com.hk.datasource.dao.BaseProvider;
 import com.hk.system.bean.dto.user.UserSearchDTO;
 import com.hk.system.bean.pojo.User;
@@ -25,13 +24,14 @@ public class UserProvider extends BaseProvider<User> {
         UserInfoProvider userInfoProvider = UserInfoProvider.get();
 
         SQL sql = new SQL();
-        select(sql);
-        from(sql);
         Set<String> excludeFieldSet = new HashSet<>();
-        excludeFieldSet.addAll(BaseEntityProvider.get().getColumnList());
+        excludeFieldSet.add("update_time");
+        select(sql, excludeFieldSet);
+        from(sql);
         excludeFieldSet.addAll(UserProvider.get().getColumnList());
         join(sql, userInfoProvider, excludeFieldSet, "id", "user_id");
         sql.SELECT(UserInfoProvider.get().getTableSuffix() + ".`id` AS `userInfoId`");
+        sql.SELECT("GREATEST(" + UserInfoProvider.get().getTableSuffix() + ".`update_time`, " + getTableSuffix() + ".`update_time`) AS updateTime");
 
         // 性别
         if (Objects.nonNull(dto.getGender())) {
