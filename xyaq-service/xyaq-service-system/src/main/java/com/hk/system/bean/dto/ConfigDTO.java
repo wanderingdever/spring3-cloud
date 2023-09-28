@@ -1,6 +1,5 @@
 package com.hk.system.bean.dto;
 
-import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -42,6 +41,6 @@ public class ConfigDTO {
      */
     @NotNull(message = "请选择是否系统内置")
     @Schema(description = "系统内置（0-否;1-是）")
-    private YesOrNo isSystem;
+    private Boolean isSystem;
 
 }

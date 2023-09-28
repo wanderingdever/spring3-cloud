@@ -1,7 +1,6 @@
 package com.hk.system.bean.dto;
 
 import com.hk.datasource.bean.dto.PageDTO;
-import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,5 +22,5 @@ public class DictDataSearchDTO extends PageDTO {
     private String dictLabel;
 
     @Schema(description = "字典数据状态")
-    private YesOrNo enable;
+    private Boolean enable;
 }

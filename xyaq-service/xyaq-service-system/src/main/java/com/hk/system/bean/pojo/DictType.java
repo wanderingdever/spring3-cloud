@@ -3,7 +3,6 @@ package com.hk.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hk.framework.bean.base.BaseEntity;
-import com.hk.framework.enums.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,18 +35,25 @@ public class DictType extends BaseEntity {
     private String dictType;
 
     /**
+     * 字典描述
+     */
+    @TableField(value = "description")
+    @Schema(description = "字典描述")
+    private String description;
+
+    /**
      * 是否是系统内置
      */
     @TableField(value = "is_system")
     @Schema(description = "是否是系统内置")
-    private YesOrNo isSystem;
+    private Boolean isSystem;
 
     /**
      * 是否启用
      */
     @TableField(value = "`enable`")
     @Schema(description = "是否启用")
-    private YesOrNo enable;
+    private Boolean enable;
 
     @TableField(exist = false)
     @Schema(description = "字典数据")

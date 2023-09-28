@@ -1,7 +1,6 @@
 package com.hk.system.bean.vo;
 
 import com.hk.framework.bean.base.BaseVO;
-import com.hk.framework.enums.YesOrNo;
 import com.hk.system.bean.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -110,7 +109,7 @@ public class MenuTreeVO extends BaseVO {
      * 菜单是否启用（0-否;1-是）
      */
     @Schema(description = "菜单是否启用（0-否;1-是）")
-    private YesOrNo enable;
+    private Boolean enable;
 
     /**
      * 子菜单

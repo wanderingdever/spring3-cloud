@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteDictService;
 import com.hk.api.vo.DictTypeVO;
 import com.hk.datasource.utils.PageUtil;
-import com.hk.framework.enums.YesOrNo;
 import com.hk.framework.exception.CustomizeException;
 import com.hk.redis.constant.CacheConstants;
 import com.hk.redis.utils.RedisUtils;
@@ -48,8 +47,8 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      */
     public void loadingDictCache() {
         DictTypeSearchDTO dto = new DictTypeSearchDTO();
-        dto.setEnable(YesOrNo.YES);
-        dto.setIsSystem(YesOrNo.YES);
+        dto.setEnable(true);
+        dto.setIsSystem(true);
         List<DictType> dictTypeList = getDictList(dto);
         if (StringUtil.isNotEmpty(dictTypeList)) {
             // 设置缓存
@@ -70,8 +69,8 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         // 缓存没有获取到就查询数据库
         if (CollectionUtils.isEmpty(dictDataCacheList)) {
             DictTypeSearchDTO search = new DictTypeSearchDTO();
-            search.setEnable(YesOrNo.YES);
-            search.setIsSystem(YesOrNo.YES);
+            search.setEnable(true);
+            search.setIsSystem(true);
             search.setDictType(dictType);
             dictDataCacheList = getDictList(search);
         }
