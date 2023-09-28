@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteUserService;
 import com.hk.api.vo.UserVO;
+import com.hk.datasource.utils.PageUtil;
 import com.hk.framework.enums.AccountClient;
 import com.hk.framework.enums.AccountStatus;
 import com.hk.framework.exception.CustomizeException;
@@ -161,13 +162,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     public Page<UserInfoVO> page(UserSearchDTO dto) {
-        Page<UserInfoVO> page = new Page<>();
-        page.setCurrent(dto.getCurrent());
-        page.setSize(dto.getSize());
-        page.setOptimizeCountSql(false);
-        List<UserInfoVO> userInfo = baseMapper.userInfoPage(page, dto);
-        page.setRecords(userInfo);
-        return page;
+
+        return baseMapper.userInfoPage(PageUtil.getPage(dto), dto);
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)

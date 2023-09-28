@@ -10,8 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 
-import java.util.List;
-
 /**
  * ${desc}
  * </p>
@@ -30,5 +28,5 @@ public interface UserMapper extends BaseMapper<User> {
     UserInfoVO selectUserInfo(@Param("userId") String userId);
 
     @SelectProvider(type = UserProvider.class, method = "page")
-    List<UserInfoVO> userInfoPage(Page<UserInfoVO> page, @Param("dto") UserSearchDTO dto);
+    Page<UserInfoVO> userInfoPage(Page<UserInfoVO> page, @Param("dto") UserSearchDTO dto);
 }
