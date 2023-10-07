@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.system.bean.dto.post;
 
 import com.hk.datasource.bean.dto.PageDTO;
 import io.swagger.v3.oas.annotations.media.Schema;

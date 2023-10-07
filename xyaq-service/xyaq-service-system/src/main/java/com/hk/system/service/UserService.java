@@ -78,7 +78,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         User user = new User();
         BeanUtils.copyProperties(dto, user);
         user.setPassword(BCrypt.hashpw(dto.getPassword()));
-        // TODO 岗位、角色、部门关联新增
+        // TODO 岗位、角色、组织关联新增
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(dto, userInfo);
         try {
@@ -171,7 +171,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         Page<UserInfoExpandVO> page = baseMapper.userInfoPage(PageUtil.getPage(dto), dto);
         List<UserInfoExpandVO> userList = page.getRecords();
         List<String> userIdList = userList.stream().map(UserInfoExpandVO::getId).toList();
-        // TODO 岗位、角色、部门关联查询
+        // TODO 岗位、角色、组织关联查询
         return page;
     }
 
@@ -191,12 +191,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         String userInfoId = userInfoMapper.getIdByUserId(dto.getId());
         userInfo.setId(userInfoId);
         userInfoMapper.updateById(userInfo);
-        // TODO 岗位、角色、部门关联编辑
+        // TODO 岗位、角色、组织关联编辑
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(List<String> ids) {
-        // TODO 岗位、角色、部门关联删除
+        // TODO 岗位、角色、组织关联删除
         // 删除账号
         this.baseMapper.deleteBatchIds(ids);
     }

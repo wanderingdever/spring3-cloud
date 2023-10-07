@@ -2,9 +2,9 @@ package com.hk.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.datasource.bean.dto.IdListDTO;
-import com.hk.system.bean.dto.PostSearchDTO;
 import com.hk.system.bean.dto.post.PostDTO;
 import com.hk.system.bean.dto.post.PostEditDTO;
+import com.hk.system.bean.dto.post.PostSearchDTO;
 import com.hk.system.bean.vo.post.PostVO;
 import com.hk.system.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
