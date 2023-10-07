@@ -1,4 +1,4 @@
-package com.hk.system.manager;
+package com.hk.utils;
 
 import java.util.Objects;
 import java.util.function.Consumer;

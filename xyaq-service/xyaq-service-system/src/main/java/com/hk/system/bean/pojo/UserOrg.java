@@ -32,4 +32,8 @@ public class UserOrg extends BaseEntity {
     @Schema(description = "机构id")
     private String orgId;
 
+    public UserOrg(String userId, String orgId) {
+        this.userId = userId;
+        this.orgId = orgId;
+    }
 }

@@ -10,6 +10,7 @@ import com.hk.api.service.RemoteUserService;
 import com.hk.api.vo.UserVO;
 import com.hk.datasource.utils.PageUtil;
 import com.hk.framework.exception.CustomizeException;
+import com.hk.satoken.service.DataScopeService;
 import com.hk.system.bean.dto.user.UserAddDTO;
 import com.hk.system.bean.dto.user.UserEditDTO;
 import com.hk.system.bean.dto.user.UserSearchDTO;
@@ -17,7 +18,6 @@ import com.hk.system.bean.enums.AuthorityLevel;
 import com.hk.system.bean.pojo.Org;
 import com.hk.system.bean.pojo.Role;
 import com.hk.system.bean.pojo.User;
-import com.hk.system.bean.pojo.UserInfo;
 import com.hk.system.bean.vo.user.UserInfoExpandVO;
 import com.hk.system.dao.OrgMapper;
 import com.hk.system.dao.RoleMapper;
@@ -53,6 +53,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     @Resource
     private UserInfoMapper userInfoMapper;
 
+    @Resource
+    private DataScopeService dataScopeService;
+
     /**
      * 根据账号信息获取用户信息
      *
@@ -73,14 +76,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void add(UserAddDTO dto) {
+    public String add(UserAddDTO dto) {
 
         User user = new User();
         BeanUtils.copyProperties(dto, user);
         user.setPassword(BCrypt.hashpw(dto.getPassword()));
-        // TODO 岗位、角色、组织关联新增
-        UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(dto, userInfo);
+
         try {
             this.baseMapper.insert(user);
         } catch (Exception ex) {
@@ -90,8 +91,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
                 throw new CustomizeException("操作失败");
             }
         }
-        userInfo.setUserId(user.getId());
-        userInfoMapper.insert(userInfo);
+        return user.getId();
     }
 
     private UserVO toUserVO(User user) {
@@ -178,26 +178,16 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void update(UserEditDTO dto) {
 
-        // TODO 编辑
-        User user = new User();
+        User user = this.getById(dto.getId());
         BeanUtils.copyProperties(dto, user);
+        user.setPassword(BCrypt.hashpw(dto.getPassword()));
         // 更新账号
         this.updateById(user);
-        // 用户信息
-        UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(dto, userInfo);
-        userInfo.setUserId(dto.getId());
-        // 更新用户信息
-        String userInfoId = userInfoMapper.getIdByUserId(dto.getId());
-        userInfo.setId(userInfoId);
-        userInfoMapper.updateById(userInfo);
-        // TODO 岗位、角色、组织关联编辑
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void del(List<String> ids) {
-        // TODO 岗位、角色、组织关联删除
+    public void del(List<String> userIdList) {
         // 删除账号
-        this.baseMapper.deleteBatchIds(ids);
+        this.baseMapper.deleteBatchIds(userIdList);
     }
 }

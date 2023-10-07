@@ -15,7 +15,7 @@ import com.hk.system.bean.vo.device.location.DeviceLocationTreeVO;
 import com.hk.system.bean.vo.device.location.DeviceLocationVO;
 import com.hk.system.dao.DeviceInfoMapper;
 import com.hk.system.dao.DeviceLocationMapper;
-import com.hk.system.manager.Condition;
+import com.hk.utils.Condition;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

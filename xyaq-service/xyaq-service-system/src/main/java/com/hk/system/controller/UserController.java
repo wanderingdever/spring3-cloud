@@ -5,9 +5,11 @@ import com.hk.system.bean.dto.user.UserAddDTO;
 import com.hk.system.bean.dto.user.UserEditDTO;
 import com.hk.system.bean.dto.user.UserSearchDTO;
 import com.hk.system.bean.vo.user.UserInfoExpandVO;
+import com.hk.system.manager.UserManager;
 import com.hk.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,9 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Resource
+    private UserManager userManager;
+
     /**
      * 获取用户信息
      *
@@ -47,7 +52,7 @@ public class UserController {
     @PostMapping("/add")
     @Operation(summary = "新增用户")
     public void add(@RequestBody UserAddDTO add) {
-        userService.add(add);
+        userManager.add(add);
     }
 
     @PostMapping("/page")
@@ -59,7 +64,7 @@ public class UserController {
     @PostMapping("/update")
     @Operation(summary = "更新用户")
     public void update(@Valid @RequestBody UserEditDTO user) {
-        userService.update(user);
+        userManager.update(user);
     }
 
     /**
@@ -70,6 +75,6 @@ public class UserController {
     @PostMapping("/del")
     @Operation(summary = "删除用户")
     public void del(@RequestBody List<String> ids) {
-        userService.del(ids);
+        userManager.del(ids);
     }
 }

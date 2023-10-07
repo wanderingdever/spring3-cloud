@@ -32,4 +32,8 @@ public class UserRole extends BaseEntity {
     @Schema(description = "角色ID")
     private String roleId;
 
+    public UserRole(String userId, String roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
 }

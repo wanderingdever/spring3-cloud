@@ -32,4 +32,8 @@ public class UserPost extends BaseEntity {
     @Schema(description = "岗位ID")
     private String postId;
 
+    public UserPost(String userId, String postId) {
+        this.userId = userId;
+        this.postId = postId;
+    }
 }
