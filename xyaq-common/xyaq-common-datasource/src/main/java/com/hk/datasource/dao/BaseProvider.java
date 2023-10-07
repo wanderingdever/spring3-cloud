@@ -2,8 +2,12 @@ package com.hk.datasource.dao;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.reflect.GenericTypeUtils;
+import com.hk.datasource.utils.ProviderUtils;
+import com.hk.framework.bean.base.BaseEntity;
 import com.hk.utils.lang.ChartUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.lang.reflect.Field;
@@ -145,5 +149,34 @@ public class BaseProvider<T> {
     public void where(SQL sql, String condition) {
 
         sql.WHERE(getTableSuffix() + "." + condition);
+    }
+
+    public static List<OrderItem> defaultSort() {
+        List<OrderItem> orderList = new ArrayList<>();
+        OrderItem orderItem = new OrderItem();
+        orderItem.setAsc(false);
+        orderItem.setColumn("id");
+        orderList.add(orderItem);
+        return orderList;
+    }
+
+    public void sort(List<OrderItem> orderList, List<BaseProvider<? extends BaseEntity>> baseProviderList, SQL sql) {
+        Map<String, BaseProvider<? extends BaseEntity>> map = new HashMap<>();
+        for (int i = baseProviderList.size() - 1; i >= 0; i--) {
+            BaseProvider<? extends BaseEntity> baseProvider = baseProviderList.get(i);
+            for (String s : baseProvider.getFieldMap().keySet()) {
+                map.put(s, baseProvider);
+            }
+        }
+        if (CollectionUtils.isEmpty(orderList)) {
+            orderList = defaultSort();
+        }
+        for (OrderItem orderItem : orderList) {
+            String column = orderItem.getColumn();
+            if (!map.containsKey(column)) {
+                continue;
+            }
+            sql.ORDER_BY(column + ProviderUtils.asc(orderItem.isAsc()));
+        }
     }
 }

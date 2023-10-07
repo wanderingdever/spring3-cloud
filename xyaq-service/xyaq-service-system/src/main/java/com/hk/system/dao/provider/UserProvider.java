@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -58,7 +59,9 @@ public class UserProvider extends BaseProvider<User> {
             userInfoProvider.where(sql, "status = #{dto.accountStatus}");
         }
 
-        // TODO 排序
+        // 排序
+        sort(dto.getOrders(), List.of(get(), userInfoProvider), sql);
+
         return sql.toString();
     }
 }
