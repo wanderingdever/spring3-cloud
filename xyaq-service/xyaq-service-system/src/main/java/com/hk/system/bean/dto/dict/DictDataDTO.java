@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.system.bean.dto.dict;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -15,6 +15,18 @@ import javax.validation.constraints.NotNull;
 @Data
 @Schema(description = "字典数据入参")
 public class DictDataDTO {
+
+    /**
+     * 主键ID
+     */
+    @Schema(description = "主键ID")
+    private String id;
+
+    /**
+     * 字典类型ID
+     */
+    @Schema(description = "字典类型ID")
+    private String dictTypeId;
 
     /**
      * 字典类型
@@ -61,5 +73,8 @@ public class DictDataDTO {
      */
     @Schema(description = "是否启用（0停用;1正常）")
     private Boolean enable;
+
+    @Schema(description = "是否删除")
+    private Boolean isDel;
 
 }

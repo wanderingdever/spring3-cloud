@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.system.bean.dto.dict;
 
 
 import com.hk.datasource.bean.dto.PageDTO;

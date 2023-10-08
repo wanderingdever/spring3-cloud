@@ -7,14 +7,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hk.api.service.RemoteDictService;
 import com.hk.api.vo.DictTypeVO;
 import com.hk.datasource.utils.PageUtil;
-import com.hk.framework.exception.CustomizeException;
 import com.hk.redis.constant.CacheConstants;
 import com.hk.redis.utils.RedisUtils;
-import com.hk.system.bean.dto.DictTypeDTO;
-import com.hk.system.bean.dto.DictTypeSearchDTO;
+import com.hk.system.bean.dto.dict.DictDTO;
+import com.hk.system.bean.dto.dict.DictTypeSearchDTO;
 import com.hk.system.bean.pojo.DictData;
 import com.hk.system.bean.pojo.DictType;
-import com.hk.system.dao.DictDataMapper;
 import com.hk.system.dao.DictTypeMapper;
 import com.hk.utils.json.JacksonUtil;
 import com.hk.utils.lang.StringUtil;
@@ -40,7 +38,7 @@ import java.util.stream.Collectors;
 @DubboService(interfaceClass = RemoteDictService.class)
 public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> implements RemoteDictService {
 
-    private final DictDataMapper dictDataMapper;
+    private final DictDataService dictDataService;
 
     /**
      * 初始化系统启用字典到缓存
@@ -92,12 +90,18 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @return {@link Page<DictType>}
      */
     public Page<DictType> pageDictType(DictTypeSearchDTO dto) {
-        return lambdaQuery()
+        Page<DictType> page = lambdaQuery()
                 .like(StringUtil.isNotBlank(dto.getDictName()), DictType::getDictName, dto.getDictName())
                 .eq(StringUtil.isNotBlank(dto.getDictType()), DictType::getDictType, dto.getDictType())
-                .eq(StringUtil.isNotNull(dto.getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
+                .eq(StringUtil.isNotNull(dto
+                        .getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
                 .eq(StringUtil.isNotNull(dto.getEnable()), DictType::getEnable, dto.getEnable())
                 .page(PageUtil.getPage(dto));
+        page.getRecords().forEach(type -> {
+            List<DictData> dataList = dictDataService.lambdaQuery().eq(DictData::getDictTypeId, type.getId()).list();
+            type.setDictDataList(dataList);
+        });
+        return page;
     }
 
     /**
@@ -106,20 +110,26 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param dto 入参
      */
     @Transactional(rollbackFor = Exception.class)
-    public void addDictType(DictTypeDTO dto) {
+    public void addDictType(DictDTO dto) {
         DictType dictType = new DictType();
         BeanUtils.copyProperties(dto, dictType);
         this.save(dictType);
+        // 赋值id 和 type
+        dto.getDictDataList().forEach(data -> {
+            data.setDictTypeId(dictType.getId());
+            data.setDictType(dictType.getDictType());
+        });
+        List<DictData> dictDataList = BeanUtil.copyToList(dto.getDictDataList(), DictData.class);
+        dictDataService.saveBatch(dictDataList);
     }
 
     /**
      * 更新数据
      *
-     * @param dictType 字典类型
+     * @param dto 字典类型
      */
     @Transactional(rollbackFor = Exception.class)
-    public void updateDictType(DictType dictType) {
-        this.updateById(dictType);
+    public void updateDictType(DictDTO dto) {
     }
 
     /**
@@ -130,20 +140,15 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
     @Transactional(rollbackFor = Exception.class)
     public void delDictType(List<String> ids) {
         for (String id : ids) {
+            // 获取type
             DictType dictType = this.getById(id);
             // 查询出所有关联的data
-            LambdaQueryWrapper<DictData> dictDataCountQueryWrapper = new LambdaQueryWrapper<>();
-            dictDataCountQueryWrapper.eq(DictData::getDictType, dictType.getDictType());
-            if (dictDataMapper.selectCount(dictDataCountQueryWrapper) > 0) {
-                throw new CustomizeException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
-            } else {
-                // 删除字典
-                this.removeById(id);
-                // 删除字典数据
-                LambdaQueryWrapper<DictData> dictDataRmQueryWrapper = new LambdaQueryWrapper<>();
-                dictDataRmQueryWrapper.eq(DictData::getDictType, dictType.getDictType());
-                dictDataMapper.delete(dictDataRmQueryWrapper);
-            }
+            LambdaQueryWrapper<DictData> dictDataRmQueryWrapper = new LambdaQueryWrapper<>();
+            dictDataRmQueryWrapper.eq(DictData::getDictType, dictType.getDictType());
+            // 删除字典
+            this.removeById(id);
+            // 删除字典数据
+            dictDataService.remove(dictDataRmQueryWrapper);
         }
     }
 
@@ -168,7 +173,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         LambdaQueryWrapper<DictData> dictDataQueryWrapper = new LambdaQueryWrapper<>();
         dictDataQueryWrapper.in(DictData::getDictTypeId,
                 dictTypeList.stream().map(DictType::getId).collect(Collectors.toList()));
-        List<DictData> dictDataList = dictDataMapper.selectList(dictDataQueryWrapper);
+        List<DictData> dictDataList = dictDataService.list(dictDataQueryWrapper);
         // 组装数据
         dictTypeList.forEach(type ->
                 type.setDictDataList(dictDataList.stream().filter(data ->
@@ -189,4 +194,13 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         return null;
     }
 
+    public DictType getDictTypeInfoById(String id) {
+        DictType dictType = this.baseMapper.selectById(id);
+        if (dictType == null) {
+            return null;
+        }
+        List<DictData> dataList = dictDataService.lambdaQuery().eq(DictData::getDictType, dictType.getDictType()).list();
+        dictType.setDictDataList(dataList);
+        return dictType;
+    }
 }

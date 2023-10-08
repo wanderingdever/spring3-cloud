@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hk.api.vo.DictTypeVO;
 import com.hk.datasource.bean.dto.IdDTO;
 import com.hk.framework.exception.CustomizeException;
-import com.hk.system.bean.dto.DictDataSearchDTO;
-import com.hk.system.bean.dto.DictTypeDTO;
-import com.hk.system.bean.dto.DictTypeSearchDTO;
+import com.hk.system.bean.dto.dict.DictDTO;
+import com.hk.system.bean.dto.dict.DictSearchDTO;
+import com.hk.system.bean.dto.dict.DictTypeSearchDTO;
 import com.hk.system.bean.pojo.DictType;
 import com.hk.system.service.DictTypeService;
 import com.hk.utils.lang.StringUtil;
@@ -59,7 +59,7 @@ public class DictTypeController {
      */
     @PostMapping("/dict_by_type")
     @Operation(description = "获取字典类型以及其下的字典数据")
-    public DictTypeVO getDictTypeByDictType(@RequestBody DictDataSearchDTO dto) {
+    public DictTypeVO getDictTypeByDictType(@RequestBody DictSearchDTO dto) {
         if (StringUtil.isBlank(dto.getDictType())) {
             throw new CustomizeException("字典类型不能为空");
         }
@@ -74,8 +74,8 @@ public class DictTypeController {
      */
     @PostMapping(value = "/get")
     @Operation(description = "获取字典类型详情")
-    public DictType getDictTypeInfo(@Valid @RequestBody IdDTO dto) {
-        return dictTypeService.getById(dto.getId());
+    public DictType getDictTypeInfoById(@Valid @RequestBody IdDTO dto) {
+        return dictTypeService.getDictTypeInfoById(dto.getId());
     }
 
     /**
@@ -112,7 +112,7 @@ public class DictTypeController {
     @PostMapping(value = "/add")
     @Operation(description = "新增字典类型")
     @SaCheckPermission("system.dictType.add")
-    public String addDictType(@Valid @RequestBody DictTypeDTO dto) {
+    public String addDictType(@Valid @RequestBody DictDTO dto) {
         dictTypeService.addDictType(dto);
         return "";
     }
@@ -125,8 +125,8 @@ public class DictTypeController {
     @PostMapping(value = "/update")
     @Operation(description = "修改字典类型")
     @SaCheckPermission("system.dictType.update")
-    public String updateDictType(@Valid @RequestBody DictType dictType) {
-        dictTypeService.updateDictType(dictType);
+    public String updateDictType(@Valid @RequestBody DictDTO dto) {
+        dictTypeService.updateDictType(dto);
         return "";
     }
 

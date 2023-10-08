@@ -1,4 +1,4 @@
-package com.hk.system.bean.dto;
+package com.hk.system.bean.dto.dict;
 
 import com.hk.datasource.bean.dto.PageDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "字典数据分页查询入参")
-public class DictDataSearchDTO extends PageDTO {
+public class DictSearchDTO extends PageDTO {
 
     @Schema(description = "字典类型")
     private String dictType;
