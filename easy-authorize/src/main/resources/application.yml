@@ -1,0 +1,97 @@
+server:
+  port: 30421
+  # 下面是配置undertow作为服务器的参数
+  undertow:
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 1024
+    # 是否分配的直接内存
+    direct-buffers: true
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      io: 4
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+      worker: 20
+spring:
+  config:
+    import:
+      - optional:application-token.yml
+  application:
+    name: easy-authorize
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.103:8848
+        namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
+        username: nacos
+        password: nacos
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.hk.auth
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    enable-swagger-models: true
+    enable-document-manage: true
+    swagger-model-name: 实体类列表
+    enable-footer: true
+    enable-footer-custom: true
+    footer-custom-content: Copyright © 2021-2023 HK. All Rights Reserved.
+  documents:
+    - group: default
+      name: 授权中心
+logging:
+  level:
+    root: info
+  file:
+    path: ./logs
+  config: classpath:Spring-logback.xml
+
+dubbo:
+  application:
+    id: ${spring.application.name}
+    name: ${dubbo.application.id}
+    qos-enable: true
+    qos-port: 23333
+    qos-accept-foreign-ip: false
+  protocol:
+    name: dubbo
+    port: -1
+  # 注册中心配置
+  registry:
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}
+    group: DUBBO_GROUP
+    parameters:
+      namespace: ${spring.cloud.nacos.discovery.namespace}
+    username: ${spring.cloud.nacos.discovery.username}
+    password: ${spring.cloud.nacos.discovery.password}
+    enable-empty-protection: false
+  # 消费者相关配置
+  consumer:
+    # 结果缓存(LRU算法)
+    # 会有数据不一致问题 建议在注解局部开启
+    cache: false
+    # 支持校验注解
+    validation: false
+    # 超时时间
+    timeout: 3000
+    # 初始化检查
+    check: false
+  scan:
+    # 接口实现类扫描
+    base-packages: com.hk.**.service

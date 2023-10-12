@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.system.dao.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.UserInfo">
+        <!--@mbg.generated-->
+        <!--@Table xyaq_user_info-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="id_card" jdbcType="CHAR" property="idCard"/>
+        <result column="gender" jdbcType="CHAR" property="gender"/>
+        <result column="face_id" jdbcType="VARCHAR" property="faceId"/>
+        <result column="user_type" jdbcType="CHAR" property="userType"/>
+        <result column="create_by" jdbcType="CHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="CHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del" jdbcType="INTEGER" property="del"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id,
+        user_id,
+        avatar,
+        nickname,
+        `name`,
+        id_card,
+        gender,
+        face_id,
+        user_type,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
+    </sql>
+</mapper>

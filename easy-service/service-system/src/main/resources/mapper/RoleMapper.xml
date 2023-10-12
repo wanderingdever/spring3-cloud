@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.system.dao.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.Role">
+        <!--@mbg.generated-->
+        <!--@Table xyaq_role-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_key" jdbcType="VARCHAR" property="roleKey"/>
+        <result column="authority_level" jdbcType="CHAR" property="authorityLevel"/>
+        <result column="org_id" jdbcType="CHAR" property="orgId"/>
+        <result column="role_sort" jdbcType="INTEGER" property="roleSort"/>
+        <result column="enable" jdbcType="TINYINT" property="enable"/>
+        <result column="create_by" jdbcType="CHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="CHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del" jdbcType="INTEGER" property="del"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id,
+        org_id,
+        role_name,
+        role_key,
+        authority_level,
+        role_sort,
+        `enable`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del
+    </sql>
+</mapper>
