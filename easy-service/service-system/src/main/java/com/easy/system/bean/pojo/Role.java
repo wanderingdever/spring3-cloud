@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "角色信息")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_role")
+@TableName(value = "sys_role")
 public class Role extends BaseEntity {
     /**
      * 角色名字

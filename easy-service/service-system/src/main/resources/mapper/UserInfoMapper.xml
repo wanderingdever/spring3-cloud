@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.UserInfoMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.UserInfo">
         <!--@mbg.generated-->
-        <!--@Table xyaq_user_info-->
+        <!--@Table sys_user_info-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="nickname" jdbcType="VARCHAR" property="nickname"/>

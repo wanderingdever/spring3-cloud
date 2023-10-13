@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "账号信息")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_user")
+@TableName(value = "sys_user")
 public class User extends BaseEntity {
 
     @TableField(value = "username")

@@ -18,7 +18,7 @@ import java.util.List;
 @Schema(description = "字典类型")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_dict_type")
+@TableName(value = "sys_dict_type")
 public class DictType extends BaseEntity {
     /**
      * 字典名称

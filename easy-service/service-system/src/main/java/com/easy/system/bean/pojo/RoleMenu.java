@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "角色->菜单权限关联表")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_role_menu")
+@TableName(value = "sys_role_menu")
 public class RoleMenu extends BaseEntity {
     /**
      * 角色ID

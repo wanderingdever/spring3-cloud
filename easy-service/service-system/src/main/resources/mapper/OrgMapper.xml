@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.OrgMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.Org">
         <!--@mbg.generated-->
-        <!--@Table xyaq_org-->
+        <!--@Table sys_org-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="org_parent_id" jdbcType="BIGINT" property="orgParentId"/>
         <result column="org_name" jdbcType="VARCHAR" property="orgName"/>

@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.ConfigMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.Config">
         <!--@mbg.generated-->
-        <!--@Table xyaq_config-->
+        <!--@Table sys_config-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="config_name" jdbcType="VARCHAR" property="configName"/>
         <result column="config_key" jdbcType="VARCHAR" property="configKey"/>

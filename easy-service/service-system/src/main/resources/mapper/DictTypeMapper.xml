@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.DictTypeMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.DictType">
         <!--@mbg.generated-->
-        <!--@Table xyaq_dict_type-->
+        <!--@Table sys_dict_type-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="dict_name" jdbcType="VARCHAR" property="dictName"/>
         <result column="dict_type" jdbcType="VARCHAR" property="dictType"/>

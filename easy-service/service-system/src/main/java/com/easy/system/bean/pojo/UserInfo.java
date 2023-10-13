@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "用户基本信息")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_user_info")
+@TableName(value = "sys_user_info")
 public class UserInfo extends BaseEntity {
     /**
      * 用户信息ID

@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "用户->机构关联")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_user_org")
+@TableName(value = "sys_user_org")
 public class UserOrg extends BaseEntity {
     /**
      * 用户id

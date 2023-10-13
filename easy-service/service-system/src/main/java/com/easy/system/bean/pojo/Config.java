@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "系统参数配置")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_config")
+@TableName(value = "sys_config")
 public class Config extends BaseEntity {
     /**
      * 参数名称

@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "菜单权限信息")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_menu")
+@TableName(value = "sys_menu")
 public class Menu extends BaseEntity {
     /**
      * 菜单名称

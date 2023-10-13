@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.UserRoleMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.UserRole">
         <!--@mbg.generated-->
-        <!--@Table xyaq_user_role-->
+        <!--@Table sys_user_role-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="role_id" jdbcType="BIGINT" property="roleId"/>

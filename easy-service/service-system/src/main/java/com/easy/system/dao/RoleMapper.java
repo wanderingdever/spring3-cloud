@@ -17,7 +17,7 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
-    @Select("SELECT * FROM xyaq_role WHERE id IN (SELECT role_id FROM xyaq_user_role WHERE user_id = #{userId} AND del = 0)")
+    @Select("SELECT * FROM sys_role WHERE id IN (SELECT role_id FROM sys_user_role WHERE user_id = #{userId} AND del = 0)")
     List<Role> getAuthRoleList(@Param("userId") String userId);
 
     /**
@@ -26,6 +26,6 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param roleId 角色id
      * @return 统计结果
      */
-    @Select("SELECT COUNT(*)  FROM xyaq_role WHERE role_id = #{roleId}")
+    @Select("SELECT COUNT(*)  FROM sys_role WHERE role_id = #{roleId}")
     int countUserByRoleId(@Param("roleId") String roleId);
 }

@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "字典数据")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_dict_data")
+@TableName(value = "sys_dict_data")
 public class DictData extends BaseEntity {
     /**
      * 字典类型ID easy_dict_type=>id

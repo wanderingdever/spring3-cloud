@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.UserOrgMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.UserOrg">
         <!--@mbg.generated-->
-        <!--@Table xyaq_user_org-->
+        <!--@Table sys_user_org-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="org_id" jdbcType="BIGINT" property="orgId"/>

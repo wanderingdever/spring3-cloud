@@ -15,6 +15,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
-    @Select("SELECT id FROM xyaq_user_info WHERE del = 0 AND user_id = #{userId} LIMIT 1")
+    @Select("SELECT id FROM sys_user_info WHERE del = 0 AND user_id = #{userId} LIMIT 1")
     String getIdByUserId(@Param("userId") String userId);
 }

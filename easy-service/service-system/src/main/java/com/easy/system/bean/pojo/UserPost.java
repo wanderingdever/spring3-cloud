@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "用户->岗位关联")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_user_post")
+@TableName(value = "sys_user_post")
 public class UserPost extends BaseEntity {
     /**
      * 用户ID

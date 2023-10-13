@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.User">
         <!--@mbg.generated-->
-        <!--@Table xyaq_user-->
+        <!--@Table sys_user-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -39,8 +39,8 @@
         ui.name as name,
         ui.id_card as idCard,
         ui.user_type as userType
-        from xyaq_user u
-        left join xyaq_user_info ui on u.id = ui.user_id
+        from sys_user u
+        left join sys_user_info ui on u.id = ui.user_id
         where u.id = #{userId}
         and u.del = 0
     </select>

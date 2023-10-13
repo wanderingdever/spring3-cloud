@@ -3,7 +3,7 @@
 <mapper namespace="com.easy.system.dao.PostMapper">
     <resultMap id="BaseResultMap" type="com.easy.system.bean.pojo.Post">
         <!--@mbg.generated-->
-        <!--@Table xyaq_post-->
+        <!--@Table sys_post-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
         <result column="post_code" jdbcType="VARCHAR" property="postCode"/>

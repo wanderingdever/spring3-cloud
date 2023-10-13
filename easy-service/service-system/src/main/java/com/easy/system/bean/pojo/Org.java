@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "组织信息")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "xyaq_org")
+@TableName(value = "sys_org")
 public class Org extends BaseEntity {
     /**
      * 上级id
