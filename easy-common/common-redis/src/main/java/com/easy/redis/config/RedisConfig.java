@@ -1,7 +1,6 @@
 package com.easy.redis.config;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.easy.redis.handler.KeyPrefixHandler;
 import com.easy.redis.manager.PlusSpringCacheManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +40,6 @@ public class RedisConfig {
             if (ObjectUtil.isNotNull(singleServerConfig)) {
                 // 使用单机模式
                 config.useSingleServer()
-                        // 设置redis key前缀
-                        .setNameMapper(new KeyPrefixHandler(redissonProperties.getKeyPrefix()))
                         .setTimeout(singleServerConfig.getTimeout())
                         .setClientName(singleServerConfig.getClientName())
                         .setIdleConnectionTimeout(singleServerConfig.getIdleConnectionTimeout())
@@ -54,8 +51,6 @@ public class RedisConfig {
             RedissonProperties.ClusterServersConfig clusterServersConfig = redissonProperties.getClusterServersConfig();
             if (ObjectUtil.isNotNull(clusterServersConfig)) {
                 config.useClusterServers()
-                        // 设置redis key前缀
-                        .setNameMapper(new KeyPrefixHandler(redissonProperties.getKeyPrefix()))
                         .setTimeout(clusterServersConfig.getTimeout())
                         .setClientName(clusterServersConfig.getClientName())
                         .setIdleConnectionTimeout(clusterServersConfig.getIdleConnectionTimeout())

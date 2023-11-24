@@ -20,7 +20,7 @@ import java.util.Set;
  * @author Matt
  */
 @Slf4j
-@RestControllerAdvice(basePackages = "com.hk")
+@RestControllerAdvice(basePackages = "com.easy")
 public class GlobalExceptionHandler {
 
     /**

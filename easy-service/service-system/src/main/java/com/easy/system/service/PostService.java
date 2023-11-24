@@ -45,7 +45,6 @@ public class PostService extends ServiceImpl<PostMapper, Post> {
         return lambdaQuery()
                 .like(StringUtils.isNotBlank(dto.getPostName()), Post::getPostName, dto.getPostName())
                 .eq(StringUtils.isNotBlank(dto.getPostCode()), Post::getPostCode, dto.getPostCode())
-                .eq(StringUtils.isNotBlank(dto.getIsRotation()), Post::getIsRotation, dto.getIsRotation())
                 .eq(Objects.nonNull(dto.getEnable()), Post::getEnable, dto.getEnable())
                 .in(Post::getOrgId, dataScopeService.authorizedOrgIdList())
                 .list()

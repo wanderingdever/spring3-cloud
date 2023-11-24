@@ -6,13 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ID请求参数ID请求参数
+ * </p>
+ *
+ * @author Matt
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "id 请求参数")
+@Schema(description = "ID请求参数")
 public class IdDTO {
 
-    @NotBlank(message = "id" + "不能为空")
+    @NotBlank(message = "id不能为空")
     @Schema(title = "id")
     private String id;
 }

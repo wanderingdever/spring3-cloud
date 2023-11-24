@@ -6,11 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.RemoteDictService;
 import com.easy.api.vo.DictTypeVO;
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.utils.PageUtil;
+import com.easy.framework.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
 import com.easy.redis.utils.RedisUtils;
 import com.easy.system.bean.dto.dict.DictDTO;
-import com.easy.system.bean.dto.dict.DictTypeSearchDTO;
+import com.easy.system.bean.dto.dict.DictDataDTO;
+import com.easy.system.bean.dto.dict.DictSearchDTO;
 import com.easy.system.bean.pojo.DictData;
 import com.easy.system.bean.pojo.DictType;
 import com.easy.system.dao.DictTypeMapper;
@@ -44,10 +47,10 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * 初始化系统启用字典到缓存
      */
     public void loadingDictCache() {
-        DictTypeSearchDTO dto = new DictTypeSearchDTO();
+        DictSearchDTO dto = new DictSearchDTO();
         dto.setEnable(true);
         dto.setIsSystem(true);
-        List<DictType> dictTypeList = getDictList(dto);
+        List<DictType> dictTypeList = getTypeAndDataList(dto);
         if (StringUtil.isNotEmpty(dictTypeList)) {
             // 设置缓存
             RedisUtils.setCacheObject(CacheConstants.SYSTEM_DICT, JacksonUtil.toJsonString(dictTypeList));
@@ -66,11 +69,11 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         List<DictType> dictDataCacheList = getCacheDictList();
         // 缓存没有获取到就查询数据库
         if (CollectionUtils.isEmpty(dictDataCacheList)) {
-            DictTypeSearchDTO search = new DictTypeSearchDTO();
+            DictSearchDTO search = new DictSearchDTO();
             search.setEnable(true);
             search.setIsSystem(true);
             search.setDictType(dictType);
-            dictDataCacheList = getDictList(search);
+            dictDataCacheList = getTypeAndDataList(search);
         }
         // 筛选
         Optional<DictType> first = dictDataCacheList.parallelStream().filter(dict -> dict.getDictType().equals(dictType)).findFirst();
@@ -89,19 +92,14 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param dto 查询条件
      * @return {@link Page<DictType>}
      */
-    public Page<DictType> pageDictType(DictTypeSearchDTO dto) {
-        Page<DictType> page = lambdaQuery()
+    public Page<DictType> pageDictType(DictSearchDTO dto) {
+        return lambdaQuery()
                 .like(StringUtil.isNotBlank(dto.getDictName()), DictType::getDictName, dto.getDictName())
                 .eq(StringUtil.isNotBlank(dto.getDictType()), DictType::getDictType, dto.getDictType())
                 .eq(StringUtil.isNotNull(dto
                         .getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
                 .eq(StringUtil.isNotNull(dto.getEnable()), DictType::getEnable, dto.getEnable())
                 .page(PageUtil.getPage(dto));
-        page.getRecords().forEach(type -> {
-            List<DictData> dataList = dictDataService.lambdaQuery().eq(DictData::getDictTypeId, type.getId()).list();
-            type.setDictDataList(dataList);
-        });
-        return page;
     }
 
     /**
@@ -114,13 +112,6 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         DictType dictType = new DictType();
         BeanUtils.copyProperties(dto, dictType);
         this.save(dictType);
-        // 赋值id 和 type
-        dto.getDictDataList().forEach(data -> {
-            data.setDictTypeId(dictType.getId());
-            data.setDictType(dictType.getDictType());
-        });
-        List<DictData> dictDataList = BeanUtil.copyToList(dto.getDictDataList(), DictData.class);
-        dictDataService.saveBatch(dictDataList);
     }
 
     /**
@@ -130,23 +121,28 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      */
     @Transactional(rollbackFor = Exception.class)
     public void updateDictType(DictDTO dto) {
+        DictType dictType = new DictType();
+        BeanUtils.copyProperties(dto, dictType);
+        this.updateById(dictType);
     }
 
     /**
      * 通过ID删除字典类型
      *
-     * @param ids id集合
+     * @param id id集合
      */
     @Transactional(rollbackFor = Exception.class)
-    public void delDictType(List<String> ids) {
-        for (String id : ids) {
-            // 获取type
-            DictType dictType = this.getById(id);
-            // 查询出所有关联的data
-            LambdaQueryWrapper<DictData> dictDataRmQueryWrapper = new LambdaQueryWrapper<>();
-            dictDataRmQueryWrapper.eq(DictData::getDictType, dictType.getDictType());
-            // 删除字典
-            this.removeById(id);
+    public void delDictType(IdDTO id) {
+        // 获取type
+        DictType dictType = this.getById(id.getId());
+        // 查询出所有关联的data
+        LambdaQueryWrapper<DictData> dictDataRmQueryWrapper = new LambdaQueryWrapper<>();
+        dictDataRmQueryWrapper.eq(DictData::getDictType, dictType.getDictType());
+        if (dictDataService.lambdaQuery().eq(DictData::getDictType, dictType.getDictType()).count() > 0) {
+            throw new CustomizeException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
+        } else {
+            // 删除字典类型
+            this.removeById(id.getId());
             // 删除字典数据
             dictDataService.remove(dictDataRmQueryWrapper);
         }
@@ -158,7 +154,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param search 查询条件
      * @return {@link List<DictType>}
      */
-    public List<DictType> getDictList(DictTypeSearchDTO search) {
+    public List<DictType> getTypeAndDataList(DictSearchDTO search) {
         // 查询出字典类型
         List<DictType> dictTypeList = lambdaQuery()
                 .like(StringUtil.isNotBlank(search.getDictName()), DictType::getDictName, search.getDictName())
@@ -194,13 +190,69 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         return null;
     }
 
+    /**
+     * 更具字典类型ID获取字典类型和下属数据
+     *
+     * @param id 字典类型ID
+     * @return {@link DictType}
+     */
     public DictType getDictTypeInfoById(String id) {
         DictType dictType = this.baseMapper.selectById(id);
         if (dictType == null) {
             return null;
         }
+        // 获取字典数据
         List<DictData> dataList = dictDataService.lambdaQuery().eq(DictData::getDictType, dictType.getDictType()).list();
         dictType.setDictDataList(dataList);
         return dictType;
     }
+
+    /**
+     * 分页查询字典数据
+     *
+     * @param search 查询参数
+     * @return {@link DictData}
+     */
+    public Page<DictData> pageDictData(DictSearchDTO search) {
+        return dictDataService.lambdaQuery()
+                .eq(DictData::getDictType, search.getDictType())
+                .like(StringUtil.isNotBlank(search.getDictLabel()), DictData::getDictLabel, search.getDictLabel())
+                .eq(StringUtil.isNotNull(search.getEnable()), DictData::getEnable, search.getEnable())
+                .page(PageUtil.getPage(search));
+    }
+
+    /**
+     * 新增字典数据
+     *
+     * @param dto 字典数据
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void addDictData(DictDataDTO dto) {
+        DictData dictType = new DictData();
+        BeanUtils.copyProperties(dto, dictType);
+        dictDataService.save(dictType);
+    }
+
+    /**
+     * 编辑字典数据
+     *
+     * @param dto 字典数据
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void updateDictData(DictDataDTO dto) {
+        DictData dictType = new DictData();
+        BeanUtils.copyProperties(dto, dictType);
+        dictDataService.updateById(dictType);
+    }
+
+    /**
+     * 删除字典数据
+     *
+     * @param ids 字典数据ID集合
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void delDictData(List<String> ids) {
+        dictDataService.removeBatchByIds(ids);
+    }
+
 }

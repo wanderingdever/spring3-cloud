@@ -22,6 +22,13 @@ public class PwdLogin {
     @NotBlank(message = "密码不能为空")
     private String password;
 
+    @Schema(title = "验证码")
+    @NotBlank(message = "验证码不能为空")
+    private String validateCode;
+
+    @Schema(title = "验证码随机数")
+    private String randomStr;
+
     @Schema(title = "设备信息")
     @NotBlank(message = "设备信息不能为空")
     private String device;

@@ -9,7 +9,6 @@
         <result column="post_code" jdbcType="VARCHAR" property="postCode"/>
         <result column="post_name" jdbcType="VARCHAR" property="postName"/>
         <result column="post_sort" jdbcType="INTEGER" property="postSort"/>
-        <result column="is_rotation" jdbcType="CHAR" property="isRotation"/>
         <result column="enable" jdbcType="TINYINT" property="enable"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -24,7 +23,6 @@
         post_code,
         post_name,
         post_sort,
-        is_rotation,
         `enable`,
         create_by,
         create_time,

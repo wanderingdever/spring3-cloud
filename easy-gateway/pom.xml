@@ -58,10 +58,9 @@
             <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
             <version>4.3.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.easy</groupId>
-            <artifactId>easy-common-framework</artifactId>
+            <artifactId>easy-common-redis</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>com.github.xiaoymin</groupId>
@@ -70,7 +69,23 @@
             </exclusions>
             <version>0.0.1</version>
         </dependency>
-
+        <!--        <dependency>-->
+        <!--            <groupId>com.easy</groupId>-->
+        <!--            <artifactId>easy-common-framework</artifactId>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.github.xiaoymin</groupId>-->
+        <!--                    <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--            <version>0.0.1</version>-->
+        <!--        </dependency>-->
+        <!-- 图片验证码 -->
+        <dependency>
+            <groupId>com.github.axet</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>0.0.9</version>
+        </dependency>
     </dependencies>
 
     <build>

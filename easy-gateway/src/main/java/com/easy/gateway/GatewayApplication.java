@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Arrays;
 
@@ -19,6 +21,8 @@ import java.util.Arrays;
  */
 @SpringBootApplication(scanBasePackages = {"com.easy.gateway"})
 @EnableDiscoveryClient
+@EnableAsync
+@EnableCaching
 public class GatewayApplication {
     private final static Logger LOGGER = LoggerFactory.getLogger(GatewayApplication.class);
 

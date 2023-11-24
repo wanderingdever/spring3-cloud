@@ -105,20 +105,6 @@ public class Org extends BaseEntity {
     private String orgAddress;
 
     /**
-     * 经度
-     */
-    @TableField(value = "org_longitude")
-    @Schema(description = "经度")
-    private String orgLongitude;
-
-    /**
-     * 纬度
-     */
-    @TableField(value = "org_latitude")
-    @Schema(description = "纬度")
-    private String orgLatitude;
-
-    /**
      * 机构简介
      */
     @TableField(value = "org_desc")
@@ -133,13 +119,6 @@ public class Org extends BaseEntity {
     private String orgLogo;
 
     /**
-     * 人员
-     */
-    @TableField(value = "org_personnel")
-    @Schema(description = "人员")
-    private String orgPersonnel;
-
-    /**
      * 顺序
      */
     @TableField(value = "org_sort")
@@ -152,6 +131,5 @@ public class Org extends BaseEntity {
     @TableField(value = "org_status")
     @Schema(description = "组织状态")
     private String orgStatus;
-
 
 }

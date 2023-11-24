@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * 字典类型入参
@@ -54,17 +53,4 @@ public class DictDTO {
     @Schema(description = "是否启用(0否,1-是)")
     @NotNull(message = "请选择字典类型状态")
     private Boolean enable;
-
-    /**
-     * 字典数据
-     */
-    @Schema(description = "字典数据")
-    @NotNull(message = "字典数据不能为空")
-    private List<DictDataDTO> dictDataList;
-
-    /**
-     * 删除的字典数据
-     */
-    @Schema(description = "删除的字典数据")
-    private List<DictDataDTO> delDictDataList;
 }

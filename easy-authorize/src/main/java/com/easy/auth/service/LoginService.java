@@ -8,6 +8,10 @@ import com.easy.api.service.RemoteUserService;
 import com.easy.api.vo.UserVO;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
+import com.easy.framework.exception.CustomizeException;
+import com.easy.redis.constant.CacheConstants;
+import com.easy.redis.utils.RedisUtils;
+import com.easy.utils.lang.StringUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -43,13 +47,17 @@ public class LoginService {
      * @return {@link  TokenInfo}
      */
     public TokenInfo pwdLogin(PwdLogin login) {
+        Object cacheObject = RedisUtils.getCacheObject(CacheConstants.CAPTCHA + login.getRandomStr());
+        if (StringUtil.isNull(cacheObject) || !login.getValidateCode().equals(cacheObject.toString())) {
+            throw new CustomizeException("验证码不正确");
+        }
         UserVO user = remoteUserService.selectUserByUsername(login.getUsername());
         if (user == null) {
-            throw new RuntimeException("账号不存在");
+            throw new CustomizeException("账号不存在");
         }
         // 校验密码
         if (!BCrypt.checkpw(login.getPassword(), user.getPassword())) {
-            throw new RuntimeException("密码错误");
+            throw new CustomizeException("密码错误");
         }
         // 登录
         SaLoginModel loginModel = new SaLoginModel()

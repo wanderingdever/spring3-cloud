@@ -8,6 +8,11 @@ package com.easy.redis.constant;
  */
 public interface CacheConstants {
     /**
+     * 图片验证码
+     */
+    String CAPTCHA = "CAPTCHA:";
+
+    /**
      * 系统配置参数
      */
     String SYSTEM_CONFIG = "system_config:";

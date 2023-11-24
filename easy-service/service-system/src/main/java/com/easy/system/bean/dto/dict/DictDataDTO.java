@@ -26,6 +26,7 @@ public class DictDataDTO {
      * 字典类型ID
      */
     @Schema(description = "字典类型ID")
+    @NotBlank(message = "字典类型ID不能为空")
     private String dictTypeId;
 
     /**

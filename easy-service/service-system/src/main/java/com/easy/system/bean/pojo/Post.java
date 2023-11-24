@@ -48,13 +48,6 @@ public class Post extends BaseEntity {
     private Integer postSort;
 
     /**
-     * 是否轮岗
-     */
-    @TableField(value = "is_rotation")
-    @Schema(description = "是否轮岗")
-    private String isRotation;
-
-    /**
      * 是否启用
      */
     @TableField(value = "`enable`")

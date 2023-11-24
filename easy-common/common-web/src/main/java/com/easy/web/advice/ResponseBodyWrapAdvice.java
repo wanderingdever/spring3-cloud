@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author 小徐
  * @since 2023/9/12 14:43
  */
-@RestControllerAdvice(basePackages = "com.hk")
+@RestControllerAdvice(basePackages = "com.easy")
 public class ResponseBodyWrapAdvice implements ResponseBodyAdvice<Object> {
 
     /**
