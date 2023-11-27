@@ -1,8 +1,8 @@
 server:
-  port: 30430
+  port: 30431
 spring:
   application:
-    name: easy-service-system
+    name: easy-service-file
   config:
     import:
       - optional:application-datasource.yml
@@ -25,16 +25,16 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: com.easy.system
+      packages-to-scan: com.easy.file
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   documents:
     - group: default
-      name: 系统服务
+      name: 文件服务
 
 dubbo:
   application:
-    qos-port: 23334
+    qos-port: 23335
   scan:
     # 接口实现类扫描
     base-packages: com.easy.**.service

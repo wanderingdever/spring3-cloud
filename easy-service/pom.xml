@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>service-system</module>
+        <module>service-file</module>
     </modules>
     <artifactId>easy-service</artifactId>
 

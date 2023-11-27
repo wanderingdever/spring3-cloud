@@ -3,7 +3,6 @@ dubbo:
     id: ${spring.application.name}
     name: ${dubbo.application.id}
     qos-enable: true
-    qos-port: 23333
     qos-accept-foreign-ip: false
   protocol:
     name: dubbo
