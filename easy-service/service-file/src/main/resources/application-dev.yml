@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 120.48.20.27:4848
-        namespace: easy-cloud
+        server-addr: 192.168.200.103:8848
+        namespace: 25afecbf-2284-4a55-a792-3f54d1d9c4ec
         username: nacos
-        password: zwcb3axb
+        password: nacos
