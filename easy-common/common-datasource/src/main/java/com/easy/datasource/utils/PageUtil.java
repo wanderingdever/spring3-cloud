@@ -45,7 +45,9 @@ public class PageUtil {
         Page<T> page = new Page<>();
         page.setSize(dto.getSize());
         page.setCurrent(dto.getCurrent());
-        page.addOrder(dto.getOrders());
+        if (dto.getOrders() != null && !dto.getOrders().isEmpty()) {
+            page.addOrder(dto.getOrders());
+        }
         return page;
     }
 }

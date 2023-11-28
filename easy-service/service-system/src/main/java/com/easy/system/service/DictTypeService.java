@@ -96,8 +96,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         return lambdaQuery()
                 .like(StringUtil.isNotBlank(dto.getDictName()), DictType::getDictName, dto.getDictName())
                 .eq(StringUtil.isNotBlank(dto.getDictType()), DictType::getDictType, dto.getDictType())
-                .eq(StringUtil.isNotNull(dto
-                        .getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
+                .eq(StringUtil.isNotNull(dto.getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
                 .eq(StringUtil.isNotNull(dto.getEnable()), DictType::getEnable, dto.getEnable())
                 .page(PageUtil.getPage(dto));
     }

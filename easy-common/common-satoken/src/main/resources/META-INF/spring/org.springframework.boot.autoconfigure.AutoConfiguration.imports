@@ -1,2 +1,3 @@
 com.easy.satoken.config.SaTokenConfig
 com.easy.satoken.config.SaTokenPermissionConfig
+com.easy.satoken.exception.GlobalExceptionHandler
