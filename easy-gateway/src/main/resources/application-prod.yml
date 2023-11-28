@@ -1,0 +1,14 @@
+spring:
+  data:
+    redis:
+      host: 120.48.20.27
+      port: 4399
+      password: D!J?OMca
+      database: 14
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.48.20.27:4848
+        namespace: easy-cloud
+        username: nacos
+        password: zwcb3axb
