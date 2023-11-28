@@ -2,6 +2,7 @@ package com.easy.system.bean.dto.menu;
 
 import com.easy.system.bean.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -10,14 +11,15 @@ import lombok.Data;
  *
  * @author Matt
  */
-@Schema(description = "菜单入参")
+@Schema(description = "菜单入参-新增")
 @Data
-public class MenuDTO {
+public class MenuAddDTO {
 
     /**
      * 菜单名称
      */
     @Schema(description = "菜单名称")
+    @NotBlank(message = "菜单名称不能为空")
     private String menuName;
 
     /**

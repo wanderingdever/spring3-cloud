@@ -9,7 +9,8 @@ import com.easy.api.vo.ConfigVO;
 import com.easy.datasource.utils.PageUtil;
 import com.easy.redis.constant.CacheConstants;
 import com.easy.redis.utils.RedisUtils;
-import com.easy.system.bean.dto.config.ConfigDTO;
+import com.easy.system.bean.dto.config.ConfigAddDTO;
+import com.easy.system.bean.dto.config.ConfigEditDTO;
 import com.easy.system.bean.dto.config.ConfigSearchDTO;
 import com.easy.system.bean.pojo.Config;
 import com.easy.system.dao.ConfigMapper;
@@ -74,7 +75,7 @@ public class ConfigService extends ServiceImpl<ConfigMapper, Config> implements 
      * @param dto 入参
      */
     @Transactional(rollbackFor = Exception.class)
-    public void addConfig(ConfigDTO dto) {
+    public void addConfig(ConfigAddDTO dto) {
         Config newConfig = new Config();
         newConfig.setConfigName(dto.getConfigName());
         newConfig.setConfigKey(dto.getConfigKey());
@@ -88,8 +89,10 @@ public class ConfigService extends ServiceImpl<ConfigMapper, Config> implements 
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateConfig(Config config) {
-        this.updateById(config);
+    public void updateConfig(ConfigEditDTO config) {
+        Config newConfig = new Config();
+        BeanUtil.copyProperties(config, newConfig);
+        this.updateById(newConfig);
     }
 
     @Transactional(rollbackFor = Exception.class)

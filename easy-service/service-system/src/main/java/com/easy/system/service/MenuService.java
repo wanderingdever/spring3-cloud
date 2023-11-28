@@ -3,7 +3,8 @@ package com.easy.system.service;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.framework.constant.Constants;
-import com.easy.system.bean.dto.menu.MenuDTO;
+import com.easy.system.bean.dto.menu.MenuAddDTO;
+import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
 import com.easy.system.bean.enums.MenuType;
 import com.easy.system.bean.pojo.Menu;
@@ -70,20 +71,22 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
     /**
      * 更新菜单
      *
-     * @param menu {@link Menu}
+     * @param dto {@link MenuEditDTO}
      */
     @Transactional(rollbackFor = Exception.class)
-    public void updateMenu(Menu menu) {
+    public void updateMenu(MenuEditDTO dto) {
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(dto, menu);
         this.updateById(menu);
     }
 
     /**
      * 新增菜单
      *
-     * @param dto {@link MenuDTO}
+     * @param dto {@link MenuAddDTO}
      */
     @Transactional(rollbackFor = Exception.class)
-    public void addMenu(MenuDTO dto) {
+    public void addMenu(MenuAddDTO dto) {
         Menu menu = new Menu();
         BeanUtils.copyProperties(dto, menu);
         this.save(menu);

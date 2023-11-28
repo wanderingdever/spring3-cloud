@@ -5,6 +5,12 @@ import com.easy.system.bean.enums.OrgTag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * 组织新增-入参
+ * </p>
+ *
+ * @author Matt
+ */
 @Data
 @Schema(description = "组织新增-入参")
 public class OrgDTO {
@@ -45,20 +51,11 @@ public class OrgDTO {
     @Schema(description = "详细地址")
     private String orgAddress;
 
-    @Schema(description = "经度")
-    private String orgLongitude;
-
-    @Schema(description = "纬度")
-    private String orgLatitude;
-
     @Schema(description = "机构简介")
     private String orgDesc;
 
     @Schema(description = "logo")
     private String orgLogo;
-
-    @Schema(description = "人员")
-    private String orgPersonnel;
 
     @Schema(description = "顺序")
     private Integer orgSort;

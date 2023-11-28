@@ -17,8 +17,6 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "系统参数配置")
 public class ConfigVO extends BaseVO {
 
-    @Schema(description = "主键ID")
-    private String id;
     /**
      * 参数名称
      */
@@ -43,7 +41,6 @@ public class ConfigVO extends BaseVO {
      */
     @Schema(description = "是否是系统内置")
     private String isSystem;
-    ;
 
     /**
      * 是否启用

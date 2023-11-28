@@ -7,6 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * 组织查询-响应参数
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "组织查询-响应参数")
@@ -48,20 +54,11 @@ public class OrgVO extends BaseVO {
     @Schema(description = "详细地址")
     private String orgAddress;
 
-    @Schema(description = "经度")
-    private String orgLongitude;
-
-    @Schema(description = "纬度")
-    private String orgLatitude;
-
     @Schema(description = "机构简介")
     private String orgDesc;
 
     @Schema(description = "logo")
     private String orgLogo;
-
-    @Schema(description = "人员")
-    private String orgPersonnel;
 
     @Schema(description = "顺序")
     private Integer orgSort;

@@ -14,6 +14,7 @@ import com.easy.system.bean.dto.org.OrgEditDTO;
 import com.easy.system.bean.dto.org.OrgPageDTO;
 import com.easy.system.bean.pojo.Org;
 import com.easy.system.bean.pojo.UserOrg;
+import com.easy.system.bean.vo.org.OrgSimpleTreeVO;
 import com.easy.system.bean.vo.org.OrgTreeVO;
 import com.easy.system.bean.vo.org.OrgVO;
 import com.easy.system.dao.OrgMapper;
@@ -44,7 +45,6 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
     }
 
     public List<Org> getOrg(List<String> idList) {
-
         HashSet<String> idSet = new HashSet<>(idList);
         List<Org> list = lambdaQuery()
                 .in(Org::getId, idSet)
@@ -56,12 +56,26 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
         return list;
     }
 
+    public Page<OrgVO> page(OrgPageDTO dto) {
+        Page<Org> page = lambdaQuery()
+                .eq(StringUtil.isNotBlank(dto.getOrgParentId()), Org::getOrgParentId, dto.getOrgParentId())
+                .like(StringUtil.isNotBlank(dto.getOrgName()), Org::getOrgName, dto.getOrgName())
+                .page(PageUtil.getPage(dto));
+        return PageUtil.getPage(page, OrgVO.class);
+    }
+
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void add(OrgDTO dto) {
-
         Org org = new Org();
         BeanUtils.copyProperties(dto, org);
         save(org);
+    }
+
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public void update(OrgEditDTO dto) {
+        Org org = new Org();
+        BeanUtils.copyProperties(dto, org);
+        updateById(org);
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
@@ -74,27 +88,35 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
     }
 
     public OrgVO info(IdDTO dto) {
-
         Org org = getOrg(dto.getId());
         return toOrgVO(org);
     }
 
-    private OrgVO toOrgVO(Org org) {
-        OrgVO vo = new OrgVO();
-        BeanUtil.copyProperties(org, vo);
-        return vo;
-    }
-
+    /**
+     * 构建详细数据的机构树形
+     *
+     * @return {@link List<OrgTreeVO>}
+     */
     public List<OrgTreeVO> tree() {
-
         LambdaQueryWrapper<Org> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        lambdaQueryWrapper.in(Org::getId, dataScopeService.authorizedOrgIdList());
+        //        lambdaQueryWrapper.in(Org::getId, dataScopeService.authorizedOrgIdList());
         List<Org> list = list(lambdaQueryWrapper);
         return buildTree(list);
     }
 
-    private List<OrgTreeVO> buildTree(List<Org> list) {
+    /**
+     * 构建简单数据的机构树形
+     *
+     * @return {@link List<OrgSimpleTreeVO>}
+     */
+    public List<OrgSimpleTreeVO> simpleTree() {
+        LambdaQueryWrapper<Org> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //        lambdaQueryWrapper.in(Org::getId, dataScopeService.authorizedOrgIdList());
+        List<Org> list = list(lambdaQueryWrapper);
+        return buildSimpleTree(list);
+    }
 
+    private List<OrgTreeVO> buildTree(List<Org> list) {
         if (CollectionUtils.isEmpty(list)) {
             return new ArrayList<>();
         }
@@ -107,14 +129,30 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
                 .filter(k -> !"0".equals(k.getOrgParentId()))
                 .map(this::toOrgTreeVO)
                 .collect(Collectors.groupingBy(OrgTreeVO::getOrgParentId));
-
         // 组装数据
         buildBranch(rootList, leafMap);
         return rootList;
     }
 
-    private void buildBranch(List<OrgTreeVO> rootList, Map<String, List<OrgTreeVO>> leafMap) {
+    private List<OrgSimpleTreeVO> buildSimpleTree(List<Org> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+        // 分离数据
+        List<OrgSimpleTreeVO> rootList = list.stream()
+                .filter(k -> "0".equals(k.getOrgParentId()))
+                .map(this::toOrgSimpleTreeVO)
+                .toList();
+        Map<String, List<OrgSimpleTreeVO>> leafMap = list.stream()
+                .filter(k -> !"0".equals(k.getOrgParentId()))
+                .map(this::toOrgSimpleTreeVO)
+                .collect(Collectors.groupingBy(OrgSimpleTreeVO::getOrgParentId));
+        // 组装数据
+        buildSimpleBranch(rootList, leafMap);
+        return rootList;
+    }
 
+    private void buildBranch(List<OrgTreeVO> rootList, Map<String, List<OrgTreeVO>> leafMap) {
         if (CollectionUtils.isEmpty(rootList)) {
             return;
         }
@@ -126,6 +164,19 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
         }
     }
 
+    private void buildSimpleBranch(List<OrgSimpleTreeVO> rootList, Map<String, List<OrgSimpleTreeVO>> leafMap) {
+        if (CollectionUtils.isEmpty(rootList)) {
+            return;
+        }
+        for (OrgSimpleTreeVO orgTreeVO : rootList) {
+            List<OrgSimpleTreeVO> orgTreeList = leafMap.get(orgTreeVO.getId());
+            leafMap.remove(orgTreeVO.getId());
+            orgTreeVO.setChildren(orgTreeList);
+            buildSimpleBranch(orgTreeList, leafMap);
+        }
+    }
+
+
     private OrgTreeVO toOrgTreeVO(Org org) {
         OrgTreeVO vo = new OrgTreeVO();
         BeanUtil.copyProperties(org, vo);
@@ -133,20 +184,17 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
         return vo;
     }
 
-    public Page<OrgVO> page(OrgPageDTO dto) {
-
-        Page<Org> page = lambdaQuery()
-                .eq(StringUtil.isNotBlank(dto.getOrgParentId()), Org::getOrgParentId, dto.getOrgParentId())
-                .like(StringUtil.isNotBlank(dto.getOrgName()), Org::getOrgName, dto.getOrgName())
-                .page(PageUtil.getPage(dto));
-        return PageUtil.getPage(page, OrgVO.class);
+    private OrgSimpleTreeVO toOrgSimpleTreeVO(Org org) {
+        OrgSimpleTreeVO vo = new OrgSimpleTreeVO();
+        BeanUtil.copyProperties(org, vo);
+        vo.setChildren(new ArrayList<>());
+        return vo;
     }
 
-    @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void update(OrgEditDTO dto) {
-
-        Org org = new Org();
-        BeanUtils.copyProperties(dto, org);
-        updateById(org);
+    private OrgVO toOrgVO(Org org) {
+        OrgVO vo = new OrgVO();
+        BeanUtil.copyProperties(org, vo);
+        return vo;
     }
+
 }

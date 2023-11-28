@@ -3,7 +3,6 @@ package com.easy.system.bean.dto.user;
 import com.easy.framework.enums.AccountClient;
 import com.easy.framework.enums.AccountStatus;
 import com.easy.framework.enums.Gender;
-import com.easy.system.bean.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -48,14 +47,8 @@ public class UserAddDTO {
     @Schema(description = "姓名")
     private String name;
 
-    @Schema(description = "用户类型")
-    private UserType userType;
-
     @Schema(description = "性别")
     private Gender gender;
-
-    @Schema(description = "人脸ID")
-    private String faceId;
 
     @Schema(description = "备注")
     private String remark;

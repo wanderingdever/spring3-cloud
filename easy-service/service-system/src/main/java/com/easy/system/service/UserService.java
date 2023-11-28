@@ -21,7 +21,6 @@ import com.easy.system.bean.pojo.User;
 import com.easy.system.bean.vo.user.UserInfoExpandVO;
 import com.easy.system.dao.OrgMapper;
 import com.easy.system.dao.RoleMapper;
-import com.easy.system.dao.UserInfoMapper;
 import com.easy.system.dao.UserMapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
@@ -49,9 +48,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     @Resource
     private RoleMapper roleMapper;
-
-    @Resource
-    private UserInfoMapper userInfoMapper;
 
     @Resource
     private DataScopeService dataScopeService;

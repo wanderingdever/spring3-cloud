@@ -27,31 +27,31 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/list")
-    @Operation(summary = "集合查询")
+    @Operation(description = "集合查询")
     public List<PostVO> list(@RequestBody PostSearchDTO dto) {
         return postService.list(dto);
     }
 
     @PostMapping("/page")
-    @Operation(summary = "分页查询")
+    @Operation(description = "分页查询")
     public Page<PostVO> pagePost(@RequestBody PostSearchDTO dto) {
         return postService.page(dto);
     }
 
     @PostMapping("/add")
-    @Operation(summary = "新增岗位信息")
+    @Operation(description = "新增岗位信息")
     public void addPost(@Valid @RequestBody PostDTO dto) {
         postService.add(dto);
     }
 
     @PostMapping("/update")
-    @Operation(summary = "更新岗位信息")
+    @Operation(description = "更新岗位信息")
     public void updatePost(@Valid @RequestBody PostEditDTO dto) {
         postService.update(dto);
     }
 
     @PostMapping("/del")
-    @Operation(summary = "删除岗位信息")
+    @Operation(description = "删除岗位信息")
     public void delPost(@RequestBody IdListDTO dto) {
         postService.del(dto);
     }

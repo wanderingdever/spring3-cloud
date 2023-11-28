@@ -3,7 +3,8 @@ package com.easy.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.vo.ConfigVO;
-import com.easy.system.bean.dto.config.ConfigDTO;
+import com.easy.system.bean.dto.config.ConfigAddDTO;
+import com.easy.system.bean.dto.config.ConfigEditDTO;
 import com.easy.system.bean.dto.config.ConfigSearchDTO;
 import com.easy.system.bean.pojo.Config;
 import com.easy.system.service.ConfigService;
@@ -78,9 +79,9 @@ public class ConfigController {
     @PostMapping("/add")
     @Operation(description = "新增参数配置")
     @SaCheckPermission("system.config.add")
-    public String addConfig(@Valid @RequestBody ConfigDTO dto) {
+    public String addConfig(@Valid @RequestBody ConfigAddDTO dto) {
         configService.addConfig(dto);
-        return "";
+        return "新增成功";
     }
 
     /**
@@ -91,9 +92,9 @@ public class ConfigController {
     @PostMapping("/update")
     @Operation(description = "更新参数配置")
     @SaCheckPermission("system.config.update")
-    public String updateConfig(@Valid @RequestBody Config config) {
+    public String updateConfig(@Valid @RequestBody ConfigEditDTO config) {
         configService.updateConfig(config);
-        return "";
+        return "更新成功";
     }
 
     /**
@@ -106,6 +107,6 @@ public class ConfigController {
     @SaCheckPermission("system.config.del")
     public String delConfig(@RequestBody List<String> ids) {
         configService.delConfig(ids);
-        return "";
+        return "删除成功";
     }
 }

@@ -44,25 +44,25 @@ public class UserController {
      * @return UserInfoVO
      */
     @PostMapping(value = "/user_info")
-    @Operation(summary = "获取用户信息")
+    @Operation(description = "获取用户信息")
     public UserInfoExpandVO userInfo() {
         return userService.getUserInfo();
     }
 
     @PostMapping("/add")
-    @Operation(summary = "新增用户")
+    @Operation(description = "新增用户")
     public void add(@RequestBody UserAddDTO add) {
         userManager.add(add);
     }
 
     @PostMapping("/page")
-    @Operation(summary = "分页查询")
+    @Operation(description = "分页查询")
     public Page<UserInfoExpandVO> page(@RequestBody UserSearchDTO dto) {
         return userService.page(dto);
     }
 
     @PostMapping("/update")
-    @Operation(summary = "更新用户")
+    @Operation(description = "更新用户")
     public void update(@Valid @RequestBody UserEditDTO user) {
         userManager.update(user);
     }
@@ -73,7 +73,7 @@ public class UserController {
      * @param ids 主键集合
      */
     @PostMapping("/del")
-    @Operation(summary = "删除用户")
+    @Operation(description = "删除用户")
     public void del(@RequestBody List<String> ids) {
         userManager.del(ids);
     }

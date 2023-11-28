@@ -11,8 +11,6 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="id_card" jdbcType="CHAR" property="idCard"/>
         <result column="gender" jdbcType="CHAR" property="gender"/>
-        <result column="face_id" jdbcType="VARCHAR" property="faceId"/>
-        <result column="user_type" jdbcType="CHAR" property="userType"/>
         <result column="create_by" jdbcType="CHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="CHAR" property="updateBy"/>
@@ -28,8 +26,6 @@
         `name`,
         id_card,
         gender,
-        face_id,
-        user_type,
         create_by,
         create_time,
         update_by,

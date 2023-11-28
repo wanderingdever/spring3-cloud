@@ -2,9 +2,9 @@ package com.easy.system.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import com.easy.system.bean.dto.menu.MenuDTO;
+import com.easy.system.bean.dto.menu.MenuAddDTO;
+import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
-import com.easy.system.bean.pojo.Menu;
 import com.easy.system.bean.vo.MenuTreeVO;
 import com.easy.system.bean.vo.router.RouterVO;
 import com.easy.system.service.MenuService;
@@ -65,7 +65,7 @@ public class MenuController {
     @PostMapping(value = "/add")
     @Operation(description = "新增菜单")
     @SaCheckPermission("system.menu.add")
-    public String addMenu(@Valid @RequestBody MenuDTO dto) {
+    public String addMenu(@Valid @RequestBody MenuAddDTO dto) {
         menuService.addMenu(dto);
         return "新增成功";
     }
@@ -78,7 +78,7 @@ public class MenuController {
     @PostMapping(value = "/update")
     @Operation(description = "修改菜单")
     @SaCheckPermission("system.menu.update")
-    public String updateMenu(@Valid @RequestBody Menu menu) {
+    public String updateMenu(@Valid @RequestBody MenuEditDTO menu) {
         menuService.updateMenu(menu);
         return "修改成功";
     }

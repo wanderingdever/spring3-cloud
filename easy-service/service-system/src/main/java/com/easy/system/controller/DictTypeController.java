@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.vo.DictTypeVO;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.exception.CustomizeException;
-import com.easy.system.bean.dto.dict.DictDTO;
-import com.easy.system.bean.dto.dict.DictDataDTO;
-import com.easy.system.bean.dto.dict.DictSearchDTO;
+import com.easy.system.bean.dto.dict.*;
 import com.easy.system.bean.pojo.DictData;
 import com.easy.system.bean.pojo.DictType;
 import com.easy.system.service.DictTypeService;
@@ -113,9 +111,9 @@ public class DictTypeController {
     @PostMapping(value = "/type/add")
     @Operation(description = "新增字典类型")
     @SaCheckPermission("system.dictType.add")
-    public String addDictType(@Valid @RequestBody DictDTO dto) {
+    public String addDictType(@Valid @RequestBody DictTypeAddDTO dto) {
         dictTypeService.addDictType(dto);
-        return "";
+        return "新增类型成功";
     }
 
     /**
@@ -126,9 +124,9 @@ public class DictTypeController {
     @PostMapping(value = "/type/update")
     @Operation(description = "修改字典类型")
     @SaCheckPermission("system.dictType.update")
-    public String updateDictType(@Valid @RequestBody DictDTO dto) {
+    public String updateDictType(@Valid @RequestBody DictTypeEditDTO dto) {
         dictTypeService.updateDictType(dto);
-        return "";
+        return "更新类型成功";
     }
 
     /**
@@ -141,7 +139,7 @@ public class DictTypeController {
     @SaCheckPermission("system.dictType.del")
     public String delDictType(@RequestBody IdDTO id) {
         dictTypeService.delDictType(id);
-        return "";
+        return "删除类型成功";
     }
 
 
@@ -166,9 +164,9 @@ public class DictTypeController {
     @PostMapping(value = "/data/add")
     @Operation(description = "新增字典数据")
     @SaCheckPermission("system.dictData.add")
-    public String addDictData(@Valid @RequestBody DictDataDTO dto) {
+    public String addDictData(@Valid @RequestBody DictDataAddDTO dto) {
         dictTypeService.addDictData(dto);
-        return "";
+        return "新增数据成功";
     }
 
     /**
@@ -177,11 +175,11 @@ public class DictTypeController {
      * @param dto 字典信息
      */
     @PostMapping(value = "/data/update")
-    @Operation(description = "修改字典类型")
+    @Operation(description = "修改字典数据")
     @SaCheckPermission("system.dictData.update")
-    public String updateDictData(@Valid @RequestBody DictDataDTO dto) {
+    public String updateDictData(@Valid @RequestBody DictDataEditDTO dto) {
         dictTypeService.updateDictData(dto);
-        return "";
+        return "更新数据成功";
     }
 
     /**
@@ -190,10 +188,10 @@ public class DictTypeController {
      * @param ids 主键集合
      */
     @PostMapping(value = "/data/del")
-    @Operation(description = "删除字典类型")
+    @Operation(description = "删除字典数据")
     @SaCheckPermission("system.dictData.del")
     public String delDictData(@RequestBody List<String> ids) {
         dictTypeService.delDictData(ids);
-        return "";
+        return "删除数据成功";
     }
 }

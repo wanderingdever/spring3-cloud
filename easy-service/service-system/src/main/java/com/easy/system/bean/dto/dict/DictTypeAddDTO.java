@@ -12,14 +12,8 @@ import javax.validation.constraints.NotNull;
  * @author Matt
  */
 @Data
-@Schema(description = "字典入参")
-public class DictDTO {
-
-    /**
-     * 字典类型主键ID
-     */
-    @Schema(description = "字典类型主键ID")
-    private String id;
+@Schema(description = "字典类型入参-新增")
+public class DictTypeAddDTO {
 
     /**
      * 字典名称

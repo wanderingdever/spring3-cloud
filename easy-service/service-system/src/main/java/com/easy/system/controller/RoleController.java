@@ -24,28 +24,28 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping(value = "/add")
-    @Operation(summary = "新增角色")
+    @Operation(description = "新增角色")
     public void add(RoleDTO dto) {
 
         roleService.addRole(dto);
     }
 
     @PostMapping(value = "/edit")
-    @Operation(summary = "编辑角色")
+    @Operation(description = "编辑角色")
     public void edit(RoleEditDTO dto) {
 
         roleService.updateRole(dto);
     }
 
     @PostMapping(value = "/del")
-    @Operation(summary = "删除角色")
+    @Operation(description = "删除角色")
     public void del(IdListDTO dto) {
 
         roleService.delRole(dto);
     }
 
     @PostMapping("/page")
-    @Operation(summary = "角色分页查询")
+    @Operation(description = "角色分页查询")
     public Page<RoleVO> page(@RequestBody RoleSearchDTO dto) {
         return roleService.page(dto);
     }

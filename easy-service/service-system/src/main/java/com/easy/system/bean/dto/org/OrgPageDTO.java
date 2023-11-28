@@ -48,12 +48,6 @@ public class OrgPageDTO extends PageDTO {
     @Schema(description = "详细地址")
     private String orgAddress;
 
-    @Schema(description = "经度")
-    private String orgLongitude;
-
-    @Schema(description = "纬度")
-    private String orgLatitude;
-
     @Schema(description = "机构简介")
     private String orgDesc;
 

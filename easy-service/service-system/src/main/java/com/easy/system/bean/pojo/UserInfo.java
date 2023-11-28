@@ -3,7 +3,6 @@ package com.easy.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.easy.framework.bean.base.BaseEntity;
-import com.easy.system.bean.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -63,19 +62,6 @@ public class UserInfo extends BaseEntity {
     @Schema(description = "性别")
     private String gender;
 
-    /**
-     * 人脸ID
-     */
-    @TableField(value = "face_id")
-    @Schema(description = "人脸ID")
-    private String faceId;
-
-    /**
-     * 用户类型
-     */
-    @TableField(value = "user_type")
-    @Schema(description = "用户类型")
-    private UserType userType;
 
     @TableField(value = "remark")
     @Schema(description = "备注")

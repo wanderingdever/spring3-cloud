@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
  * @author Matt
  */
 @Data
-@Schema(description = "参数配置入参")
-public class ConfigDTO {
+@Schema(description = "参数配置入参-新增")
+public class ConfigAddDTO {
     /**
      * 参数名称
      */
