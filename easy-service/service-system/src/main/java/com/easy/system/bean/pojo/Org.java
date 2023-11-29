@@ -96,6 +96,13 @@ public class Org extends BaseEntity {
     private String orgDistrict;
 
     /**
+     * 区划代码集
+     */
+    @TableField(value = "org_area_code")
+    @Schema(description = "区划代码集")
+    private String orgAreaCode;
+
+    /**
      * 详细地址
      */
     @TableField(value = "org_address")

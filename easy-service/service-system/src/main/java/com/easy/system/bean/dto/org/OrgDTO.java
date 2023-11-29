@@ -46,6 +46,9 @@ public class OrgDTO {
     @Schema(description = "区")
     private String orgDistrict;
 
+    @Schema(description = "区划代码集")
+    private String orgAreaCode;
+
     @Schema(description = "详细地址")
     private String orgAddress;
 

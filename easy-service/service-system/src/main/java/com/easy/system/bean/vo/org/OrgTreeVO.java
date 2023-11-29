@@ -1,10 +1,11 @@
 package com.easy.system.bean.vo.org;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.easy.framework.bean.base.BaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,12 +14,11 @@ import java.util.List;
  *
  * @author Matt
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "组织树查询-详情响应参数")
-public class OrgTreeVO implements Serializable {
+public class OrgTreeVO extends BaseVO {
 
-    @Schema(description = "主键ID")
-    private String id;
 
     @Schema(description = "上级id")
     private String orgParentId;
@@ -82,6 +82,9 @@ public class OrgTreeVO implements Serializable {
      */
     @Schema(description = "区")
     private String orgDistrict;
+
+    @Schema(description = "区划代码集")
+    private String orgAreaCode;
 
     /**
      * 详细地址

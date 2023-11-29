@@ -79,9 +79,13 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void del(IdDTO dto) {
-        Long count = userOrgService.lambdaQuery().in(UserOrg::getOrgId, dto.getId()).count();
-        if (count > 0) {
-            throw new CustomizeException("所选组织已与用户关联");
+        Long child = lambdaQuery().in(Org::getOrgParentId, dto.getId()).count();
+        if (child > 0) {
+            throw new CustomizeException("所选组织存在下级组织,无法被删除");
+        }
+        Long user = userOrgService.lambdaQuery().in(UserOrg::getOrgId, dto.getId()).count();
+        if (user > 0) {
+            throw new CustomizeException("所选组织已与用户关联,无法被删除");
         }
         removeById(dto.getId());
     }

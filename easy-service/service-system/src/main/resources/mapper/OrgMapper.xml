@@ -16,6 +16,7 @@
         <result column="org_province" jdbcType="VARCHAR" property="orgProvince"/>
         <result column="org_city" jdbcType="VARCHAR" property="orgCity"/>
         <result column="org_district" jdbcType="VARCHAR" property="orgDistrict"/>
+        <result column="org_area_code" jdbcType="VARCHAR" property="orgAreaCode"/>
         <result column="org_address" jdbcType="VARCHAR" property="orgAddress"/>
         <result column="org_desc" jdbcType="VARCHAR" property="orgDesc"/>
         <result column="org_logo" jdbcType="VARCHAR" property="orgLogo"/>
@@ -30,7 +31,7 @@
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, org_parent_id, org_name, org_short_name, org_level, org_type, org_nature, org_code,
-        org_tag, org_province, org_city, org_district, org_address,
+        org_tag, org_province, org_city, org_district,org_area_code, org_address,
         org_desc, org_logo, org_sort, org_status, create_by, create_time,
         update_by, update_time, del
     </sql>
