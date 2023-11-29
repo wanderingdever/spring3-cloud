@@ -70,7 +70,12 @@
         m.`is_keep_alive` as isKeepAlive,
         m.`enable` as `enable`,
         m.perms as perms,
-        m.icon as icon
+        m.icon as icon,
+        m.create_by as createBy,
+        m.create_time as createTime,
+        m.update_by as updateBy,
+        m.update_time as updateTime,
+        m.del
         FROM sys_menu m
         LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
         LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
