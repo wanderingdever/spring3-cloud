@@ -3,6 +3,7 @@ package com.easy.system.bean.vo.org;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Data
 @Schema(description = "组织树查询-简单响应参数")
-public class OrgSimpleTreeVO {
+public class OrgSimpleTreeVO implements Serializable {
 
     @Schema(description = "主键ID")
     private String id;

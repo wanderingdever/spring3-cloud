@@ -2,7 +2,6 @@ package com.easy.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.datasource.bean.dto.IdDTO;
-import com.easy.datasource.bean.dto.IdListDTO;
 import com.easy.system.bean.dto.org.OrgDTO;
 import com.easy.system.bean.dto.org.OrgEditDTO;
 import com.easy.system.bean.dto.org.OrgPageDTO;
@@ -76,7 +75,7 @@ public class OrgController {
 
     @PostMapping("/del")
     @Operation(description = "删除组织信息")
-    public void del(@RequestBody IdListDTO dto) {
+    public void del(@RequestBody IdDTO dto) {
         orgService.del(dto);
     }
 }

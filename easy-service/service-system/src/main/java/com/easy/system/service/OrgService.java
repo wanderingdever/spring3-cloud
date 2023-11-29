@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.datasource.bean.dto.IdDTO;
-import com.easy.datasource.bean.dto.IdListDTO;
 import com.easy.datasource.utils.PageUtil;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.satoken.service.DataScopeService;
@@ -79,12 +78,12 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void del(IdListDTO dto) {
-        Long count = userOrgService.lambdaQuery().in(UserOrg::getOrgId, dto.getIdList()).count();
+    public void del(IdDTO dto) {
+        Long count = userOrgService.lambdaQuery().in(UserOrg::getOrgId, dto.getId()).count();
         if (count > 0) {
             throw new CustomizeException("所选组织已与用户关联");
         }
-        removeBatchByIds(dto.getIdList());
+        removeById(dto.getId());
     }
 
     public OrgVO info(IdDTO dto) {

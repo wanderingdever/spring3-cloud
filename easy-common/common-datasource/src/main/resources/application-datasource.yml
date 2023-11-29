@@ -49,7 +49,7 @@ mybatis-plus:
     banner: false
     db-config:
       #主键类型
-      id-type: ASSIGN_ID
+      id-type: auto
       logic-delete-field: del
       # 逻辑已删除值
       logicDeleteValue: 1

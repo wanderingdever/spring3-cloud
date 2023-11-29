@@ -1,11 +1,10 @@
 package com.easy.system.bean.vo.org;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.easy.system.bean.enums.OrgLevel;
-import com.easy.system.bean.enums.OrgTag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  */
 @Data
 @Schema(description = "组织树查询-详情响应参数")
-public class OrgTreeVO {
+public class OrgTreeVO implements Serializable {
 
     @Schema(description = "主键ID")
     private String id;
@@ -39,7 +38,7 @@ public class OrgTreeVO {
      * 组织级别
      */
     @Schema(description = "组织级别")
-    private OrgLevel orgLevel;
+    private String orgLevel;
 
     /**
      * 组织类型
@@ -64,7 +63,7 @@ public class OrgTreeVO {
      * 组织标签
      */
     @Schema(description = "组织标签")
-    private OrgTag orgTag;
+    private String orgTag;
 
     /**
      * 省
