@@ -1,7 +1,7 @@
 package com.easy.system.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.easy.satoken.service.DataScopeService;
+import com.easy.datasource.scope.DataScopeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

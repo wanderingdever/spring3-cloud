@@ -1,3 +1,3 @@
 com.easy.datasource.config.MybatisPlusConfig
 com.easy.datasource.config.MybatisPlusMetaObjectHandler
-com.easy.satoken.service.DataScopeService
+com.easy.datasource.scope.DataScopeService

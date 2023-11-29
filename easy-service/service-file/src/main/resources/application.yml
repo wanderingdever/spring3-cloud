@@ -8,7 +8,6 @@ spring:
       - optional:application-datasource.yml
       - optional:application-web.yml
       - optional:application-token.yml
-      - optional:application-redis.yml
       - optional:application-dubbo.yml
   profiles:
     active: prod

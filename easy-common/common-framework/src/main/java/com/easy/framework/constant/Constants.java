@@ -32,6 +32,14 @@ public interface Constants {
     String HTTPS = "https://";
 
     /**
+     * 文件分隔符
+     */
+    String FILE_SEPARATOR = "/";
+    /**
+     * 响应头 CONTENT_TYPE
+     */
+    String CONTENT_TYPE = "application/json;charset=UTF-8";
+    /**
      * 成功标记
      */
     Integer SUCCESS = 200;

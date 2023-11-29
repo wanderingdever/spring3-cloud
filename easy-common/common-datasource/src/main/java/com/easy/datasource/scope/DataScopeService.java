@@ -1,4 +1,4 @@
-package com.easy.satoken.service;
+package com.easy.datasource.scope;
 
 import com.easy.api.service.RemoteUserService;
 import com.easy.redis.utils.TempCacheUtil;
@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @Service("dataScopeService")
 public class DataScopeService {
 
