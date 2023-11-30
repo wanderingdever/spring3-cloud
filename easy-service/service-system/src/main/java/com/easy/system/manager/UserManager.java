@@ -1,5 +1,6 @@
 package com.easy.system.manager;
 
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.enums.DelEnum;
 import com.easy.system.bean.dto.user.UserAddDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
@@ -14,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @Component
 public class UserManager {
 
@@ -65,24 +71,24 @@ public class UserManager {
         userService.update(dto);
         userInfoService.update(dto);
         // 删除岗位、角色、组织关联编辑
-        delInfo(List.of(dto.getId()));
+        delInfo(dto.getId());
         // 新增岗位、角色、组织关联编辑
         addInfo(dto, dto.getId());
     }
 
-    private void delInfo(List<String> userIdList) {
+    private void delInfo(String userId) {
 
-        userOrgService.lambdaUpdate().in(UserOrg::getUserId, userIdList).set(UserOrg::getDel, DelEnum.DELETE.getCode()).update();
-        userRoleService.lambdaUpdate().in(UserRole::getUserId, userIdList).set(UserRole::getDel, DelEnum.DELETE.getCode()).update();
-        userPostService.lambdaUpdate().in(UserPost::getUserId, userIdList).set(UserPost::getDel, DelEnum.DELETE.getCode()).update();
+        userOrgService.lambdaUpdate().eq(UserOrg::getUserId, userId).set(UserOrg::getDel, DelEnum.DELETE.getCode()).update();
+        userRoleService.lambdaUpdate().eq(UserRole::getUserId, userId).set(UserRole::getDel, DelEnum.DELETE.getCode()).update();
+        userPostService.lambdaUpdate().eq(UserPost::getUserId, userId).set(UserPost::getDel, DelEnum.DELETE.getCode()).update();
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void del(List<String> userIdList) {
+    public void del(IdDTO dto) {
         // 删除账号
-        userService.del(userIdList);
-        userInfoService.del(userIdList);
+        userService.del(dto);
+        userInfoService.del(dto.getId());
         // 岗位、角色、组织关联删除
-        delInfo(userIdList);
+        delInfo(dto.getId());
     }
 }

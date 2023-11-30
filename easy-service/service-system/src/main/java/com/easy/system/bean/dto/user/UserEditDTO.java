@@ -5,12 +5,18 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * 用户编辑-入参
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Schema(title = "用户编辑-入参")
+@Schema(description = "用户编辑-入参")
 public class UserEditDTO extends UserAddDTO {
 
-    @NotBlank(message = "id" + "不能为空")
-    @Schema(title = "id")
+    @NotBlank(message = "数据主键不能为空")
+    @Schema(description = "id")
     private String id;
 }

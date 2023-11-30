@@ -50,9 +50,6 @@ public class UserAddDTO {
     @Schema(description = "性别")
     private Gender gender;
 
-    @Schema(description = "备注")
-    private String remark;
-
     /* 其他 */
 
     @Schema(description = "岗位")

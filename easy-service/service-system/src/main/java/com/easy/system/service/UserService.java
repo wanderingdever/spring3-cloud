@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.RemoteUserService;
 import com.easy.api.vo.UserVO;
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.scope.DataScopeService;
-import com.easy.datasource.utils.PageUtil;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.system.bean.dto.user.UserAddDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
@@ -164,8 +164,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     public Page<UserInfoExpandVO> page(UserSearchDTO dto) {
 
-        Page<UserInfoExpandVO> page = baseMapper.userInfoPage(PageUtil.getPage(dto), dto);
-        List<UserInfoExpandVO> userList = page.getRecords();
+        Page<UserInfoExpandVO> page = new Page<>(dto.getCurrent(), dto.getSize());
+        List<UserInfoExpandVO> userList = baseMapper.userInfoPage(dto);
+        page.setRecords(userList);
         List<String> userIdList = userList.stream().map(UserInfoExpandVO::getId).toList();
         // TODO 岗位、角色、组织关联查询
         return page;
@@ -182,8 +183,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void del(List<String> userIdList) {
+    public void del(IdDTO dto) {
         // 删除账号
-        this.baseMapper.deleteBatchIds(userIdList);
+        this.baseMapper.deleteById(dto.getId());
     }
 }

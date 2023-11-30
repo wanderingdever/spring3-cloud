@@ -18,7 +18,8 @@ public enum Gender {
      * 性别
      */
     WOMAN(0, "女"),
-    MAN(1, "男");
+    MAN(1, "男"),
+    OTHER(3, "其他");
 
     @EnumValue
     private final Integer code;

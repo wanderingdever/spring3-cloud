@@ -1,6 +1,7 @@
 package com.easy.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.system.bean.dto.user.UserAddDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.dto.user.UserSearchDTO;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * 用户
@@ -70,11 +70,11 @@ public class UserController {
     /**
      * 删除
      *
-     * @param ids 主键集合
+     * @param dto 主键集合
      */
     @PostMapping("/del")
     @Operation(description = "删除用户")
-    public void del(@RequestBody List<String> ids) {
-        userManager.del(ids);
+    public void del(@RequestBody IdDTO dto) {
+        userManager.del(dto);
     }
 }

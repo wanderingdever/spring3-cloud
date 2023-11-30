@@ -26,21 +26,65 @@
     </sql>
 
     <select id="selectUserInfo" resultType="com.easy.system.bean.vo.user.UserInfoExpandVO">
-        select u.id as id,
-        u.username as username,
-        u.email as email,
-        u.phone as phone,
-        u.client as client,
-        u.`status` as status,
-        u.create_time as createTime,
-        ui.avatar as avatar,
-        ui.nickname as nickname,
-        ui.gender as gender,
-        ui.name as name,
-               ui.id_card as idCard
+        select u.id          as id,
+               u.username    as username,
+               u.email       as email,
+               u.phone       as phone,
+               u.client      as client,
+               u.`status`    as status,
+               u.create_time as createTime,
+               ui.avatar     as avatar,
+               ui.nickname   as nickname,
+               ui.gender     as gender,
+               ui.name       as name,
+               ui.id_card    as idCard
         from sys_user u
-        left join sys_user_info ui on u.id = ui.user_id
+                 left join sys_user_info ui on u.id = ui.user_id
         where u.id = #{userId}
-        and u.del = 0
+          and u.del = 0
+    </select>
+
+    <select id="userInfoPage1" resultType="com.easy.system.bean.vo.user.UserInfoExpandVO">
+        SELECT
+        u.id,
+        u.username,
+        u.`password`,
+        u.email,
+        u.phone,
+        u.`client`,
+        u.sort,
+        u.`status`,
+        u.create_by,
+        u.create_time,
+        u.update_by,
+        u.update_time,
+        u.del,
+        ui.nickname,
+        ui.gender,
+        ui.avatar,
+        uo.org_id
+        FROM sys_user u
+        LEFT JOIN sys_user_info ui ON u.id = ui.user_id
+        LEFT JOIN sys_user_org uo ON u.id = uo.user_id
+        <where>
+            <if test="dto.orgId != null and dto.orgId != ''">
+                and uo.org_id = #{dto.orgId}
+            </if>
+            <if test="dto.username != null and dto.username != ''">
+                and u.username = #{dto.username}
+            </if>
+            <if test="dto.phone != null and dto.phone != ''">
+                and u.phone = #{dto.phone}
+            </if>
+            <if test="dto.email != null and dto.email != ''">
+                and u.email = #{dto.email}
+            </if>
+            <if test="dto.accountStatus != null">
+                and u.account_status = #{dto.accountStatus}
+            </if>
+            <if test="dto.gender != null">
+                and ui.gender = #{dto.gender}
+            </if>
+        </where>
     </select>
 </mapper>

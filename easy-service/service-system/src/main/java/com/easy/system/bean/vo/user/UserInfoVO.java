@@ -35,6 +35,4 @@ public class UserInfoVO extends UserVO implements Serializable {
     @Schema(description = "性别")
     private Gender gender;
 
-    @Schema(description = "备注")
-    private String remark;
 }

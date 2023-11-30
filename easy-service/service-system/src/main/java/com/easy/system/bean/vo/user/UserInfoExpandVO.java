@@ -7,6 +7,12 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 用户拓展详情 关联角色 权限 机构 岗位
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "用户信息-拓展")
