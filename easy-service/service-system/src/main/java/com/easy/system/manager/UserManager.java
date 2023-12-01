@@ -40,13 +40,17 @@ public class UserManager {
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void add(UserAddDTO dto) {
-
         String userId = userService.add(dto);
         userInfoService.add(dto, userId);
         addInfo(dto, userId);
     }
 
     private void addInfo(UserAddDTO dto, String userId) {
+        // 组织关联新增
+        if (CollectionUtils.isNotEmpty(dto.getOrgList())) {
+            List<UserOrg> userPostList = userOrgService.getList(List.of(userId), dto.getOrgList());
+            userOrgService.saveBatch(userPostList);
+        }
 
         // 岗位关联新增
         if (CollectionUtils.isNotEmpty(dto.getPostList())) {
@@ -58,11 +62,7 @@ public class UserManager {
             List<UserRole> userPostList = userRoleService.getList(List.of(userId), dto.getRoleList());
             userRoleService.saveBatch(userPostList);
         }
-        // 组织关联新增
-        if (CollectionUtils.isNotEmpty(dto.getOrgList())) {
-            List<UserOrg> userPostList = userOrgService.getList(List.of(userId), dto.getOrgList());
-            userOrgService.saveBatch(userPostList);
-        }
+
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)

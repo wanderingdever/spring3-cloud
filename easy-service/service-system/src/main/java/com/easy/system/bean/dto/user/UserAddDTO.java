@@ -5,6 +5,7 @@ import com.easy.framework.enums.AccountStatus;
 import com.easy.framework.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
@@ -18,6 +19,10 @@ import java.util.List;
 @Data
 @Schema(title = "用户新增-入参")
 public class UserAddDTO {
+
+    @Schema(description = "机构ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "机构信息不能为空")
+    private List<String> orgList;
 
     @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "用户名不能为空")
@@ -54,9 +59,6 @@ public class UserAddDTO {
 
     @Schema(description = "岗位")
     private List<String> postList;
-
-    @Schema(description = "组织")
-    private List<String> orgList;
 
     @Schema(description = "角色")
     private List<String> roleList;

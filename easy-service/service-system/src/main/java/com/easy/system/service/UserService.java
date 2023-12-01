@@ -163,7 +163,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     public Page<UserInfoExpandVO> page(UserSearchDTO dto) {
-
         Page<UserInfoExpandVO> page = new Page<>(dto.getCurrent(), dto.getSize());
         List<UserInfoExpandVO> userList = baseMapper.userInfoPage(dto);
         page.setRecords(userList);
@@ -174,7 +173,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void update(UserEditDTO dto) {
-
         User user = this.getById(dto.getId());
         BeanUtils.copyProperties(dto, user);
         user.setPassword(BCrypt.hashpw(dto.getPassword()));

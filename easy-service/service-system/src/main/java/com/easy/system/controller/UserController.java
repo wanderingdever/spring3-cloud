@@ -51,7 +51,7 @@ public class UserController {
 
     @PostMapping("/add")
     @Operation(description = "新增用户")
-    public void add(@RequestBody UserAddDTO add) {
+    public void add(@Valid @RequestBody UserAddDTO add) {
         userManager.add(add);
     }
 
