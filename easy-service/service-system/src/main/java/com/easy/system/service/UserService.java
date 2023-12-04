@@ -100,7 +100,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         userVO.setEmail(user.getEmail());
         userVO.setPhone(user.getPhone());
         userVO.setClient(user.getClient());
-        userVO.setSort(user.getSort());
         userVO.setStatus(user.getStatus());
         userVO.setId(user.getId());
         userVO.setCreateBy(user.getCreateBy());
@@ -173,11 +172,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public void update(UserEditDTO dto) {
-        User user = this.getById(dto.getId());
-        BeanUtils.copyProperties(dto, user);
-        user.setPassword(BCrypt.hashpw(dto.getPassword()));
         // 更新账号
-        this.updateById(user);
+        this.baseMapper.updateUser(dto);
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)

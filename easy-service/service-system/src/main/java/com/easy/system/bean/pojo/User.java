@@ -41,10 +41,6 @@ public class User extends BaseEntity {
     @Schema(description = "所属客户端")
     private AccountClient client;
 
-    @TableField(value = "sort")
-    @Schema(description = "排序")
-    private Integer sort;
-
     @TableField(value = "`status`")
     @Schema(description = "账号状态")
     private AccountStatus status;

@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "用户编辑-入参")
-public class UserEditDTO extends UserAddDTO {
+public class UserEditDTO extends UserDTO {
 
     @NotBlank(message = "数据主键不能为空")
     @Schema(description = "id")

@@ -3,6 +3,7 @@ package com.easy.system.manager;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.enums.DelEnum;
 import com.easy.system.bean.dto.user.UserAddDTO;
+import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.pojo.UserOrg;
 import com.easy.system.bean.pojo.UserPost;
@@ -45,7 +46,7 @@ public class UserManager {
         addInfo(dto, userId);
     }
 
-    private void addInfo(UserAddDTO dto, String userId) {
+    private void addInfo(UserDTO dto, String userId) {
         // 组织关联新增
         if (CollectionUtils.isNotEmpty(dto.getOrgList())) {
             List<UserOrg> userPostList = userOrgService.getList(List.of(userId), dto.getOrgList());

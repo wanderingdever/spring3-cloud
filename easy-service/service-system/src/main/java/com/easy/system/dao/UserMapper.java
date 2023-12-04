@@ -1,6 +1,7 @@
 package com.easy.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.dto.user.UserSearchDTO;
 import com.easy.system.bean.pojo.User;
 import com.easy.system.bean.vo.user.UserInfoExpandVO;
@@ -30,4 +31,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     @SelectProvider(type = UserProvider.class, method = "page")
     List<UserInfoExpandVO> userInfoPage(@Param("dto") UserSearchDTO dto);
+
+    /**
+     * 更新用户数据
+     */
+    void updateUser(@Param("dto") UserEditDTO dto);
 }

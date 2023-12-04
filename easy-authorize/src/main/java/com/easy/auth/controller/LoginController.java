@@ -25,9 +25,9 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/check_user/{username}")
+    @PostMapping("/check_user")
     @Operation(description = "检查用户")
-    public boolean checkUser(@PathVariable String username) {
+    public boolean checkUser(@RequestParam String username) {
         return loginService.checkUser(username);
     }
 
