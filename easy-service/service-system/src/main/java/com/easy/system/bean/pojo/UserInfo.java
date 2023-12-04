@@ -62,8 +62,4 @@ public class UserInfo extends BaseEntity {
     @Schema(description = "性别")
     private String gender;
 
-
-    @TableField(value = "remark")
-    @Schema(description = "备注")
-    private String remark;
 }

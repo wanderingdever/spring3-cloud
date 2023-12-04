@@ -28,6 +28,4 @@ public class PostVO extends BaseVO {
     @Schema(description = "是否启用")
     private String enable;
 
-    @Schema(description = "备注")
-    private String remark;
 }

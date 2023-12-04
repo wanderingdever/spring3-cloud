@@ -27,6 +27,4 @@ public class PostDTO {
     @Schema(description = "是否启用")
     private Boolean enable;
 
-    @Schema(description = "备注")
-    private String remark;
 }

@@ -35,6 +35,4 @@ public class RoleEditDTO extends IdDTO {
     @Schema(description = "菜单ID数组")
     private List<String> menuIds;
 
-    @Schema(description = "备注")
-    private String remark;
 }
