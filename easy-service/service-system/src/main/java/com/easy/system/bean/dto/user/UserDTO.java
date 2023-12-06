@@ -5,7 +5,6 @@ import com.easy.framework.enums.AccountStatus;
 import com.easy.framework.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
@@ -20,8 +19,8 @@ import java.util.List;
 public class UserDTO {
 
     @Schema(description = "机构ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "机构信息不能为空")
-    private List<String> orgList;
+    @NotBlank(message = "机构信息不能为空")
+    private String orgId;
 
     @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "用户名不能为空")

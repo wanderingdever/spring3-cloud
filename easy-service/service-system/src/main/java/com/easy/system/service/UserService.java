@@ -1,7 +1,7 @@
 package com.easy.system.service;
 
-import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,18 +11,20 @@ import com.easy.api.vo.UserVO;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.scope.DataScopeService;
 import com.easy.framework.exception.CustomizeException;
-import com.easy.system.bean.dto.user.UserAddDTO;
+import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.dto.user.UserSearchDTO;
 import com.easy.system.bean.enums.AuthorityLevel;
 import com.easy.system.bean.pojo.Org;
 import com.easy.system.bean.pojo.Role;
 import com.easy.system.bean.pojo.User;
+import com.easy.system.bean.pojo.UserRole;
 import com.easy.system.bean.vo.user.UserInfoExpandVO;
 import com.easy.system.dao.OrgMapper;
 import com.easy.system.dao.RoleMapper;
 import com.easy.system.dao.UserMapper;
-import jakarta.annotation.Resource;
+import com.easy.utils.lang.IdUtil;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
@@ -41,16 +43,16 @@ import java.util.stream.Collectors;
  */
 @Service
 @DubboService(interfaceClass = RemoteUserService.class)
+@AllArgsConstructor
 public class UserService extends ServiceImpl<UserMapper, User> implements RemoteUserService {
 
-    @Resource
-    private OrgMapper orgMapper;
+    private final OrgMapper orgMapper;
 
-    @Resource
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    @Resource
-    private DataScopeService dataScopeService;
+    private final DataScopeService dataScopeService;
+
+    private final UserRoleService userRoleService;
 
     /**
      * 根据账号信息获取用户信息
@@ -72,14 +74,17 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public String add(UserAddDTO dto) {
+    public User add(UserDTO dto) {
 
         User user = new User();
         BeanUtils.copyProperties(dto, user);
-        user.setPassword(BCrypt.hashpw(dto.getPassword()));
+        // FIXME 随机密码
+        String password = IdUtil.generateRandomCode8();
+        user.setPassword(BCrypt.hashpw(password));
 
         try {
             this.baseMapper.insert(user);
+            user.setPassword(password);
         } catch (Exception ex) {
             if (ex instanceof DuplicateKeyException) {
                 throw new CustomizeException("账号已存在");
@@ -87,7 +92,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
                 throw new CustomizeException("操作失败");
             }
         }
-        return user.getId();
+        return user;
     }
 
     private UserVO toUserVO(User user) {
@@ -112,7 +117,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     @Override
     public List<String> authorizedOrgIdListOneSelf() {
-
         return getAuthorizedOrgIdList(false);
     }
 
@@ -167,6 +171,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         page.setRecords(userList);
         List<String> userIdList = userList.stream().map(UserInfoExpandVO::getId).toList();
         // TODO 岗位、角色、组织关联查询
+        List<UserRole> userRoleList = userRoleService.lambdaQuery().in(UserRole::getUserId, userIdList).list();
+        if (!userRoleList.isEmpty()) {
+            // 转换数据为 userId,List<roleId>
+            Map<String, List<String>> collect = userRoleList.stream().collect(Collectors.groupingBy(UserRole::getUserId, Collectors.mapping(UserRole::getRoleId, Collectors.toList())));
+            page.getRecords().forEach(k -> k.setRoleList(collect.get(k.getId())));
+        }
         return page;
     }
 

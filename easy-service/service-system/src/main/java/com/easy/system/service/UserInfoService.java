@@ -2,7 +2,7 @@ package com.easy.system.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.framework.enums.DelEnum;
-import com.easy.system.bean.dto.user.UserAddDTO;
+import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.pojo.UserInfo;
 import com.easy.system.dao.UserInfoMapper;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
 
-    public void add(UserAddDTO dto, String userId) {
+    public void add(UserDTO dto, String userId) {
         // 额外信息
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(dto, userInfo);

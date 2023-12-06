@@ -89,7 +89,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
         // 保存角色信息
         this.save(role);
         // 保存角色菜单关联信息
-        saveRoleMenu(role.getId(), dto.getMenuIds());
+        saveRoleMenu(role.getId(), dto.getMenuList());
     }
 
     /**
@@ -134,7 +134,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
         // 删除原有菜单
         roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().eq(RoleMenu::getRoleId, dto.getId()));
         // 保存角色菜单关联信息
-        saveRoleMenu(dto.getId(), dto.getMenuIds());
+        saveRoleMenu(dto.getId(), dto.getMenuList());
     }
 
     @Transactional(rollbackFor = Exception.class)

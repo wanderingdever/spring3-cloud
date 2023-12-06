@@ -33,9 +33,9 @@ public class RoleController {
         roleService.addRole(dto);
     }
 
-    @PostMapping(value = "/edit")
+    @PostMapping(value = "/update")
     @Operation(description = "编辑角色")
-    public void edit(@RequestBody @Valid RoleEditDTO dto) {
+    public void update(@RequestBody @Valid RoleEditDTO dto) {
         roleService.updateRole(dto);
     }
 

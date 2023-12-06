@@ -2,9 +2,9 @@ package com.easy.system.manager;
 
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.enums.DelEnum;
-import com.easy.system.bean.dto.user.UserAddDTO;
 import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
+import com.easy.system.bean.pojo.User;
 import com.easy.system.bean.pojo.UserOrg;
 import com.easy.system.bean.pojo.UserPost;
 import com.easy.system.bean.pojo.UserRole;
@@ -14,6 +14,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,28 +41,26 @@ public class UserManager {
     private UserOrgService userOrgService;
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void add(UserAddDTO dto) {
-        String userId = userService.add(dto);
-        userInfoService.add(dto, userId);
-        addInfo(dto, userId);
+    public String add(UserDTO dto) {
+        User user = userService.add(dto);
+        userInfoService.add(dto, user.getId());
+        addInfo(dto, user.getId());
+        return user.getPassword();
     }
 
     private void addInfo(UserDTO dto, String userId) {
         // 组织关联新增
-        if (CollectionUtils.isNotEmpty(dto.getOrgList())) {
-            List<UserOrg> userPostList = userOrgService.getList(List.of(userId), dto.getOrgList());
-            userOrgService.saveBatch(userPostList);
-        }
-
+        List<UserOrg> userOrgs = userOrgService.getList(List.of(userId), Collections.singletonList(dto.getOrgId()));
+        userOrgService.saveBatch(userOrgs);
         // 岗位关联新增
         if (CollectionUtils.isNotEmpty(dto.getPostList())) {
-            List<UserPost> userPostList = userPostService.getList(List.of(userId), dto.getPostList());
-            userPostService.saveBatch(userPostList);
+            List<UserPost> userPosts = userPostService.getList(List.of(userId), dto.getPostList());
+            userPostService.saveBatch(userPosts);
         }
         // 角色关联新增
         if (CollectionUtils.isNotEmpty(dto.getRoleList())) {
-            List<UserRole> userPostList = userRoleService.getList(List.of(userId), dto.getRoleList());
-            userRoleService.saveBatch(userPostList);
+            List<UserRole> userRoles = userRoleService.getList(List.of(userId), dto.getRoleList());
+            userRoleService.saveBatch(userRoles);
         }
 
     }

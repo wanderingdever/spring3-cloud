@@ -38,9 +38,11 @@ public class UserProvider extends BaseProvider<User> {
         join(sql, userInfoProvider, excludeFieldSet, "id", "user_id");
         join(sql, userOrgProvider, excludeFieldSet, "id", "user_id");
         sql.SELECT(UserInfoProvider.get().getTablePrefix() + ".`id` AS `userInfoId`");
+        sql.SELECT(UserOrgProvider.get().getTablePrefix() + ".`org_id` AS `orgId`");
         sql.SELECT("GREATEST(" + UserInfoProvider.get().getTablePrefix() + ".`update_time`, " + getTablePrefix() + ".`update_time`) AS updateTime");
         where(sql, "del = 0");
         userOrgProvider.where(sql, "org_id = #{dto.orgId}");
+        userOrgProvider.where(sql, "del = 0");
         // 性别
         if (Objects.nonNull(dto.getGender())) {
             userInfoProvider.where(sql, "gender = #{dto.userKey}");

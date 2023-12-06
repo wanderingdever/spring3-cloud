@@ -2,9 +2,9 @@ package com.easy.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.datasource.bean.dto.IdDTO;
-import com.easy.datasource.bean.dto.KeyDTO;
-import com.easy.system.bean.dto.user.UserAddDTO;
+import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
+import com.easy.system.bean.dto.user.UserPwdDTO;
 import com.easy.system.bean.dto.user.UserSearchDTO;
 import com.easy.system.bean.vo.user.UserInfoExpandVO;
 import com.easy.system.manager.UserManager;
@@ -59,8 +59,8 @@ public class UserController {
 
     @PostMapping("/add")
     @Operation(description = "新增用户")
-    public void add(@Valid @RequestBody UserAddDTO add) {
-        userManager.add(add);
+    public String add(@Valid @RequestBody UserDTO add) {
+        return userManager.add(add);
     }
 
 
@@ -77,8 +77,8 @@ public class UserController {
      */
     @PostMapping("/reset_pwd")
     @Operation(description = "重置密码")
-    public String resetPwd(@RequestBody KeyDTO dto) {
-        return dto.getKey();
+    public String resetPwd(@RequestBody UserPwdDTO dto) {
+        return dto.getUsername();
     }
 
     /**

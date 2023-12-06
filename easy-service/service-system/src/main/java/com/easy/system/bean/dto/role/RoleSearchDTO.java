@@ -23,7 +23,7 @@ public class RoleSearchDTO extends PageDTO {
     /**
      * 角色权限字符串
      */
-    @Schema(description = "角色权限字表示")
+    @Schema(description = "角色权限字标识")
     private String roleKey;
 
     /**

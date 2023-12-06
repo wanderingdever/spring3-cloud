@@ -40,6 +40,6 @@ public class RoleDTO {
     private Boolean enable;
 
     @Schema(description = "菜单ID数组")
-    private List<String> menuIds;
+    private List<String> menuList;
 
 }
