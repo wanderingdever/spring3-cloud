@@ -39,6 +39,8 @@ public class UserDTO {
     private AccountStatus status;
 
     /* info */
+    @Schema(description = "昵称")
+    private String nickname;
 
     @Schema(description = "姓名")
     private String name;

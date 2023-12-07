@@ -5,7 +5,7 @@ import com.easy.system.bean.pojo.RoleMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * ${desc}
@@ -22,5 +22,5 @@ public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
      * @param roleIdList 角色ID
      * @return 权限字符串集合
      */
-    List<String> selectRolePermissions(@Param("roleIdList") List<String> roleIdList);
+    Set<String> selectRolePermissions(@Param("roleIdList") Set<String> roleIdList);
 }

@@ -77,8 +77,8 @@ public class UserController {
      */
     @PostMapping("/reset_pwd")
     @Operation(description = "重置密码")
-    public String resetPwd(@RequestBody UserPwdDTO dto) {
-        return dto.getUsername();
+    public void resetPwd(@RequestBody UserPwdDTO dto) {
+        userManager.resetPwd(dto);
     }
 
     /**

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * 用户角色和权限信息
@@ -19,9 +19,9 @@ import java.util.List;
 public class UserRoleAndPermissionVO implements Serializable {
 
     @Schema(description = "用户角色")
-    private List<String> roles;
+    private Set<String> roles;
 
     @Schema(description = "用户权限")
-    private List<String> permissions;
+    private Set<String> permissions;
 
 }

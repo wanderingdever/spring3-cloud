@@ -1,9 +1,11 @@
 package com.easy.system.manager;
 
+import cn.hutool.crypto.digest.BCrypt;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.enums.DelEnum;
 import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
+import com.easy.system.bean.dto.user.UserPwdDTO;
 import com.easy.system.bean.pojo.User;
 import com.easy.system.bean.pojo.UserOrg;
 import com.easy.system.bean.pojo.UserPost;
@@ -90,5 +92,16 @@ public class UserManager {
         userInfoService.del(dto.getId());
         // 岗位、角色、组织关联删除
         delInfo(dto.getId());
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param dto 入参
+     */
+    public void resetPwd(UserPwdDTO dto) {
+        User user = userService.lambdaQuery().eq(User::getUsername, dto.getUsername()).one();
+        user.setPassword(BCrypt.hashpw(dto.getPassword()));
+        userService.updateById(user);
     }
 }

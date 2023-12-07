@@ -162,7 +162,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     }
 
     public UserInfoExpandVO getUserInfo() {
-        return this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
+        UserInfoExpandVO userInfo = this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
+        // TODO 岗位、角色、组织关联查询
+        List<UserRole> userRoleList = userRoleService.lambdaQuery().in(UserRole::getUserId, userInfo.getId()).list();
+        return userInfo;
     }
 
     public Page<UserInfoExpandVO> page(UserSearchDTO dto) {

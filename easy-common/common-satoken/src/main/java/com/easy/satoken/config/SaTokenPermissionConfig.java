@@ -30,7 +30,7 @@ public class SaTokenPermissionConfig implements StpInterface {
         if (userRoleAndPermission == null) {
             throw new CustomizeException("用户权限异常");
         }
-        return userRoleAndPermission.getPermissions();
+        return userRoleAndPermission.getPermissions().stream().toList();
     }
 
     /**
@@ -42,6 +42,6 @@ public class SaTokenPermissionConfig implements StpInterface {
         if (userRoleAndPermission == null) {
             throw new CustomizeException("用户角色异常");
         }
-        return userRoleAndPermission.getRoles();
+        return userRoleAndPermission.getRoles().stream().toList();
     }
 }
