@@ -30,7 +30,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -64,11 +63,11 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
             return null;
         }
         // 查询role id
-        Set<String> roleIdList = userRoleList.stream().map(UserRole::getRoleId).collect(Collectors.toSet());
+        List<String> roleIdList = userRoleList.stream().map(UserRole::getRoleId).toList();
         // 查询权限集合
-        Set<String> permissions = roleMenuService.getBaseMapper().selectRolePermissions(roleIdList);
+        List<String> permissions = roleMenuService.getBaseMapper().selectRolePermissions(roleIdList);
         // 查询角色key集合
-        Set<String> roles = lambdaQuery().in(Role::getId, roleIdList).list().stream().map(Role::getRoleKey).collect(Collectors.toSet());
+        List<String> roles = lambdaQuery().in(Role::getId, roleIdList).list().stream().map(Role::getRoleKey).toList();
         return new UserRoleAndPermissionVO(roles, permissions);
     }
 

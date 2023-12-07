@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.RemoteUserService;
+import com.easy.api.vo.UserRoleAndPermissionVO;
 import com.easy.api.vo.UserVO;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.scope.DataScopeService;
@@ -53,6 +54,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     private final DataScopeService dataScopeService;
 
     private final UserRoleService userRoleService;
+    private final RoleService roleService;
 
     /**
      * 根据账号信息获取用户信息
@@ -164,7 +166,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
     public UserInfoExpandVO getUserInfo() {
         UserInfoExpandVO userInfo = this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
         // TODO 岗位、角色、组织关联查询
-        List<UserRole> userRoleList = userRoleService.lambdaQuery().in(UserRole::getUserId, userInfo.getId()).list();
+        UserRoleAndPermissionVO userRoleList = roleService.getUserRoleKeyList(userInfo.getId());
+        userInfo.setRoleList(userRoleList.getRoles());
+        userInfo.setPermissionList(userRoleList.getPermissions());
         return userInfo;
     }
 
