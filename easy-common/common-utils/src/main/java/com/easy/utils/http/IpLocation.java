@@ -13,14 +13,29 @@ import java.io.Serializable;
 @Data
 public class IpLocation implements Serializable {
 
+    /**
+     * IP
+     */
     private String ip;
 
+    /**
+     * 国家
+     */
     private String country;
 
+    /**
+     * 省
+     */
     private String province;
 
+    /**
+     * 城市
+     */
     private String city;
 
+    /**
+     * 服务
+     */
     private String isp;
 
 
