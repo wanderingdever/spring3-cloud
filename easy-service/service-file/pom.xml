@@ -42,7 +42,11 @@
             </exclusions>
             <version>0.0.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.easy</groupId>
+            <artifactId>easy-common-satoken</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <!--minio-->
         <dependency>
             <groupId>io.minio</groupId>
