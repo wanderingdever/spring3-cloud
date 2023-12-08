@@ -4,9 +4,12 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
-import org.springframework.web.bind.annotation.GetMapping;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 测试
@@ -15,16 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Matt
  */
 @RestController
-@RequestMapping("/")
+@RequestMapping()
 public class TestController {
 
-    @GetMapping("/one")
+    @PostMapping("/one")
     public String test() {
         return "test";
     }
 
     // 测试登录  ---- http://localhost:8081/acc/doLogin?name=zhang&pwd=123456
-    @RequestMapping("doLogin")
+    @PostMapping("/doLogin")
     public SaResult doLogin(String name, String pwd) {
         // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
         if ("zhang".equals(name) && "123456".equals(pwd)) {
@@ -39,5 +42,12 @@ public class TestController {
         return SaResult.error("登录失败");
     }
 
+    @PostMapping("/search")
+    @Operation(description = "查询所有登录")
+    public List<String> search() {
+        StpUtil.getLoginIdByToken("");
+        // StpUtil.getExtra()
+        return StpUtil.searchTokenValue("", 0, -1, false);
+    }
 
 }

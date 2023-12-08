@@ -91,4 +91,11 @@ public class UserController {
     public void del(@RequestBody IdDTO dto) {
         userManager.del(dto);
     }
+
+    @PostMapping("/page_login")
+    @Operation(description = "分页查询")
+    public void pageLogin(@RequestBody UserSearchDTO dto) {
+
+    }
+
 }

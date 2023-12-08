@@ -11,7 +11,10 @@ import com.easy.auth.bean.TokenInfo;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
 import com.easy.redis.utils.RedisUtils;
+import com.easy.utils.http.IpLocation;
+import com.easy.utils.http.IpUtil;
 import com.easy.utils.lang.StringUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -46,7 +49,7 @@ public class LoginService {
      * @param login 登录信息 {@link  PwdLogin}
      * @return {@link  TokenInfo}
      */
-    public TokenInfo pwdLogin(PwdLogin login) {
+    public TokenInfo pwdLogin(PwdLogin login, HttpServletRequest request) {
         Object cacheObject = RedisUtils.getCacheObject(CacheConstants.CAPTCHA + login.getRandomStr());
         if (StringUtil.isNull(cacheObject) || !login.getValidateCode().equals(cacheObject.toString())) {
             throw new CustomizeException("验证码不正确");
@@ -66,7 +69,7 @@ public class LoginService {
         StpUtil.login(user.getId(), loginModel);
         // 获取登录信息
         SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
-        StpUtil.getRoleList();
+        IpLocation location = IpUtil.getLocation(request);
         return new TokenInfo(saTokenInfo.getTokenValue(), saTokenInfo.getTokenTimeout(), saTokenInfo.getLoginDevice());
     }
 }
