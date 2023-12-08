@@ -2,12 +2,15 @@ package com.easy.system.service;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.constant.Constants;
+import com.easy.framework.exception.CustomizeException;
 import com.easy.system.bean.dto.menu.MenuAddDTO;
 import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
 import com.easy.system.bean.enums.MenuType;
 import com.easy.system.bean.pojo.Menu;
+import com.easy.system.bean.pojo.RoleMenu;
 import com.easy.system.bean.vo.MenuTreeVO;
 import com.easy.system.bean.vo.router.MetaVo;
 import com.easy.system.bean.vo.router.RouterVO;
@@ -29,7 +32,11 @@ import java.util.List;
  */
 @Service
 public class MenuService extends ServiceImpl<MenuMapper, Menu> {
+    private final RoleMenuService roleMenuService;
 
+    public MenuService(RoleMenuService roleMenuService) {
+        this.roleMenuService = roleMenuService;
+    }
 
     /**
      * 获取菜单树
@@ -39,7 +46,12 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      */
     public List<MenuTreeVO> getTreeMenu(MenuListDTO dto) {
         dto.setUserId(StpUtil.getLoginId().toString());
-        List<MenuTreeVO> treeList = this.baseMapper.getMenuList(dto);
+        List<MenuTreeVO> treeList;
+        if (StpUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
+            treeList = this.baseMapper.getAllMenuList(dto);
+        } else {
+            treeList = this.baseMapper.getMenuList(dto);
+        }
         return buildMenuTree(treeList);
     }
 
@@ -95,11 +107,17 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
     /**
      * 删除菜单
      *
-     * @param ids id集合
+     * @param id id
      */
     @Transactional(rollbackFor = Exception.class)
-    public void delMenu(List<String> ids) {
-        this.removeByIds(ids);
+    public void delMenu(IdDTO id) {
+        if (roleMenuService.lambdaQuery().eq(RoleMenu::getMenuId, id.getId()).count() > 0) {
+            throw new CustomizeException("菜单已被分配,无法删除");
+        }
+        if (lambdaQuery().eq(Menu::getParentId, id.getId()).count() > 0) {
+            throw new CustomizeException("请先删除子菜单");
+        }
+        this.removeById(id.getId());
     }
 
     /**
@@ -109,8 +127,12 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      */
     public List<RouterVO> getUserRouter() {
         String userId = StpUtil.getLoginId().toString();
-        List<MenuTreeVO> menuList =
-                this.baseMapper.getMenuList(new MenuListDTO(userId, null)).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();
+        List<MenuTreeVO> menuList;
+        if (StpUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
+            menuList = this.baseMapper.getAllMenuList(new MenuListDTO()).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();
+        } else {
+            menuList = this.baseMapper.getMenuList(new MenuListDTO(userId, null)).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();
+        }
         List<MenuTreeVO> list = getChildPerms(menuList, Constants.ROOT);
         return buildRouter(list);
     }

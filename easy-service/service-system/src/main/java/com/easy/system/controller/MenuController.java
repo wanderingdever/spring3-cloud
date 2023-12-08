@@ -2,6 +2,8 @@ package com.easy.system.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.easy.datasource.bean.dto.IdDTO;
+import com.easy.framework.constant.Constants;
 import com.easy.system.bean.dto.menu.MenuAddDTO;
 import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
@@ -52,7 +54,7 @@ public class MenuController {
      */
     @PostMapping(value = "/tree")
     @Operation(description = "树形菜单")
-    // @SaCheckPermission("system.menu.tree")
+    @SaCheckPermission(value = "system.menu.tree", orRole = Constants.ADMIN_ROLE)
     public List<MenuTreeVO> getTreeMenu(@RequestBody MenuListDTO dto) {
         return menuService.getTreeMenu(dto);
     }
@@ -64,7 +66,7 @@ public class MenuController {
      */
     @PostMapping(value = "/add")
     @Operation(description = "新增菜单")
-    @SaCheckPermission("system.menu.add")
+    @SaCheckPermission(value = "system.menu.add", orRole = Constants.ADMIN_ROLE)
     public String addMenu(@Valid @RequestBody MenuAddDTO dto) {
         menuService.addMenu(dto);
         return "新增成功";
@@ -77,7 +79,7 @@ public class MenuController {
      */
     @PostMapping(value = "/update")
     @Operation(description = "修改菜单")
-    @SaCheckPermission("system.menu.update")
+    @SaCheckPermission(value = "system.menu.update", orRole = Constants.ADMIN_ROLE)
     public String updateMenu(@Valid @RequestBody MenuEditDTO menu) {
         menuService.updateMenu(menu);
         return "修改成功";
@@ -86,13 +88,13 @@ public class MenuController {
     /**
      * 删除菜单
      *
-     * @param ids 菜单id
+     * @param id 菜单id
      */
     @PostMapping(value = "/del")
     @Operation(description = "删除菜单")
-    @SaCheckPermission("system.menu.del")
-    public String delMenu(@RequestBody List<String> ids) {
-        menuService.delMenu(ids);
+    @SaCheckPermission(value = "system.menu.del", orRole = Constants.ADMIN_ROLE)
+    public String delMenu(@RequestBody IdDTO id) {
+        menuService.delMenu(id);
         return "删除成功";
     }
 }

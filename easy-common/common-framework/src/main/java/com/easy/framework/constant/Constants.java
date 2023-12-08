@@ -90,6 +90,11 @@ public interface Constants {
     String ROOT = "0";
 
     /**
+     * 超级管理员角色key
+     */
+    String ADMIN_ROLE = "admin";
+
+    /**
      * 防重提交 redis key
      */
     String REPEAT_SUBMIT_KEY = "repeat_submit:";
