@@ -97,7 +97,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/page")
     @Operation(description = "分页查询")
-    @SaCheckPermission("system.dictType.page")
+    @SaCheckPermission("system.dict.page")
     public Page<DictType> pageDictType(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictType(dto);
     }
@@ -110,7 +110,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/add")
     @Operation(description = "新增字典类型")
-    @SaCheckPermission("system.dictType.add")
+    @SaCheckPermission("system.dict.add")
     public String addDictType(@Valid @RequestBody DictTypeAddDTO dto) {
         dictTypeService.addDictType(dto);
         return "新增类型成功";
@@ -123,7 +123,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/update")
     @Operation(description = "修改字典类型")
-    @SaCheckPermission("system.dictType.update")
+    @SaCheckPermission("system.dict.update")
     public String updateDictType(@Valid @RequestBody DictTypeEditDTO dto) {
         dictTypeService.updateDictType(dto);
         return "更新类型成功";
@@ -136,7 +136,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/del")
     @Operation(description = "删除字典类型")
-    @SaCheckPermission("system.dictType.del")
+    @SaCheckPermission("system.dict.del")
     public String delDictType(@RequestBody IdDTO id) {
         dictTypeService.delDictType(id);
         return "删除类型成功";
@@ -151,7 +151,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/page")
     @Operation(description = "分页查询")
-    @SaCheckPermission("system.dictData.page")
+    @SaCheckPermission("system.dict.page")
     public Page<DictData> pageDictData(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictData(dto);
     }
@@ -163,7 +163,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/add")
     @Operation(description = "新增字典数据")
-    @SaCheckPermission("system.dictData.add")
+    @SaCheckPermission("system.dict.add")
     public String addDictData(@Valid @RequestBody DictDataAddDTO dto) {
         dictTypeService.addDictData(dto);
         return "新增数据成功";
@@ -176,7 +176,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/update")
     @Operation(description = "修改字典数据")
-    @SaCheckPermission("system.dictData.update")
+    @SaCheckPermission("system.dict.update")
     public String updateDictData(@Valid @RequestBody DictDataEditDTO dto) {
         dictTypeService.updateDictData(dto);
         return "更新数据成功";
@@ -189,7 +189,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/del")
     @Operation(description = "删除字典数据")
-    @SaCheckPermission("system.dictData.del")
+    @SaCheckPermission("system.dict.del")
     public String delDictData(@RequestBody List<String> ids) {
         dictTypeService.delDictData(ids);
         return "删除数据成功";
