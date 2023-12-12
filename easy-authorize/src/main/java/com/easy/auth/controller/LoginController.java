@@ -6,7 +6,6 @@ import com.easy.auth.bean.TokenInfo;
 import com.easy.auth.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +34,8 @@ public class LoginController {
 
     @PostMapping("/pwd_login")
     @Operation(description = "密码登录")
-    public TokenInfo pwdLogin(@RequestBody @Valid PwdLogin login, HttpServletRequest request) {
-        return loginService.pwdLogin(login, request);
+    public TokenInfo pwdLogin(@RequestBody @Valid PwdLogin login) {
+        return loginService.pwdLogin(login);
     }
 
     @PostMapping("/code_login")

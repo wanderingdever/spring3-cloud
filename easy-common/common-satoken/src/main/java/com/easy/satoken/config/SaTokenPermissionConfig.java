@@ -2,6 +2,7 @@ package com.easy.satoken.config;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.easy.api.service.RemoteRoleService;
+import com.easy.api.vo.RoleVO;
 import com.easy.api.vo.UserRoleAndPermissionVO;
 import com.easy.framework.exception.CustomizeException;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -42,6 +43,6 @@ public class SaTokenPermissionConfig implements StpInterface {
         if (userRoleAndPermission == null) {
             throw new CustomizeException("用户角色异常");
         }
-        return userRoleAndPermission.getRoles();
+        return userRoleAndPermission.getRoles().stream().map(RoleVO::getRoleKey).toList();
     }
 }

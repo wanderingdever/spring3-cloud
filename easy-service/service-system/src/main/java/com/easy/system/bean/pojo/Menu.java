@@ -3,7 +3,7 @@ package com.easy.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.easy.framework.bean.base.BaseEntity;
-import com.easy.system.bean.enums.MenuType;
+import com.easy.framework.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

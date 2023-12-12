@@ -7,15 +7,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.RemoteUserService;
+import com.easy.api.vo.LoginLogsVO;
+import com.easy.api.vo.RoleVO;
 import com.easy.api.vo.UserRoleAndPermissionVO;
 import com.easy.api.vo.UserVO;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.scope.DataScopeService;
+import com.easy.framework.enums.AuthorityLevel;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.dto.user.UserSearchDTO;
-import com.easy.system.bean.enums.AuthorityLevel;
 import com.easy.system.bean.pojo.Org;
 import com.easy.system.bean.pojo.Role;
 import com.easy.system.bean.pojo.User;
@@ -24,7 +26,11 @@ import com.easy.system.bean.vo.user.UserInfoExpandVO;
 import com.easy.system.dao.OrgMapper;
 import com.easy.system.dao.RoleMapper;
 import com.easy.system.dao.UserMapper;
+import com.easy.utils.http.IpLocation;
+import com.easy.utils.http.IpUtil;
+import com.easy.utils.lang.DateUtil;
 import com.easy.utils.lang.IdUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -55,6 +61,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     private final UserRoleService userRoleService;
     private final RoleService roleService;
+
+    private LoginLogsService loginLogsService;
 
     /**
      * 根据账号信息获取用户信息
@@ -163,12 +171,30 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         return new LinkedList<>(orgIdSet);
     }
 
-    public UserInfoExpandVO getUserInfo() {
+    @Transactional(rollbackFor = Exception.class, timeout = 5)
+    public UserInfoExpandVO getUserInfo(HttpServletRequest request) {
         UserInfoExpandVO userInfo = this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
-        // TODO 岗位、角色、组织关联查询
+        //  岗位、角色、组织关联查询
         UserRoleAndPermissionVO userRoleList = roleService.getUserRoleKeyList(userInfo.getId());
-        userInfo.setRoleList(userRoleList.getRoles());
+        userInfo.setRoleList(userRoleList.getRoles().stream().map(RoleVO::getRoleKey).toList());
+        userInfo.setRoles(userRoleList.getRoles());
         userInfo.setPermissionList(userRoleList.getPermissions());
+
+        // 保存登录记录
+        IpLocation location = IpUtil.getLocation(request);
+        LoginLogsVO loginLogs = new LoginLogsVO();
+        loginLogs.setUserId(userInfo.getId());
+        loginLogs.setUserName(userInfo.getUsername());
+        loginLogs.setIp(location.getIp());
+        loginLogs.setBrowser(request.getHeader("User-Agent"));
+        loginLogs.setIpLocation(String.join(",", location.getCountry(), location.getProvince(), location.getCity()));
+        loginLogs.setLoginTime(DateUtil.now());
+        loginLogsService.saveLoginLogs(loginLogs);
+
+        // 设置登录的IP和属地
+        userInfo.setIp(location.getIp());
+        userInfo.setIpLocation(location.getCountry() + location.getProvince() + location.getCity());
+        userInfo.setLoginTime(DateUtil.now());
         return userInfo;
     }
 

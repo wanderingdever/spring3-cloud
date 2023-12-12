@@ -1,28 +1,31 @@
-package com.easy.system.bean.enums;
+package com.easy.framework.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 菜单类型枚举
+ * 机构标签
  * </p>
  *
  * @author Matt
  */
+
 @Getter
 @AllArgsConstructor
-public enum MenuType {
+public enum OrgTag {
 
     /**
-     * 菜单类型
+     * 机构标签
      */
-    CATALOGUE("CATALOGUE", "目录"),
-    PAGE("PAGE", "页面"),
-    BUTTON("BUTTON", "按钮");
+    PROVINCE("PROVINCE", "省级单位"),
+    CITY("CITY", "市级单位"),
+    DISTRICT("DISTRICT", "区县级单位"),
+    ;
 
     @EnumValue
     private final String value;
 
     private final String desc;
+
 }

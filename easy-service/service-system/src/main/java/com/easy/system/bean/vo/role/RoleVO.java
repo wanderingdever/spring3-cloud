@@ -1,7 +1,7 @@
 package com.easy.system.bean.vo.role;
 
 import com.easy.framework.bean.base.BaseVO;
-import com.easy.system.bean.enums.AuthorityLevel;
+import com.easy.framework.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

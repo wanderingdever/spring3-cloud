@@ -1,6 +1,6 @@
 package com.easy.system.bean.dto.role;
 
-import com.easy.system.bean.enums.AuthorityLevel;
+import com.easy.framework.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

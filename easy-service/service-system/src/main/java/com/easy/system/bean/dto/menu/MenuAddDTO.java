@@ -1,6 +1,6 @@
 package com.easy.system.bean.dto.menu;
 
-import com.easy.system.bean.enums.MenuType;
+import com.easy.framework.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

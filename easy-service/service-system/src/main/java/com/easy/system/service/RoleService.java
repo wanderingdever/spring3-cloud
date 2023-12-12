@@ -67,7 +67,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
         // 查询权限集合
         List<String> permissions = roleMenuService.getBaseMapper().selectRolePermissions(roleIdList);
         // 查询角色key集合
-        List<String> roles = lambdaQuery().in(Role::getId, roleIdList).list().stream().map(Role::getRoleKey).toList();
+        List<com.easy.api.vo.RoleVO> roles = baseMapper.selectRoleVoByIds(roleIdList);
         return new UserRoleAndPermissionVO(roles, permissions);
     }
 

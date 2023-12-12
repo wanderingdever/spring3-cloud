@@ -1,7 +1,7 @@
 package com.easy.system.bean.dto.role;
 
 import com.easy.datasource.bean.dto.PageDTO;
-import com.easy.system.bean.enums.AuthorityLevel;
+import com.easy.framework.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
