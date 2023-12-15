@@ -40,7 +40,7 @@ public class ConfigController {
      * 重载缓存
      */
     @PostMapping(value = "/overload")
-    @Operation(description = "重载参数缓存")
+    @Operation(summary = "重载参数缓存")
     public void overloadConfig() {
         configService.loadConfigCache();
     }
@@ -52,7 +52,7 @@ public class ConfigController {
      * @return ConfigCache
      */
     @PostMapping("/get")
-    @Operation(description = "获取参数配置")
+    @Operation(summary = "获取参数配置")
     public ConfigVO getConfig(@RequestBody ConfigSearchDTO dto) {
         return configService.getConfig(dto.getConfigKey());
     }
@@ -65,7 +65,7 @@ public class ConfigController {
      * @return IPage<Config>
      */
     @PostMapping("/page")
-    @Operation(description = "分页查询")
+    @Operation(summary = "分页查询")
     @SaCheckPermission("system.config.page")
     public Page<Config> pageConfig(@RequestBody ConfigSearchDTO dto) {
         return configService.pageConfig(dto);
@@ -77,7 +77,7 @@ public class ConfigController {
      * @param dto 入参
      */
     @PostMapping("/add")
-    @Operation(description = "新增参数配置")
+    @Operation(summary = "新增参数配置")
     @SaCheckPermission("system.config.add")
     public String addConfig(@Valid @RequestBody ConfigAddDTO dto) {
         configService.addConfig(dto);
@@ -90,7 +90,7 @@ public class ConfigController {
      * @param config 入参
      */
     @PostMapping("/update")
-    @Operation(description = "更新参数配置")
+    @Operation(summary = "更新参数配置")
     @SaCheckPermission("system.config.update")
     public String updateConfig(@Valid @RequestBody ConfigEditDTO config) {
         configService.updateConfig(config);
@@ -103,7 +103,7 @@ public class ConfigController {
      * @param ids 主键集合
      */
     @PostMapping("/del")
-    @Operation(description = "删除参数配置")
+    @Operation(summary = "删除参数配置")
     @SaCheckPermission("system.config.del")
     public String delConfig(@RequestBody List<String> ids) {
         configService.delConfig(ids);

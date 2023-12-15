@@ -21,38 +21,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/role")
-@Tag(name = "角色", description = "角色相关接口")
+@Tag(name = "角色")
 public class RoleController {
 
     @Resource
     private RoleService roleService;
 
     @PostMapping(value = "/add")
-    @Operation(description = "新增角色")
+    @Operation(summary = "新增角色")
     public void add(@RequestBody @Valid RoleDTO dto) {
         roleService.addRole(dto);
     }
 
     @PostMapping(value = "/update")
-    @Operation(description = "编辑角色")
+    @Operation(summary = "编辑角色")
     public void update(@RequestBody @Valid RoleEditDTO dto) {
         roleService.updateRole(dto);
     }
 
     @PostMapping(value = "/del")
-    @Operation(description = "删除角色")
+    @Operation(summary = "删除角色")
     public void del(@RequestBody IdListDTO dto) {
         roleService.delRole(dto);
     }
 
     @PostMapping("/page")
-    @Operation(description = "角色分页查询")
+    @Operation(summary = "角色分页查询")
     public Page<RoleVO> page(@RequestBody RoleSearchDTO dto) {
         return roleService.page(dto);
     }
 
     @PostMapping(value = "/role_menu_ids")
-    @Operation(description = "角色菜单集合")
+    @Operation(summary = "角色菜单集合")
     public List<String> roleMenuIds(@RequestBody IdDTO dto) {
         return roleService.roleMenuIds(dto);
     }

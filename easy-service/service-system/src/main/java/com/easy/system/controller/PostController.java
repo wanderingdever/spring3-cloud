@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @RestController
 @RequestMapping("/post")
 @Tag(name = "岗位管理")
@@ -27,31 +32,31 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/list")
-    @Operation(description = "集合查询")
+    @Operation(summary = "集合查询")
     public List<PostVO> list(@RequestBody PostSearchDTO dto) {
         return postService.list(dto);
     }
 
     @PostMapping("/page")
-    @Operation(description = "分页查询")
+    @Operation(summary = "分页查询")
     public Page<PostVO> pagePost(@RequestBody PostSearchDTO dto) {
         return postService.page(dto);
     }
 
     @PostMapping("/add")
-    @Operation(description = "新增岗位信息")
+    @Operation(summary = "新增岗位信息")
     public void addPost(@Valid @RequestBody PostDTO dto) {
         postService.add(dto);
     }
 
     @PostMapping("/update")
-    @Operation(description = "更新岗位信息")
+    @Operation(summary = "更新岗位信息")
     public void updatePost(@Valid @RequestBody PostEditDTO dto) {
         postService.update(dto);
     }
 
     @PostMapping("/del")
-    @Operation(description = "删除岗位信息")
+    @Operation(summary = "删除岗位信息")
     public void delPost(@RequestBody IdListDTO dto) {
         postService.del(dto);
     }

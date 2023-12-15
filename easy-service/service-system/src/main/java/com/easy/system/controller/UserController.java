@@ -28,7 +28,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user")
-@Tag(name = "用户", description = "用户相关接口")
+@Tag(name = "用户")
 public class UserController {
 
     private final UserService userService;
@@ -46,27 +46,27 @@ public class UserController {
      * @return UserInfoVO
      */
     @PostMapping(value = "/user_info")
-    @Operation(description = "获取用户信息")
+    @Operation(summary = "获取用户信息")
     public UserInfoExpandVO userInfo(HttpServletRequest request) {
         return userService.getUserInfo(request);
     }
 
     @PostMapping("/page")
-    @Operation(description = "分页查询")
+    @Operation(summary = "分页查询")
     public Page<UserInfoExpandVO> page(@RequestBody UserSearchDTO dto) {
         return userService.page(dto);
     }
 
 
     @PostMapping("/add")
-    @Operation(description = "新增用户")
+    @Operation(summary = "新增用户")
     public String add(@Valid @RequestBody UserDTO add) {
         return userManager.add(add);
     }
 
 
     @PostMapping("/update")
-    @Operation(description = "更新用户")
+    @Operation(summary = "更新用户")
     public void update(@Valid @RequestBody UserEditDTO user) {
         userManager.update(user);
     }
@@ -77,7 +77,7 @@ public class UserController {
      * @param dto 账号
      */
     @PostMapping("/reset_pwd")
-    @Operation(description = "重置密码")
+    @Operation(summary = "重置密码")
     public void resetPwd(@RequestBody UserPwdDTO dto) {
         userManager.resetPwd(dto);
     }
@@ -88,13 +88,13 @@ public class UserController {
      * @param dto 主键集合
      */
     @PostMapping("/del")
-    @Operation(description = "删除用户")
+    @Operation(summary = "删除用户")
     public void del(@RequestBody IdDTO dto) {
         userManager.del(dto);
     }
 
     @PostMapping("/page_login")
-    @Operation(description = "分页查询")
+    @Operation(summary = "分页查询")
     public void pageLogin(@RequestBody UserSearchDTO dto) {
 
     }

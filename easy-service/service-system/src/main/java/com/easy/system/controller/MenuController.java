@@ -41,7 +41,7 @@ public class MenuController {
      * @return Menu
      */
     @PostMapping(value = "/user_router")
-    @Operation(description = "获取用户路由")
+    @Operation(summary = "获取用户路由")
     public List<RouterVO> getUserRouter() {
         return menuService.getUserRouter();
     }
@@ -53,7 +53,7 @@ public class MenuController {
      * @return MenuTree
      */
     @PostMapping(value = "/tree")
-    @Operation(description = "树形菜单")
+    @Operation(summary = "树形菜单")
     @SaCheckPermission(value = "system.menu.tree", orRole = Constants.ADMIN_ROLE)
     public List<MenuTreeVO> getTreeMenu(@RequestBody MenuListDTO dto) {
         return menuService.getTreeMenu(dto);
@@ -65,7 +65,7 @@ public class MenuController {
      * @param dto 菜单信息
      */
     @PostMapping(value = "/add")
-    @Operation(description = "新增菜单")
+    @Operation(summary = "新增菜单")
     @SaCheckPermission(value = "system.menu.add", orRole = Constants.ADMIN_ROLE)
     public String addMenu(@Valid @RequestBody MenuAddDTO dto) {
         menuService.addMenu(dto);
@@ -78,7 +78,7 @@ public class MenuController {
      * @param menu 菜单信息
      */
     @PostMapping(value = "/update")
-    @Operation(description = "修改菜单")
+    @Operation(summary = "修改菜单")
     @SaCheckPermission(value = "system.menu.update", orRole = Constants.ADMIN_ROLE)
     public String updateMenu(@Valid @RequestBody MenuEditDTO menu) {
         menuService.updateMenu(menu);
@@ -91,7 +91,7 @@ public class MenuController {
      * @param id 菜单id
      */
     @PostMapping(value = "/del")
-    @Operation(description = "删除菜单")
+    @Operation(summary = "删除菜单")
     @SaCheckPermission(value = "system.menu.del", orRole = Constants.ADMIN_ROLE)
     public String delMenu(@RequestBody IdDTO id) {
         menuService.delMenu(id);

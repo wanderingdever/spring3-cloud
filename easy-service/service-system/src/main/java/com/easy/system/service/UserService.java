@@ -203,12 +203,14 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         List<UserInfoExpandVO> userList = baseMapper.userInfoPage(dto);
         page.setRecords(userList);
         List<String> userIdList = userList.stream().map(UserInfoExpandVO::getId).toList();
-        // TODO 岗位、角色、组织关联查询
-        List<UserRole> userRoleList = userRoleService.lambdaQuery().in(UserRole::getUserId, userIdList).list();
-        if (!userRoleList.isEmpty()) {
-            // 转换数据为 userId,List<roleId>
-            Map<String, List<String>> collect = userRoleList.stream().collect(Collectors.groupingBy(UserRole::getUserId, Collectors.mapping(UserRole::getRoleId, Collectors.toList())));
-            page.getRecords().forEach(k -> k.setRoleList(collect.get(k.getId())));
+        if (CollectionUtils.isNotEmpty(userIdList)) {
+            // TODO 岗位、角色、组织关联查询
+            List<UserRole> userRoleList = userRoleService.lambdaQuery().in(UserRole::getUserId, userIdList).list();
+            if (!userRoleList.isEmpty()) {
+                // 转换数据为 userId,List<roleId>
+                Map<String, List<String>> collect = userRoleList.stream().collect(Collectors.groupingBy(UserRole::getUserId, Collectors.mapping(UserRole::getRoleId, Collectors.toList())));
+                page.getRecords().forEach(k -> k.setRoleList(collect.get(k.getId())));
+            }
         }
         return page;
     }

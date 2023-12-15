@@ -7,6 +7,7 @@ import com.easy.system.bean.dto.org.OrgEditDTO;
 import com.easy.system.bean.dto.org.OrgPageDTO;
 import com.easy.system.bean.vo.org.OrgSimpleTreeVO;
 import com.easy.system.bean.vo.org.OrgTreeVO;
+import com.easy.system.bean.vo.org.OrgUserTreeVO;
 import com.easy.system.bean.vo.org.OrgVO;
 import com.easy.system.service.OrgService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,44 +39,51 @@ public class OrgController {
     }
 
     @PostMapping("/info")
-    @Operation(description = "查询组织")
+    @Operation(summary = "查询组织")
     public OrgVO info(@RequestBody @Valid IdDTO dto) {
         return orgService.info(dto);
     }
 
     @PostMapping("/tree")
-    @Operation(description = "查询组织树-详情版")
+    @Operation(summary = "查询组织树-详情版")
     public List<OrgTreeVO> tree() {
         return orgService.tree();
     }
 
     @PostMapping("/simple_tree")
-    @Operation(description = "查询组织树-简单版")
+    @Operation(summary = "查询组织树-简单版")
     public List<OrgSimpleTreeVO> simpleTree() {
         return orgService.simpleTree();
     }
 
     @PostMapping("/page")
-    @Operation(description = "分页查询组织")
+    @Operation(summary = "分页查询组织")
     public Page<OrgVO> page(@RequestBody OrgPageDTO dto) {
         return orgService.page(dto);
     }
 
     @PostMapping("/add")
-    @Operation(description = "新增组织信息")
+    @Operation(summary = "新增组织信息")
     public void add(@Valid @RequestBody OrgDTO dto) {
         orgService.add(dto);
     }
 
     @PostMapping("/update")
-    @Operation(description = "更新组织信息")
+    @Operation(summary = "更新组织信息")
     public void update(@Valid @RequestBody OrgEditDTO dto) {
         orgService.update(dto);
     }
 
     @PostMapping("/del")
-    @Operation(description = "删除组织信息")
+    @Operation(summary = "删除组织信息")
     public void del(@RequestBody IdDTO dto) {
         orgService.del(dto);
     }
+
+    @PostMapping("/org_user_tree")
+    @Operation(summary = "查询机构和用户组成的树形数据")
+    public List<OrgUserTreeVO> orgUserTree() {
+        return orgService.orgUserTree();
+    }
+
 }

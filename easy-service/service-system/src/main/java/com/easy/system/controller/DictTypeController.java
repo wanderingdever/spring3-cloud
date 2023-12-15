@@ -45,7 +45,7 @@ public class DictTypeController {
      * 重载缓存
      */
     @PostMapping(value = "/overload")
-    @Operation(description = "重载字典缓存")
+    @Operation(summary = "重载字典缓存")
     public void overloadDict() {
         dictTypeService.loadingDictCache();
     }
@@ -57,7 +57,7 @@ public class DictTypeController {
      * @return 字典数据
      */
     @PostMapping("/dict_by_type")
-    @Operation(description = "获取字典类型以及其下的字典数据")
+    @Operation(summary = "获取字典类型以及其下的字典数据")
     public DictTypeVO getDictTypeByDictType(@RequestBody DictSearchDTO dto) {
         if (StringUtil.isBlank(dto.getDictType())) {
             throw new CustomizeException("字典类型不能为空");
@@ -72,7 +72,7 @@ public class DictTypeController {
      * @return 字典类型信息
      */
     @PostMapping(value = "/get")
-    @Operation(description = "获取字典类型详情")
+    @Operation(summary = "获取字典类型详情")
     public DictType getDictTypeInfoById(@Valid @RequestBody IdDTO dto) {
         return dictTypeService.getDictTypeInfoById(dto.getId());
     }
@@ -84,7 +84,7 @@ public class DictTypeController {
      * @return 集合数据
      */
     @PostMapping(value = "/type_data_list")
-    @Operation(description = "集合查询")
+    @Operation(summary = "集合查询")
     public List<DictType> listTypeAndData(@RequestBody DictSearchDTO dto) {
         return dictTypeService.getTypeAndDataList(dto);
     }
@@ -96,7 +96,7 @@ public class DictTypeController {
      * @return 分页数据
      */
     @PostMapping(value = "/type/page")
-    @Operation(description = "分页查询")
+    @Operation(summary = "分页查询")
     @SaCheckPermission("system.dict.page")
     public Page<DictType> pageDictType(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictType(dto);
@@ -109,7 +109,7 @@ public class DictTypeController {
      * @param dto 新增入参
      */
     @PostMapping(value = "/type/add")
-    @Operation(description = "新增字典类型")
+    @Operation(summary = "新增字典类型")
     @SaCheckPermission("system.dict.add")
     public String addDictType(@Valid @RequestBody DictTypeAddDTO dto) {
         dictTypeService.addDictType(dto);
@@ -122,7 +122,7 @@ public class DictTypeController {
      * @param dto 字典信息
      */
     @PostMapping(value = "/type/update")
-    @Operation(description = "修改字典类型")
+    @Operation(summary = "修改字典类型")
     @SaCheckPermission("system.dict.update")
     public String updateDictType(@Valid @RequestBody DictTypeEditDTO dto) {
         dictTypeService.updateDictType(dto);
@@ -135,7 +135,7 @@ public class DictTypeController {
      * @param id 主键
      */
     @PostMapping(value = "/type/del")
-    @Operation(description = "删除字典类型")
+    @Operation(summary = "删除字典类型")
     @SaCheckPermission("system.dict.del")
     public String delDictType(@RequestBody IdDTO id) {
         dictTypeService.delDictType(id);
@@ -150,7 +150,7 @@ public class DictTypeController {
      * @return 分页数据
      */
     @PostMapping(value = "/data/page")
-    @Operation(description = "分页查询")
+    @Operation(summary = "分页查询")
     @SaCheckPermission("system.dict.page")
     public Page<DictData> pageDictData(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictData(dto);
@@ -162,7 +162,7 @@ public class DictTypeController {
      * @param dto 新增入参
      */
     @PostMapping(value = "/data/add")
-    @Operation(description = "新增字典数据")
+    @Operation(summary = "新增字典数据")
     @SaCheckPermission("system.dict.add")
     public String addDictData(@Valid @RequestBody DictDataAddDTO dto) {
         dictTypeService.addDictData(dto);
@@ -175,7 +175,7 @@ public class DictTypeController {
      * @param dto 字典信息
      */
     @PostMapping(value = "/data/update")
-    @Operation(description = "修改字典数据")
+    @Operation(summary = "修改字典数据")
     @SaCheckPermission("system.dict.update")
     public String updateDictData(@Valid @RequestBody DictDataEditDTO dto) {
         dictTypeService.updateDictData(dto);
@@ -188,7 +188,7 @@ public class DictTypeController {
      * @param ids 主键集合
      */
     @PostMapping(value = "/data/del")
-    @Operation(description = "删除字典数据")
+    @Operation(summary = "删除字典数据")
     @SaCheckPermission("system.dict.del")
     public String delDictData(@RequestBody List<String> ids) {
         dictTypeService.delDictData(ids);

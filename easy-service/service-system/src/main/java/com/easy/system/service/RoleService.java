@@ -127,8 +127,14 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
 
     @Transactional(rollbackFor = Exception.class)
     public void updateRole(RoleEditDTO dto) {
+        Role role = lambdaQuery().eq(Role::getId, dto.getId()).one();
+        if (!role.getOrgId().equals(dto.getOrgId())) {
+            long userRole = userRoleService.lambdaQuery().eq(UserRole::getRoleId, dto.getId()).count();
+            if (userRole > 0) {
+                throw new CustomizeException("所选角色已被分配,无法删除");
+            }
+        }
         // 更新角色信息
-        Role role = new Role();
         BeanUtil.copyProperties(dto, role);
         this.updateById(role);
         // 删除原有菜单

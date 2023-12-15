@@ -15,6 +15,7 @@ import com.easy.system.bean.pojo.Org;
 import com.easy.system.bean.pojo.UserOrg;
 import com.easy.system.bean.vo.org.OrgSimpleTreeVO;
 import com.easy.system.bean.vo.org.OrgTreeVO;
+import com.easy.system.bean.vo.org.OrgUserTreeVO;
 import com.easy.system.bean.vo.org.OrgVO;
 import com.easy.system.dao.OrgMapper;
 import com.easy.utils.lang.StringUtil;
@@ -24,10 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -200,4 +198,44 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
         return vo;
     }
 
+    public List<OrgUserTreeVO> orgUserTree() {
+        List<OrgUserTreeVO> orgList = baseMapper.selectTheOrgInfoInTheUserOrg();
+        return buildOrgUserTree(orgList);
+    }
+
+    /**
+     * 构建机构用户组成的树形数据
+     *
+     * @param list List<OrgUserTreeVO>
+     * @return List<OrgUserTreeVO>
+     */
+    private List<OrgUserTreeVO> buildOrgUserTree(List<OrgUserTreeVO> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+        // 分离数据
+        List<OrgUserTreeVO> rootList = list.stream()
+                .filter(k -> "0".equals(k.getParentId()))
+                .toList();
+        Map<String, List<OrgUserTreeVO>> leafMap = list.stream()
+                .filter(k -> !"0".equals(k.getParentId()))
+                .collect(Collectors.groupingBy(OrgUserTreeVO::getParentId));
+        // 组装数据
+        buildOrgUserBranch(rootList, leafMap);
+        return rootList;
+    }
+
+    private void buildOrgUserBranch(List<OrgUserTreeVO> rootList, Map<String, List<OrgUserTreeVO>> leafMap) {
+        if (CollectionUtils.isEmpty(rootList)) {
+            return;
+        }
+        for (OrgUserTreeVO orgTreeVO : rootList) {
+            List<OrgUserTreeVO> orgTreeList = Optional.ofNullable(leafMap.get(orgTreeVO.getId())).orElse(new ArrayList<>());
+            leafMap.remove(orgTreeVO.getId());
+            List<OrgUserTreeVO> children = Optional.ofNullable(orgTreeVO.getChildren()).orElse(new ArrayList<>());
+            children.addAll(orgTreeList);
+            orgTreeVO.setChildren(children);
+            buildOrgUserBranch(orgTreeList, leafMap);
+        }
+    }
 }

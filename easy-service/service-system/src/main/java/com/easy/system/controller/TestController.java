@@ -26,20 +26,20 @@ public class TestController {
     private DataScopeService dataScopeService;
 
     @PostMapping(value = "/saTokenTest")
-    @Operation(description = "测试sa-token")
+    @Operation(summary = "测试sa-token")
     public String test() {
         StpUtil.getRoleList();
         return StpUtil.getLoginId().toString();
     }
 
     @PostMapping("/authorized_org_id_list")
-    @Operation(description = "查询用户授权的部门id列表")
+    @Operation(summary = "查询用户授权的部门id列表")
     public List<String> authorizedOrgIdList() {
         return dataScopeService.authorizedOrgIdListOneSelf();
     }
 
     @PostMapping("/authorized_org_id_list_and_child")
-    @Operation(description = "查询用户授权的部门id列表（包含）")
+    @Operation(summary = "查询用户授权的部门id列表（包含）")
     public List<String> authorizedOrgIdListAndChild() {
         return dataScopeService.authorizedOrgIdList();
     }
