@@ -3,6 +3,7 @@ package com.easy.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.easy.framework.bean.base.BaseEntity;
+import com.easy.framework.enums.ArticleStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "消息通知")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "sys_notification")
-public class Notification extends BaseEntity {
+@TableName(value = "sys_notice")
+public class Notice extends BaseEntity {
 
     @TableField(value = "title")
     @Schema(description = "标题")
@@ -32,7 +33,7 @@ public class Notification extends BaseEntity {
     private String content;
 
     @TableField(value = "status")
-    @Schema(description = "状态")
-    private Boolean status;
+    @Schema(description = "文章状态")
+    private ArticleStatus status;
 
 }
