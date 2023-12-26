@@ -26,9 +26,14 @@ public class NoticeAddDTO {
     @Schema(description = "类型")
     private String type;
 
-    @NotBlank(message = "内容不能为空")
-    @Schema(description = "内容")
+    @NotBlank(message = "富文本不能为空")
+    @Schema(description = "富文本内容")
     private String content;
+
+
+    @NotBlank(message = "文本不能为空")
+    @Schema(description = "文本内容")
+    private String contentText;
 
     @NotNull(message = "状态不能为空")
     @Schema(description = "状态")

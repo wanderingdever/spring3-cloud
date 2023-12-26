@@ -8,6 +8,7 @@ import com.easy.system.bean.dto.notice.NoticeEditDTO;
 import com.easy.system.bean.dto.notice.NoticeSearchDTO;
 import com.easy.system.bean.pojo.Notice;
 import com.easy.system.bean.vo.notice.NoticeVO;
+import com.easy.system.bean.vo.notice.UserNoticeVO;
 import com.easy.system.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,6 +34,28 @@ public class NoticeController {
 
     public NoticeController(NoticeService noticeService) {
         this.noticeService = noticeService;
+    }
+
+    /**
+     * 用户消息 分页查询
+     *
+     * @param dto 查询入参
+     * @return IPage<Notice>
+     */
+    @PostMapping("/user_page")
+    @Operation(summary = "用户消息-分页查询")
+    public Page<UserNoticeVO> userPageNotice(@RequestBody NoticeSearchDTO dto) {
+        return noticeService.userPageNotice(dto);
+    }
+
+    /**
+     * 设置用户消息全部已读
+     */
+    @PostMapping("/user_read")
+    @Operation(summary = "设置用户消息全部已读")
+    public String userRead(@RequestBody IdDTO dto) {
+        noticeService.userRead(dto);
+        return "";
     }
 
     @PostMapping("/get")

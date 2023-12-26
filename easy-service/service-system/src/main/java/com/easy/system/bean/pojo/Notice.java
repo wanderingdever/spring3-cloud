@@ -29,8 +29,11 @@ public class Notice extends BaseEntity {
     private String type;
 
     @TableField(value = "content")
-    @Schema(description = "内容")
+    @Schema(description = "富文本内容")
     private String content;
+
+    @Schema(description = "纯文本内容")
+    private String contentText;
 
     @TableField(value = "status")
     @Schema(description = "文章状态")

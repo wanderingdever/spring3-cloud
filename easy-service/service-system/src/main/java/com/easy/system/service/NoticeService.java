@@ -1,10 +1,12 @@
 package com.easy.system.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.utils.PageUtil;
+import com.easy.framework.enums.ArticleStatus;
 import com.easy.system.bean.dto.notice.NoticeAddDTO;
 import com.easy.system.bean.dto.notice.NoticeEditDTO;
 import com.easy.system.bean.dto.notice.NoticeSearchDTO;
@@ -12,6 +14,7 @@ import com.easy.system.bean.pojo.Notice;
 import com.easy.system.bean.pojo.User;
 import com.easy.system.bean.pojo.UserNotice;
 import com.easy.system.bean.vo.notice.NoticeVO;
+import com.easy.system.bean.vo.notice.UserNoticeVO;
 import com.easy.system.dao.NoticeMapper;
 import com.easy.utils.lang.StringUtil;
 import org.springframework.stereotype.Service;
@@ -52,6 +55,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         notice.setTitle(dto.getTitle());
         notice.setType(dto.getType());
         notice.setContent(dto.getContent());
+        notice.setContentText(dto.getContentText());
         notice.setStatus(dto.getStatus());
         save(notice);
         if (!userIds.isEmpty()) {
@@ -75,6 +79,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         notice.setTitle(dto.getTitle());
         notice.setType(dto.getType());
         notice.setContent(dto.getContent());
+        notice.setContentText(dto.getContentText());
         notice.setStatus(dto.getStatus());
         updateById(notice);
         if (!userIds.isEmpty()) {
@@ -91,5 +96,21 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         this.getBaseMapper().removeById(dto.getId());
         // 删除原来的
         userNoticeService.getBaseMapper().deleteByNoticeId(dto.getId());
+    }
+
+    public Page<UserNoticeVO> userPageNotice(NoticeSearchDTO dto) {
+        dto.setUserId(StpUtil.getLoginId().toString());
+        Page<UserNoticeVO> page = PageUtil.getPage(dto);
+        page.setOptimizeCountSql(false);
+        page.setRecords(getBaseMapper().userPageNotice(page, dto));
+        return page;
+    }
+
+    public void userRead(IdDTO dto) {
+        if ("0".equals(dto.getId())) {
+            userNoticeService.lambdaUpdate().eq(UserNotice::getUserId, StpUtil.getLoginId().toString()).set(UserNotice::getStatus, ArticleStatus.READ).update();
+        } else {
+            userNoticeService.lambdaUpdate().eq(UserNotice::getId, dto.getId()).set(UserNotice::getStatus, ArticleStatus.READ).update();
+        }
     }
 }

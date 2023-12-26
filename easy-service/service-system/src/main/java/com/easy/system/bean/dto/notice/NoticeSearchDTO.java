@@ -19,10 +19,12 @@ public class NoticeSearchDTO extends PageDTO {
     @Schema(description = "标题")
     private String title;
 
-
     @Schema(description = "类型")
     private String type;
 
     @Schema(description = "状态")
     private ArticleStatus status;
+
+    @Schema(description = "用户ID")
+    private String userId;
 }
