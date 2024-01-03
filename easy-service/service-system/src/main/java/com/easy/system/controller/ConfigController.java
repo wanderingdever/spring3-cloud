@@ -3,6 +3,8 @@ package com.easy.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.vo.ConfigVO;
+import com.easy.framework.constant.Constants;
+import com.easy.satoken.stp.StpAdminUtil;
 import com.easy.system.bean.dto.config.ConfigAddDTO;
 import com.easy.system.bean.dto.config.ConfigEditDTO;
 import com.easy.system.bean.dto.config.ConfigSearchDTO;
@@ -66,7 +68,7 @@ public class ConfigController {
      */
     @PostMapping("/page")
     @Operation(summary = "分页查询")
-    @SaCheckPermission("system.config.page")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.page", orRole = Constants.ADMIN_ROLE)
     public Page<Config> pageConfig(@RequestBody ConfigSearchDTO dto) {
         return configService.pageConfig(dto);
     }
@@ -78,7 +80,7 @@ public class ConfigController {
      */
     @PostMapping("/add")
     @Operation(summary = "新增参数配置")
-    @SaCheckPermission("system.config.add")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.add", orRole = Constants.ADMIN_ROLE)
     public String addConfig(@Valid @RequestBody ConfigAddDTO dto) {
         configService.addConfig(dto);
         return "新增成功";
@@ -91,7 +93,7 @@ public class ConfigController {
      */
     @PostMapping("/update")
     @Operation(summary = "更新参数配置")
-    @SaCheckPermission("system.config.update")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.update", orRole = Constants.ADMIN_ROLE)
     public String updateConfig(@Valid @RequestBody ConfigEditDTO config) {
         configService.updateConfig(config);
         return "更新成功";
@@ -104,7 +106,7 @@ public class ConfigController {
      */
     @PostMapping("/del")
     @Operation(summary = "删除参数配置")
-    @SaCheckPermission("system.config.del")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.del", orRole = Constants.ADMIN_ROLE)
     public String delConfig(@RequestBody List<String> ids) {
         configService.delConfig(ids);
         return "删除成功";

@@ -35,6 +35,12 @@ public interface Constants {
      * 文件分隔符
      */
     String FILE_SEPARATOR = "/";
+
+    /**
+     * 下划线
+     */
+    String UNDERLINE = "_";
+
     /**
      * 响应头 CONTENT_TYPE
      */
@@ -48,41 +54,6 @@ public interface Constants {
      * 失败标记
      */
     Integer FAIL = 500;
-
-    /**
-     * 登录成功状态
-     */
-    String LOGIN_SUCCESS_STATUS = "0";
-
-    /**
-     * 登录失败状态
-     */
-    String LOGIN_FAIL_STATUS = "1";
-
-    /**
-     * 登录成功
-     */
-    String LOGIN_SUCCESS = "Success";
-
-    /**
-     * 注销
-     */
-    String LOGOUT = "Logout";
-
-    /**
-     * 注册
-     */
-    String REGISTER = "Register";
-
-    /**
-     * 登录失败
-     */
-    String LOGIN_FAIL = "Error";
-
-    /**
-     * 验证码有效期（分钟）
-     */
-    long CAPTCHA_EXPIRATION = 2;
 
     /**
      * 菜单根节点id

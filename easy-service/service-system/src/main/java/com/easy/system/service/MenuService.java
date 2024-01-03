@@ -1,11 +1,11 @@
 package com.easy.system.service;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.constant.Constants;
 import com.easy.framework.enums.MenuType;
 import com.easy.framework.exception.CustomizeException;
+import com.easy.satoken.utils.LoginUtil;
 import com.easy.system.bean.dto.menu.MenuAddDTO;
 import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
@@ -45,9 +45,9 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      * @return {@link List<MenuTreeVO>}
      */
     public List<MenuTreeVO> getTreeMenu(MenuListDTO dto) {
-        dto.setUserId(StpUtil.getLoginId().toString());
+        dto.setUserId(LoginUtil.getLoginId());
         List<MenuTreeVO> treeList;
-        if (StpUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
+        if (LoginUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
             treeList = this.baseMapper.getAllMenuList(dto);
         } else {
             treeList = this.baseMapper.getMenuList(dto);
@@ -126,9 +126,9 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      * @return {@link  List<RouterVO>}
      */
     public List<RouterVO> getUserRouter() {
-        String userId = StpUtil.getLoginId().toString();
+        String userId = LoginUtil.getLoginId();
         List<MenuTreeVO> menuList;
-        if (StpUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
+        if (LoginUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
             menuList = this.baseMapper.getAllMenuList(new MenuListDTO()).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();
         } else {
             menuList = this.baseMapper.getMenuList(new MenuListDTO(userId, null)).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();

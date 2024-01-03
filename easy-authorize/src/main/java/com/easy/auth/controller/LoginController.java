@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
 import com.easy.auth.service.LoginService;
+import com.easy.satoken.utils.LoginUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -48,6 +49,6 @@ public class LoginController {
     @PostMapping("/logout")
     @Operation(description = "退出登录")
     public void logout() {
-        StpUtil.logout(StpUtil.getLoginId());
+        StpUtil.logout(LoginUtil.getLoginId());
     }
 }

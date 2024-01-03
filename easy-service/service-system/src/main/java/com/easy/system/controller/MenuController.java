@@ -4,6 +4,7 @@ package com.easy.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.constant.Constants;
+import com.easy.satoken.stp.StpAdminUtil;
 import com.easy.system.bean.dto.menu.MenuAddDTO;
 import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
@@ -54,7 +55,7 @@ public class MenuController {
      */
     @PostMapping(value = "/tree")
     @Operation(summary = "树形菜单")
-    @SaCheckPermission(value = "system.menu.tree", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.tree", orRole = Constants.ADMIN_ROLE)
     public List<MenuTreeVO> getTreeMenu(@RequestBody MenuListDTO dto) {
         return menuService.getTreeMenu(dto);
     }
@@ -66,7 +67,7 @@ public class MenuController {
      */
     @PostMapping(value = "/add")
     @Operation(summary = "新增菜单")
-    @SaCheckPermission(value = "system.menu.add", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.add", orRole = Constants.ADMIN_ROLE)
     public String addMenu(@Valid @RequestBody MenuAddDTO dto) {
         menuService.addMenu(dto);
         return "新增成功";
@@ -79,7 +80,7 @@ public class MenuController {
      */
     @PostMapping(value = "/update")
     @Operation(summary = "修改菜单")
-    @SaCheckPermission(value = "system.menu.update", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.update", orRole = Constants.ADMIN_ROLE)
     public String updateMenu(@Valid @RequestBody MenuEditDTO menu) {
         menuService.updateMenu(menu);
         return "修改成功";
@@ -92,7 +93,7 @@ public class MenuController {
      */
     @PostMapping(value = "/del")
     @Operation(summary = "删除菜单")
-    @SaCheckPermission(value = "system.menu.del", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.del", orRole = Constants.ADMIN_ROLE)
     public String delMenu(@RequestBody IdDTO id) {
         menuService.delMenu(id);
         return "删除成功";

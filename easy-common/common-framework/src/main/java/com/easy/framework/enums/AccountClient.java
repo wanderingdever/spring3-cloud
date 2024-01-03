@@ -16,6 +16,7 @@ public enum AccountClient {
     /**
      * 账号客户端枚举
      */
+    ADMIN("ADMIN", "管理端"),
     WEB("WEB", "WEB"),
     APP("APP", "APP"),
     ;
@@ -23,4 +24,13 @@ public enum AccountClient {
     private final String value;
 
     private final String desc;
+
+    public static AccountClient getByValue(String value) {
+        for (AccountClient accountClient : values()) {
+            if (accountClient.getValue().equals(value)) {
+                return accountClient;
+            }
+        }
+        return null;
+    }
 }

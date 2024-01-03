@@ -2,6 +2,7 @@ package com.easy.system.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.easy.datasource.scope.DataScopeService;
+import com.easy.satoken.utils.LoginUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -29,7 +30,7 @@ public class TestController {
     @Operation(summary = "测试sa-token")
     public String test() {
         StpUtil.getRoleList();
-        return StpUtil.getLoginId().toString();
+        return LoginUtil.getLoginId();
     }
 
     @PostMapping("/authorized_org_id_list")

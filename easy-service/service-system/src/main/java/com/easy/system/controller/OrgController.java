@@ -1,7 +1,10 @@
 package com.easy.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.datasource.bean.dto.IdDTO;
+import com.easy.framework.constant.Constants;
+import com.easy.satoken.stp.StpAdminUtil;
 import com.easy.system.bean.dto.org.OrgDTO;
 import com.easy.system.bean.dto.org.OrgEditDTO;
 import com.easy.system.bean.dto.org.OrgPageDTO;
@@ -58,24 +61,28 @@ public class OrgController {
 
     @PostMapping("/page")
     @Operation(summary = "分页查询组织")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.org.page", orRole = Constants.ADMIN_ROLE)
     public Page<OrgVO> page(@RequestBody OrgPageDTO dto) {
         return orgService.page(dto);
     }
 
     @PostMapping("/add")
     @Operation(summary = "新增组织信息")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.org.add", orRole = Constants.ADMIN_ROLE)
     public void add(@Valid @RequestBody OrgDTO dto) {
         orgService.add(dto);
     }
 
     @PostMapping("/update")
     @Operation(summary = "更新组织信息")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.org.update", orRole = Constants.ADMIN_ROLE)
     public void update(@Valid @RequestBody OrgEditDTO dto) {
         orgService.update(dto);
     }
 
     @PostMapping("/del")
     @Operation(summary = "删除组织信息")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.org.del", orRole = Constants.ADMIN_ROLE)
     public void del(@RequestBody IdDTO dto) {
         orgService.del(dto);
     }

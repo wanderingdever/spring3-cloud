@@ -1,12 +1,12 @@
 package com.easy.system.service;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.utils.PageUtil;
 import com.easy.framework.enums.ArticleStatus;
+import com.easy.satoken.utils.LoginUtil;
 import com.easy.system.bean.dto.notice.NoticeAddDTO;
 import com.easy.system.bean.dto.notice.NoticeEditDTO;
 import com.easy.system.bean.dto.notice.NoticeSearchDTO;
@@ -99,7 +99,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     }
 
     public Page<UserNoticeVO> userPageNotice(NoticeSearchDTO dto) {
-        dto.setUserId(StpUtil.getLoginId().toString());
+        dto.setUserId(LoginUtil.getLoginId());
         Page<UserNoticeVO> page = PageUtil.getPage(dto);
         page.setOptimizeCountSql(false);
         page.setRecords(getBaseMapper().userPageNotice(page, dto));
@@ -108,7 +108,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     public void userRead(IdDTO dto) {
         if ("0".equals(dto.getId())) {
-            userNoticeService.lambdaUpdate().eq(UserNotice::getUserId, StpUtil.getLoginId().toString()).set(UserNotice::getStatus, ArticleStatus.READ).update();
+            userNoticeService.lambdaUpdate().eq(UserNotice::getUserId, LoginUtil.getLoginId()).set(UserNotice::getStatus, ArticleStatus.READ).update();
         } else {
             userNoticeService.lambdaUpdate().eq(UserNotice::getId, dto.getId()).set(UserNotice::getStatus, ArticleStatus.READ).update();
         }

@@ -1,6 +1,5 @@
 package com.easy.system.service;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,6 +14,7 @@ import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.scope.DataScopeService;
 import com.easy.framework.enums.AuthorityLevel;
 import com.easy.framework.exception.CustomizeException;
+import com.easy.satoken.utils.LoginUtil;
 import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.dto.user.UserSearchDTO;
@@ -137,7 +137,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     private List<String> getAuthorizedOrgIdList(boolean containsChild) {
 
-        String userId = (String) StpUtil.getLoginId();
+        String userId = LoginUtil.getLoginId();
         List<Role> authRoleList = roleMapper.getAuthRoleList(userId);
         if (CollectionUtils.isEmpty(authRoleList)) {
             return new ArrayList<>();
@@ -173,7 +173,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
     public UserInfoExpandVO getUserInfo(HttpServletRequest request) {
-        UserInfoExpandVO userInfo = this.baseMapper.selectUserInfo((String) StpUtil.getLoginId());
+        UserInfoExpandVO userInfo = this.baseMapper.selectUserInfo(LoginUtil.getLoginId());
         //  岗位、角色、组织关联查询
         UserRoleAndPermissionVO userRoleList = roleService.getUserRoleKeyList(userInfo.getId());
         userInfo.setRoleList(userRoleList.getRoles().stream().map(RoleVO::getRoleKey).toList());

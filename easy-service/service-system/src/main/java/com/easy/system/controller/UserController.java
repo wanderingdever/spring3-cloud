@@ -1,7 +1,10 @@
 package com.easy.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.datasource.bean.dto.IdDTO;
+import com.easy.framework.constant.Constants;
+import com.easy.satoken.stp.StpAdminUtil;
 import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.dto.user.UserPwdDTO;
@@ -53,6 +56,7 @@ public class UserController {
 
     @PostMapping("/page")
     @Operation(summary = "分页查询")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.user.page", orRole = Constants.ADMIN_ROLE)
     public Page<UserInfoExpandVO> page(@RequestBody UserSearchDTO dto) {
         return userService.page(dto);
     }
@@ -60,6 +64,7 @@ public class UserController {
 
     @PostMapping("/add")
     @Operation(summary = "新增用户")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.user.add", orRole = Constants.ADMIN_ROLE)
     public String add(@Valid @RequestBody UserDTO add) {
         return userManager.add(add);
     }
@@ -67,6 +72,7 @@ public class UserController {
 
     @PostMapping("/update")
     @Operation(summary = "更新用户")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.user.update", orRole = Constants.ADMIN_ROLE)
     public void update(@Valid @RequestBody UserEditDTO user) {
         userManager.update(user);
     }
@@ -78,6 +84,7 @@ public class UserController {
      */
     @PostMapping("/reset_pwd")
     @Operation(summary = "重置密码")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.user.update", orRole = Constants.ADMIN_ROLE)
     public void resetPwd(@RequestBody UserPwdDTO dto) {
         userManager.resetPwd(dto);
     }
@@ -89,14 +96,9 @@ public class UserController {
      */
     @PostMapping("/del")
     @Operation(summary = "删除用户")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.user.del", orRole = Constants.ADMIN_ROLE)
     public void del(@RequestBody IdDTO dto) {
         userManager.del(dto);
-    }
-
-    @PostMapping("/page_login")
-    @Operation(summary = "分页查询")
-    public void pageLogin(@RequestBody UserSearchDTO dto) {
-
     }
 
 }

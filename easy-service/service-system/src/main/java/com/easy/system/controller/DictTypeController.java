@@ -5,7 +5,9 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.vo.DictTypeVO;
 import com.easy.datasource.bean.dto.IdDTO;
+import com.easy.framework.constant.Constants;
 import com.easy.framework.exception.CustomizeException;
+import com.easy.satoken.stp.StpAdminUtil;
 import com.easy.system.bean.dto.dict.*;
 import com.easy.system.bean.pojo.DictData;
 import com.easy.system.bean.pojo.DictType;
@@ -97,7 +99,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/page")
     @Operation(summary = "分页查询")
-    @SaCheckPermission("system.dict.page")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.page", orRole = Constants.ADMIN_ROLE)
     public Page<DictType> pageDictType(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictType(dto);
     }
@@ -110,7 +112,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/add")
     @Operation(summary = "新增字典类型")
-    @SaCheckPermission("system.dict.add")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.add", orRole = Constants.ADMIN_ROLE)
     public String addDictType(@Valid @RequestBody DictTypeAddDTO dto) {
         dictTypeService.addDictType(dto);
         return "新增类型成功";
@@ -123,7 +125,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/update")
     @Operation(summary = "修改字典类型")
-    @SaCheckPermission("system.dict.update")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.update", orRole = Constants.ADMIN_ROLE)
     public String updateDictType(@Valid @RequestBody DictTypeEditDTO dto) {
         dictTypeService.updateDictType(dto);
         return "更新类型成功";
@@ -136,7 +138,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/type/del")
     @Operation(summary = "删除字典类型")
-    @SaCheckPermission("system.dict.del")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.del", orRole = Constants.ADMIN_ROLE)
     public String delDictType(@RequestBody IdDTO id) {
         dictTypeService.delDictType(id);
         return "删除类型成功";
@@ -151,7 +153,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/page")
     @Operation(summary = "分页查询")
-    @SaCheckPermission("system.dict.page")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.page", orRole = Constants.ADMIN_ROLE)
     public Page<DictData> pageDictData(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictData(dto);
     }
@@ -163,7 +165,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/add")
     @Operation(summary = "新增字典数据")
-    @SaCheckPermission("system.dict.add")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.add", orRole = Constants.ADMIN_ROLE)
     public String addDictData(@Valid @RequestBody DictDataAddDTO dto) {
         dictTypeService.addDictData(dto);
         return "新增数据成功";
@@ -176,7 +178,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/update")
     @Operation(summary = "修改字典数据")
-    @SaCheckPermission("system.dict.update")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.update", orRole = Constants.ADMIN_ROLE)
     public String updateDictData(@Valid @RequestBody DictDataEditDTO dto) {
         dictTypeService.updateDictData(dto);
         return "更新数据成功";
@@ -189,7 +191,7 @@ public class DictTypeController {
      */
     @PostMapping(value = "/data/del")
     @Operation(summary = "删除字典数据")
-    @SaCheckPermission("system.dict.del")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.del", orRole = Constants.ADMIN_ROLE)
     public String delDictData(@RequestBody List<String> ids) {
         dictTypeService.delDictData(ids);
         return "删除数据成功";
