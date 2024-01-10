@@ -7,6 +7,7 @@ import com.easy.api.service.RemoteUserService;
 import com.easy.api.vo.UserVO;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
+import com.easy.auth.bean.UserDTO;
 import com.easy.framework.enums.AccountClient;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
@@ -33,11 +34,11 @@ public class LoginService {
     /**
      * 检查用户是否已存在
      *
-     * @param username 用户名
+     * @param dto 用户名
      * @return 存在true; 不存在false;
      */
-    public boolean checkUser(String username) {
-        UserVO userVO = remoteUserService.selectUserByUsername(username);
+    public boolean checkUser(UserDTO dto) {
+        UserVO userVO = remoteUserService.selectUserByUsername(dto.getUsername());
         return userVO != null;
     }
 
