@@ -17,9 +17,10 @@ public enum AccountStatus {
     /**
      * 账号状态
      */
-    INACTIVATED("INACTIVATED", "未激活"),
+    INACTIVATED("INACTIVATED", "账号未激活"),
     NORMAL("NORMAL", "正常"),
-    STOP("STOP", "停用"),
+    STOP("STOP", "账号已被停用"),
+    AUTHORIZE_EXPIRED("AUTHORIZE_EXPIRED", "账号授权过期"),
     ;
     @EnumValue
     private final String value;

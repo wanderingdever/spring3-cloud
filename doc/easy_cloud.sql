@@ -1,10 +1,10 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 120.48.20.27-3124
+ Source Server         : 117.72.8.221-3124
  Source Server Type    : MySQL
  Source Server Version : 80029 (8.0.29)
- Source Host           : 120.48.20.27:3124
+ Source Host           : 117.72.8.221:3124
  Source Schema         : easy_cloud
 
  Target Server Type    : MySQL

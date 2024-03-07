@@ -9,6 +9,7 @@ import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
 import com.easy.auth.bean.UserDTO;
 import com.easy.framework.enums.AccountClient;
+import com.easy.framework.enums.AccountStatus;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
 import com.easy.redis.utils.RedisUtils;
@@ -70,8 +71,13 @@ public class LoginService {
         if (user == null) {
             throw new CustomizeException("账号不存在");
         }
+        // 所属客户端
         if (user.getClient() != AccountClient.ADMIN) {
             throw new CustomizeException("账号不存在");
+        }
+        // 账号状态
+        if (user.getStatus() != AccountStatus.NORMAL) {
+            throw new CustomizeException(user.getStatus().getDesc());
         }
         // 校验密码
         if (!BCrypt.checkpw(login.getPassword(), user.getPassword())) {
