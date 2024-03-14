@@ -9,13 +9,14 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>easy-service-file</artifactId>
+    <artifactId>easy-service-xxl-job</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -32,31 +33,15 @@
 
         <dependency>
             <groupId>com.easy</groupId>
-            <artifactId>easy-common-datasource</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.easy</groupId>
-                    <artifactId>easy-common-satoken</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>easy-common-redis</artifactId>
             <version>0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.easy</groupId>
-            <artifactId>easy-common-satoken</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <!--minio-->
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>8.5.1</version>
         </dependency>
 
+        <!-- xxl-job-core -->
         <dependency>
-            <groupId>com.easy</groupId>
-            <artifactId>easy-api-file</artifactId>
-            <version>0.0.1</version>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>2.4.0</version>
         </dependency>
     </dependencies>
 </project>
