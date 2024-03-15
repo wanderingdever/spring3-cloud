@@ -25,8 +25,11 @@ dubbo:
 xxl:
   job:
     admin:
-      addresses: http://192.168.5.111:8080/xxl-job-admin/
+      addresses: http://127.0.0.1:8080/xxl-job-admin
     executor:
-      appname: easy-job-executor
-      accesstoken: default_token
-      logpath: ./logs/xxlJob/
+      ip:
+      port: 9999
+      app-name: easy-job-executor
+      access-token: default_token
+      log-path: ./logs/xxlJob/
+      log-retention-days: 7

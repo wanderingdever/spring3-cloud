@@ -101,6 +101,17 @@ public class ConfigService extends ServiceImpl<ConfigMapper, Config> implements 
     }
 
     /**
+     * 根据参数键获取参数值
+     *
+     * @param configKey 参数键
+     * @return 参数值-String
+     */
+    public String getConfigValue(String configKey) {
+        ConfigVO config = getConfig(configKey);
+        return config != null ? config.getConfigValue() : null;
+    }
+
+    /**
      * 获取参数配置
      *
      * @param configKey key
@@ -108,7 +119,7 @@ public class ConfigService extends ServiceImpl<ConfigMapper, Config> implements 
      */
     @Override
     public ConfigVO getConfig(String configKey) {
-        ConfigVO result = new ConfigVO();
+        ConfigVO result = null;
         // 获取缓存数据
         List<ConfigVO> configList = getCacheConfigList();
         if (StringUtil.isNotEmpty(configList)) {
