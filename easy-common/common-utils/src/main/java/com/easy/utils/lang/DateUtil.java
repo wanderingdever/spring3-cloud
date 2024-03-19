@@ -24,7 +24,8 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
             {"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss",
                     "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
 
-    public static final String[] WEEK = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
+    public static final String[] WEEK_CN = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
+    public static final String[] WEEK_EN = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
     public static final String[] HOUR_INDEX = {"0-6", "6-8", "8-10", "10-12", "12-14", "14-16", "16-18", "18-20", "20-22", "22-24"};
 
     private DateUtil() {
@@ -82,13 +83,12 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      */
     public static String dateToWeek(String date) {
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-        String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
         // 获得一个日历
         Calendar cal = Calendar.getInstance();
-        Date datet;
+        Date dateFormat;
         try {
-            datet = f.parse(date);
-            cal.setTime(datet);
+            dateFormat = f.parse(date);
+            cal.setTime(dateFormat);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         if (w < 0) {
             w = 0;
         }
-        return weekDays[w];
+        return WEEK_EN[w];
     }
 
     /**
@@ -108,8 +108,8 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         if (StringUtils.isBlank(week)) {
             throw new RuntimeException("时间不能为空");
         }
-        for (int i = 0; i < WEEK.length; i++) {
-            if (WEEK[i].equals(week)) {
+        for (int i = 0; i < WEEK_CN.length; i++) {
+            if (WEEK_CN[i].equals(week)) {
                 return i;
             }
         }
@@ -133,7 +133,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         if (StringUtils.isBlank(date)) {
             throw new RuntimeException("时间不能为空");
         }
-        //截取小时
+        // 截取小时
         int hour = Integer.parseInt(date.substring(11, 13));
         for (int i = 0; i < HOUR_INDEX.length; i++) {
             if (Integer.parseInt(HOUR_INDEX[i].split("-")[0]) <= hour && hour < Integer.parseInt(HOUR_INDEX[i].split("-")[1])) {
@@ -167,8 +167,6 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         long between = endDate.getTime() - stDate.getTime();
         return (between / 1000);
     }
-
-
 
 
 }
