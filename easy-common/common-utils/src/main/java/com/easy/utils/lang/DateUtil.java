@@ -7,10 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -27,7 +24,12 @@ import static cn.hutool.core.date.DatePattern.PURE_TIME_FORMATTER;
  * @author Matt
  */
 public class DateUtil extends cn.hutool.core.date.DateUtil {
+
     public static final String DATE_PATH = "yyyy/MM/dd";
+
+    public static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String RFC_PATTERN = "yyyy-MM-dd'T'HH:mm:ssXXX";
+
     public static final String[] PARSE_PATTERNS =
             {"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss",
                     "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
@@ -40,15 +42,34 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
     }
 
     public static String now() {
-        return LocalDateTime.now(ZoneId.of("UTC+8")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return now("yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static String now(String pattern) {
+        return LocalDateTime.now(ZoneId.of("UTC+8")).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     public static LocalDateTime nowLocalDateTime() {
         return LocalDateTime.now(ZoneId.of("UTC+8"));
     }
 
+    public static Date nowDate() {
+        ZonedDateTime zdt = LocalDateTime.now().atZone(ZoneId.of("UTC+8"));
+        return Date.from(zdt.toInstant());
+    }
+
+    public static String get(String datePattern) {
+        return format(LocalDateTime.now(ZoneId.of("UTC+8")), datePattern);
+    }
+
     public static String getDate() {
         return format(LocalDateTime.now(ZoneId.of("UTC+8")), DatePattern.NORM_DATE_PATTERN);
+    }
+
+    public static Date toDate(String date) {
+        LocalDateTime parse = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        ZonedDateTime zdt = parse.atZone(ZoneId.of("UTC+8"));
+        return Date.from(zdt.toInstant());
     }
 
     /**
@@ -85,16 +106,14 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
     /**
      * 传入两个时间范围，返回这两个时间范围内的所有日期，并保存在一个集合中
      */
-    public static List<String> findEveryDay(String beginTime, String endTime) {
+    public static List<String> findEveryDay(String beginTime, String endTime, String formatter) {
         // 1.创建一个放所有日期的集合
         List<String> dates = new ArrayList<>();
-        // 2.创建时间解析对象规定解析格式
-        String datePattern = DatePattern.NORM_DATE_PATTERN;
         // 3.将传入的时间解析成Date类型,相当于格式化
-        Date dBegin = parse(beginTime, datePattern);
-        Date dEnd = parse(endTime, datePattern);
+        Date dBegin = parse(beginTime, formatter);
+        Date dEnd = parse(endTime, formatter);
         // 4.将格式化后的第一天添加进集合
-        dates.add(format(dBegin, datePattern));
+        dates.add(format(dBegin, formatter));
         // 5.使用本地的时区和区域获取日历
         Calendar calBegin = Calendar.getInstance();
         // 6.传入起始时间将此日历设置为起始日历
@@ -104,7 +123,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
             // 9.根据日历的规则:月份中的每一天，为起始日历加一天
             calBegin.add(Calendar.DAY_OF_MONTH, 1);
             // 10.得到的每一天就添加进集合
-            dates.add(format(calBegin.getTime(), datePattern));
+            dates.add(format(calBegin.getTime(), formatter));
             // 11.如果当前的起始日历超过结束日期后,就结束循环
         }
         return dates;
@@ -191,7 +210,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         if (st.equals(end)) {
             return 0;
         }
-        SimpleDateFormat format = new SimpleDateFormat(PARSE_PATTERNS[1]);
+        SimpleDateFormat format = new SimpleDateFormat(DEFAULT_PATTERN);
         Date stDate = format.parse(st);
         Date endDate = format.parse(end);
         return getTimeDifference(stDate, endDate);
@@ -305,19 +324,6 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
 
 
     /**
-     * 获取指定时区的当前时间作为LocalDateTime对象。
-     *
-     * @param timeZoneId 时区ID，例如 "Asia/Shanghai" 或 "America/New_York"
-     * @return 指定时区的当前LocalDateTime
-     */
-    public static LocalDateTime getCurrentTimeInTimeZone(String timeZoneId) {
-        ZoneId targetZone = ZoneId.of(timeZoneId);
-        ZonedDateTime zonedDateTime = ZonedDateTime.now(targetZone);
-        return zonedDateTime.toLocalDateTime();
-    }
-
-
-    /**
      * 根据给定的日期时间字符串和小时数，计算并返回过去或未来指定小时数后的日期时间字符串。
      *
      * @param dateTimeStr 原始日期时间字符串，格式为 "yyyy-MM-dd HH:mm:ss"
@@ -356,4 +362,47 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         return formatLocalDateTime(newDateTime);
     }
 
+    /**
+     * 将 "yyyy-MM-dd HH:mm:ss" 格式的字符串时间转换为指定时区的时间戳（毫秒）
+     *
+     * @param timeStr 输入的日期时间字符串，格式为 "yyyy-MM-dd HH:mm:ss"
+     * @return 给定时间在指定时区下的时间戳（毫秒）
+     * @throws IllegalArgumentException 如果输入字符串无法解析或时区 ID 无效
+     */
+    public static long convertStringToTimestamp(String timeStr) throws IllegalArgumentException {
+        // 校验输入参数
+        if (timeStr == null) {
+            throw new IllegalArgumentException("Both timeStr must not be null.");
+        }
+        // 定义日期时间格式器，与输入字符串的格式匹配
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            // 解析字符串为 LocalDateTime 对象
+            LocalDateTime dateTime = LocalDateTime.parse(timeStr, formatter);
+
+            // 将 LocalDateTime 转换为 ZonedDateTime，指定时区
+            ZoneId zoneId = ZoneId.of("UTC+8");
+            ZonedDateTime zonedDateTime = dateTime.atZone(zoneId);
+
+            // 从 ZonedDateTime 获取对应的 Instant
+            Instant instant = zonedDateTime.toInstant();
+
+            // 从 Instant 中获取时间戳（毫秒）
+            return instant.getEpochSecond();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid timeStr or timeZoneId.", e);
+        }
+    }
+
+    public static String rfcTime() {
+
+        return rfcTime(LocalDateTime.now());
+    }
+
+    public static String rfcTime(LocalDateTime localDateTime) {
+
+        ZonedDateTime zonedDateTime = localDateTime.atZone(java.time.ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RFC_PATTERN);
+        return zonedDateTime.format(formatter);
+    }
 }
