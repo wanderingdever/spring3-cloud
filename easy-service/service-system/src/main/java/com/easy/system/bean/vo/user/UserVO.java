@@ -9,6 +9,11 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "用户")

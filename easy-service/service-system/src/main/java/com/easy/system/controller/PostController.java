@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @RestController
 @RequestMapping("/post")
 @Tag(name = "岗位管理")

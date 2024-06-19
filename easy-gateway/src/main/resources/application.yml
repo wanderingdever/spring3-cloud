@@ -23,10 +23,18 @@ spring:
             - StripPrefix=1
         - metadata:
             serviceName: 'easy-services-system'
-          id: easy-service-system         # 路由ID
-          uri: lb://easy-service-system   # 目标服务URI
+          id: easy-service-system
+          uri: lb://easy-service-system
           predicates:
             - Path=/service-system/**
+          filters:
+            - StripPrefix=1
+        - metadata:
+            serviceName: 'easy-services-file'
+          id: easy-service-file
+          uri: lb://easy-service-file
+          predicates:
+            - Path=/service-file/**
           filters:
             - StripPrefix=1
     sentinel:

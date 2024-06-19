@@ -25,4 +25,5 @@ public interface MenuMapper extends BaseMapper<Menu> {
      */
     List<MenuTreeVO> getMenuList(@Param("search") MenuListDTO search);
 
+    List<MenuTreeVO> getAllMenuList(@Param("search") MenuListDTO search);
 }

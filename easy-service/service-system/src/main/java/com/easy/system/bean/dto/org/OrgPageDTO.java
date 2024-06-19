@@ -1,12 +1,15 @@
 package com.easy.system.bean.dto.org;
 
 import com.easy.datasource.bean.dto.PageDTO;
-import com.easy.system.bean.enums.OrgLevel;
-import com.easy.system.bean.enums.OrgTag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "组织分页-入参")
@@ -22,7 +25,7 @@ public class OrgPageDTO extends PageDTO {
     private String orgShortName;
 
     @Schema(description = "组织级别")
-    private OrgLevel orgLevel;
+    private String orgLevel;
 
     @Schema(description = "组织类型")
     private String orgType;
@@ -34,7 +37,7 @@ public class OrgPageDTO extends PageDTO {
     private String orgCode;
 
     @Schema(description = "组织标签")
-    private OrgTag orgTag;
+    private String orgTag;
 
     @Schema(description = "省")
     private String orgProvince;
@@ -45,14 +48,11 @@ public class OrgPageDTO extends PageDTO {
     @Schema(description = "区")
     private String orgDistrict;
 
+    @Schema(description = "区划代码集")
+    private String orgAreaCode;
+
     @Schema(description = "详细地址")
     private String orgAddress;
-
-    @Schema(description = "经度")
-    private String orgLongitude;
-
-    @Schema(description = "纬度")
-    private String orgLatitude;
 
     @Schema(description = "机构简介")
     private String orgDesc;

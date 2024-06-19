@@ -1,2 +1,5 @@
 com.easy.satoken.config.SaTokenConfig
+com.easy.satoken.config.ApiWhiteListProperties
 com.easy.satoken.config.SaTokenPermissionConfig
+com.easy.satoken.exception.GlobalExceptionHandler
+com.easy.satoken.stp.StpAdminUtil

@@ -1,12 +1,18 @@
 package com.easy.auth.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
+import com.easy.auth.bean.UserDTO;
 import com.easy.auth.service.LoginService;
+import com.easy.satoken.utils.LoginUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 登录
@@ -25,10 +31,10 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/check_user/{username}")
+    @PostMapping("/check_user")
     @Operation(description = "检查用户")
-    public boolean checkUser(@PathVariable String username) {
-        return loginService.checkUser(username);
+    public boolean checkUser(@RequestBody UserDTO dto) {
+        return loginService.checkUser(dto);
     }
 
     @PostMapping("/pwd_login")
@@ -42,5 +48,11 @@ public class LoginController {
     public TokenInfo codeLogin(@Valid PwdLogin login) {
         // TODO 密码登录
         return null;
+    }
+
+    @PostMapping("/logout")
+    @Operation(description = "退出登录")
+    public void logout() {
+        StpUtil.logout(LoginUtil.getLoginId());
     }
 }

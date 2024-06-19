@@ -15,21 +15,24 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Schema(title = "用户查询/分页入参")
+@Schema(description = "用户查询/分页入参")
 public class UserSearchDTO extends PageDTO {
 
-    @Schema(title = "性别")
+    @Schema(description = "机构ID ")
+    private String orgId;
+
+    @Schema(description = "性别")
     private Gender gender;
 
-    @Schema(title = "账号")
+    @Schema(description = "账号")
     private String username;
 
-    @Schema(title = "手机号")
+    @Schema(description = "手机号")
     private String phone;
 
-    @Schema(title = "邮箱")
+    @Schema(description = "邮箱")
     private String email;
 
-    @Schema(title = "账号状态")
+    @Schema(description = "账号状态")
     private AccountStatus accountStatus;
 }

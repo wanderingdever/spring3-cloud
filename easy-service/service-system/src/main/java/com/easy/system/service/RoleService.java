@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.RemoteRoleService;
 import com.easy.api.vo.UserRoleAndPermissionVO;
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.datasource.bean.dto.IdListDTO;
 import com.easy.datasource.utils.PageUtil;
 import com.easy.framework.enums.DelEnum;
@@ -29,6 +30,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ${desc}
@@ -65,7 +67,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
         // 查询权限集合
         List<String> permissions = roleMenuService.getBaseMapper().selectRolePermissions(roleIdList);
         // 查询角色key集合
-        List<String> roles = lambdaQuery().in(Role::getId, roleIdList).list().stream().map(Role::getRoleKey).toList();
+        List<com.easy.api.vo.RoleVO> roles = baseMapper.selectRoleVoByIds(roleIdList);
         return new UserRoleAndPermissionVO(roles, permissions);
     }
 
@@ -87,7 +89,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
         // 保存角色信息
         this.save(role);
         // 保存角色菜单关联信息
-        saveRoleMenu(role.getId(), dto.getMenuIds());
+        saveRoleMenu(role.getId(), dto.getMenuList());
     }
 
     /**
@@ -125,22 +127,26 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
 
     @Transactional(rollbackFor = Exception.class)
     public void updateRole(RoleEditDTO dto) {
-
+        Role role = lambdaQuery().eq(Role::getId, dto.getId()).one();
+        if (!role.getOrgId().equals(dto.getOrgId())) {
+            long userRole = userRoleService.lambdaQuery().eq(UserRole::getRoleId, dto.getId()).count();
+            if (userRole > 0) {
+                throw new CustomizeException("所选角色已被分配,无法删除");
+            }
+        }
         // 更新角色信息
-        Role role = new Role();
         BeanUtil.copyProperties(dto, role);
         this.updateById(role);
         // 删除原有菜单
         roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().eq(RoleMenu::getRoleId, dto.getId()));
         // 保存角色菜单关联信息
-        saveRoleMenu(dto.getId(), dto.getMenuIds());
+        saveRoleMenu(dto.getId(), dto.getMenuList());
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void delRole(IdListDTO dto) {
-
         for (String id : dto.getIdList()) {
-            int userRole = this.baseMapper.countUserByRoleId(id);
+            long userRole = userRoleService.lambdaQuery().eq(UserRole::getRoleId, id).count();
             if (userRole > 0) {
                 throw new CustomizeException("所选角色已被分配,无法删除");
             } else {
@@ -153,5 +159,13 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements Remote
                         .update();
             }
         }
+    }
+
+    public List<String> roleMenuIds(IdDTO dto) {
+        List<RoleMenu> list = roleMenuService.lambdaQuery().eq(RoleMenu::getRoleId, dto.getId()).list();
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list.stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
     }
 }

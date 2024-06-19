@@ -5,10 +5,10 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.vo.DictTypeVO;
 import com.easy.datasource.bean.dto.IdDTO;
+import com.easy.framework.constant.Constants;
 import com.easy.framework.exception.CustomizeException;
-import com.easy.system.bean.dto.dict.DictDTO;
-import com.easy.system.bean.dto.dict.DictDataDTO;
-import com.easy.system.bean.dto.dict.DictSearchDTO;
+import com.easy.satoken.stp.StpAdminUtil;
+import com.easy.system.bean.dto.dict.*;
 import com.easy.system.bean.pojo.DictData;
 import com.easy.system.bean.pojo.DictType;
 import com.easy.system.service.DictTypeService;
@@ -47,7 +47,7 @@ public class DictTypeController {
      * 重载缓存
      */
     @PostMapping(value = "/overload")
-    @Operation(description = "重载字典缓存")
+    @Operation(summary = "重载字典缓存")
     public void overloadDict() {
         dictTypeService.loadingDictCache();
     }
@@ -59,7 +59,7 @@ public class DictTypeController {
      * @return 字典数据
      */
     @PostMapping("/dict_by_type")
-    @Operation(description = "获取字典类型以及其下的字典数据")
+    @Operation(summary = "获取字典类型以及其下的字典数据")
     public DictTypeVO getDictTypeByDictType(@RequestBody DictSearchDTO dto) {
         if (StringUtil.isBlank(dto.getDictType())) {
             throw new CustomizeException("字典类型不能为空");
@@ -74,7 +74,7 @@ public class DictTypeController {
      * @return 字典类型信息
      */
     @PostMapping(value = "/get")
-    @Operation(description = "获取字典类型详情")
+    @Operation(summary = "获取字典类型详情")
     public DictType getDictTypeInfoById(@Valid @RequestBody IdDTO dto) {
         return dictTypeService.getDictTypeInfoById(dto.getId());
     }
@@ -86,7 +86,7 @@ public class DictTypeController {
      * @return 集合数据
      */
     @PostMapping(value = "/type_data_list")
-    @Operation(description = "集合查询")
+    @Operation(summary = "集合查询")
     public List<DictType> listTypeAndData(@RequestBody DictSearchDTO dto) {
         return dictTypeService.getTypeAndDataList(dto);
     }
@@ -98,8 +98,8 @@ public class DictTypeController {
      * @return 分页数据
      */
     @PostMapping(value = "/type/page")
-    @Operation(description = "分页查询")
-    @SaCheckPermission("system.dictType.page")
+    @Operation(summary = "分页查询")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.page", orRole = Constants.ADMIN_ROLE)
     public Page<DictType> pageDictType(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictType(dto);
     }
@@ -111,11 +111,11 @@ public class DictTypeController {
      * @param dto 新增入参
      */
     @PostMapping(value = "/type/add")
-    @Operation(description = "新增字典类型")
-    @SaCheckPermission("system.dictType.add")
-    public String addDictType(@Valid @RequestBody DictDTO dto) {
+    @Operation(summary = "新增字典类型")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.add", orRole = Constants.ADMIN_ROLE)
+    public String addDictType(@Valid @RequestBody DictTypeAddDTO dto) {
         dictTypeService.addDictType(dto);
-        return "";
+        return "新增类型成功";
     }
 
     /**
@@ -124,11 +124,11 @@ public class DictTypeController {
      * @param dto 字典信息
      */
     @PostMapping(value = "/type/update")
-    @Operation(description = "修改字典类型")
-    @SaCheckPermission("system.dictType.update")
-    public String updateDictType(@Valid @RequestBody DictDTO dto) {
+    @Operation(summary = "修改字典类型")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.update", orRole = Constants.ADMIN_ROLE)
+    public String updateDictType(@Valid @RequestBody DictTypeEditDTO dto) {
         dictTypeService.updateDictType(dto);
-        return "";
+        return "更新类型成功";
     }
 
     /**
@@ -137,11 +137,11 @@ public class DictTypeController {
      * @param id 主键
      */
     @PostMapping(value = "/type/del")
-    @Operation(description = "删除字典类型")
-    @SaCheckPermission("system.dictType.del")
+    @Operation(summary = "删除字典类型")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.del", orRole = Constants.ADMIN_ROLE)
     public String delDictType(@RequestBody IdDTO id) {
         dictTypeService.delDictType(id);
-        return "";
+        return "删除类型成功";
     }
 
 
@@ -152,8 +152,8 @@ public class DictTypeController {
      * @return 分页数据
      */
     @PostMapping(value = "/data/page")
-    @Operation(description = "分页查询")
-    @SaCheckPermission("system.dictData.page")
+    @Operation(summary = "分页查询")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.page", orRole = Constants.ADMIN_ROLE)
     public Page<DictData> pageDictData(@RequestBody DictSearchDTO dto) {
         return dictTypeService.pageDictData(dto);
     }
@@ -164,11 +164,11 @@ public class DictTypeController {
      * @param dto 新增入参
      */
     @PostMapping(value = "/data/add")
-    @Operation(description = "新增字典数据")
-    @SaCheckPermission("system.dictData.add")
-    public String addDictData(@Valid @RequestBody DictDataDTO dto) {
+    @Operation(summary = "新增字典数据")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.add", orRole = Constants.ADMIN_ROLE)
+    public String addDictData(@Valid @RequestBody DictDataAddDTO dto) {
         dictTypeService.addDictData(dto);
-        return "";
+        return "新增数据成功";
     }
 
     /**
@@ -177,11 +177,11 @@ public class DictTypeController {
      * @param dto 字典信息
      */
     @PostMapping(value = "/data/update")
-    @Operation(description = "修改字典类型")
-    @SaCheckPermission("system.dictData.update")
-    public String updateDictData(@Valid @RequestBody DictDataDTO dto) {
+    @Operation(summary = "修改字典数据")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.update", orRole = Constants.ADMIN_ROLE)
+    public String updateDictData(@Valid @RequestBody DictDataEditDTO dto) {
         dictTypeService.updateDictData(dto);
-        return "";
+        return "更新数据成功";
     }
 
     /**
@@ -190,10 +190,10 @@ public class DictTypeController {
      * @param ids 主键集合
      */
     @PostMapping(value = "/data/del")
-    @Operation(description = "删除字典类型")
-    @SaCheckPermission("system.dictData.del")
+    @Operation(summary = "删除字典数据")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.dict.del", orRole = Constants.ADMIN_ROLE)
     public String delDictData(@RequestBody List<String> ids) {
         dictTypeService.delDictData(ids);
-        return "";
+        return "删除数据成功";
     }
 }

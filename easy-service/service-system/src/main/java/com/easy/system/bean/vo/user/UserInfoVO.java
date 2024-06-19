@@ -1,13 +1,17 @@
 package com.easy.system.bean.vo.user;
 
 import com.easy.framework.enums.Gender;
-import com.easy.system.bean.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "用户信息")
@@ -31,12 +35,4 @@ public class UserInfoVO extends UserVO implements Serializable {
     @Schema(description = "性别")
     private Gender gender;
 
-    @Schema(description = "人脸ID")
-    private String faceId;
-
-    @Schema(description = "用户类型")
-    private UserType userType;
-
-    @Schema(description = "备注")
-    private String remark;
 }

@@ -3,7 +3,7 @@ package com.easy.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.easy.framework.bean.base.BaseEntity;
-import com.easy.system.bean.enums.AuthorityLevel;
+import com.easy.framework.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -61,7 +61,4 @@ public class Role extends BaseEntity {
     @Schema(description = "是否启用")
     private Boolean enable;
 
-    @TableField(value = "remark")
-    @Schema(description = "备注")
-    private String remark;
 }

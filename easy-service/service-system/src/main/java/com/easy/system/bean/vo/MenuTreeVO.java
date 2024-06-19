@@ -1,7 +1,7 @@
 package com.easy.system.bean.vo;
 
 import com.easy.framework.bean.base.BaseVO;
-import com.easy.system.bean.enums.MenuType;
+import com.easy.framework.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

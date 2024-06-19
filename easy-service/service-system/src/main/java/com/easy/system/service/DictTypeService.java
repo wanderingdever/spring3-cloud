@@ -11,9 +11,7 @@ import com.easy.datasource.utils.PageUtil;
 import com.easy.framework.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
 import com.easy.redis.utils.RedisUtils;
-import com.easy.system.bean.dto.dict.DictDTO;
-import com.easy.system.bean.dto.dict.DictDataDTO;
-import com.easy.system.bean.dto.dict.DictSearchDTO;
+import com.easy.system.bean.dto.dict.*;
 import com.easy.system.bean.pojo.DictData;
 import com.easy.system.bean.pojo.DictType;
 import com.easy.system.dao.DictTypeMapper;
@@ -96,8 +94,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
         return lambdaQuery()
                 .like(StringUtil.isNotBlank(dto.getDictName()), DictType::getDictName, dto.getDictName())
                 .eq(StringUtil.isNotBlank(dto.getDictType()), DictType::getDictType, dto.getDictType())
-                .eq(StringUtil.isNotNull(dto
-                        .getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
+                .eq(StringUtil.isNotNull(dto.getIsSystem()), DictType::getIsSystem, dto.getIsSystem())
                 .eq(StringUtil.isNotNull(dto.getEnable()), DictType::getEnable, dto.getEnable())
                 .page(PageUtil.getPage(dto));
     }
@@ -108,7 +105,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param dto 入参
      */
     @Transactional(rollbackFor = Exception.class)
-    public void addDictType(DictDTO dto) {
+    public void addDictType(DictTypeAddDTO dto) {
         DictType dictType = new DictType();
         BeanUtils.copyProperties(dto, dictType);
         this.save(dictType);
@@ -120,7 +117,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param dto 字典类型
      */
     @Transactional(rollbackFor = Exception.class)
-    public void updateDictType(DictDTO dto) {
+    public void updateDictType(DictTypeEditDTO dto) {
         DictType dictType = new DictType();
         BeanUtils.copyProperties(dto, dictType);
         this.updateById(dictType);
@@ -227,7 +224,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param dto 字典数据
      */
     @Transactional(rollbackFor = Exception.class)
-    public void addDictData(DictDataDTO dto) {
+    public void addDictData(DictDataAddDTO dto) {
         DictData dictType = new DictData();
         BeanUtils.copyProperties(dto, dictType);
         dictDataService.save(dictType);
@@ -239,7 +236,7 @@ public class DictTypeService extends ServiceImpl<DictTypeMapper, DictType> imple
      * @param dto 字典数据
      */
     @Transactional(rollbackFor = Exception.class)
-    public void updateDictData(DictDataDTO dto) {
+    public void updateDictData(DictDataEditDTO dto) {
         DictData dictType = new DictData();
         BeanUtils.copyProperties(dto, dictType);
         dictDataService.updateById(dictType);

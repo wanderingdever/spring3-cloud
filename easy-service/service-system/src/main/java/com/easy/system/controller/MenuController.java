@@ -2,9 +2,12 @@ package com.easy.system.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import com.easy.system.bean.dto.menu.MenuDTO;
+import com.easy.datasource.bean.dto.IdDTO;
+import com.easy.framework.constant.Constants;
+import com.easy.satoken.stp.StpAdminUtil;
+import com.easy.system.bean.dto.menu.MenuAddDTO;
+import com.easy.system.bean.dto.menu.MenuEditDTO;
 import com.easy.system.bean.dto.menu.MenuListDTO;
-import com.easy.system.bean.pojo.Menu;
 import com.easy.system.bean.vo.MenuTreeVO;
 import com.easy.system.bean.vo.router.RouterVO;
 import com.easy.system.service.MenuService;
@@ -39,7 +42,7 @@ public class MenuController {
      * @return Menu
      */
     @PostMapping(value = "/user_router")
-    @Operation(description = "获取用户路由")
+    @Operation(summary = "获取用户路由")
     public List<RouterVO> getUserRouter() {
         return menuService.getUserRouter();
     }
@@ -51,8 +54,8 @@ public class MenuController {
      * @return MenuTree
      */
     @PostMapping(value = "/tree")
-    @Operation(description = "树形菜单")
-    // @SaCheckPermission("system.menu.tree")
+    @Operation(summary = "树形菜单")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.tree", orRole = Constants.ADMIN_ROLE)
     public List<MenuTreeVO> getTreeMenu(@RequestBody MenuListDTO dto) {
         return menuService.getTreeMenu(dto);
     }
@@ -63,9 +66,9 @@ public class MenuController {
      * @param dto 菜单信息
      */
     @PostMapping(value = "/add")
-    @Operation(description = "新增菜单")
-    @SaCheckPermission("system.menu.add")
-    public String addMenu(@Valid @RequestBody MenuDTO dto) {
+    @Operation(summary = "新增菜单")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.add", orRole = Constants.ADMIN_ROLE)
+    public String addMenu(@Valid @RequestBody MenuAddDTO dto) {
         menuService.addMenu(dto);
         return "新增成功";
     }
@@ -76,9 +79,9 @@ public class MenuController {
      * @param menu 菜单信息
      */
     @PostMapping(value = "/update")
-    @Operation(description = "修改菜单")
-    @SaCheckPermission("system.menu.update")
-    public String updateMenu(@Valid @RequestBody Menu menu) {
+    @Operation(summary = "修改菜单")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.update", orRole = Constants.ADMIN_ROLE)
+    public String updateMenu(@Valid @RequestBody MenuEditDTO menu) {
         menuService.updateMenu(menu);
         return "修改成功";
     }
@@ -86,13 +89,13 @@ public class MenuController {
     /**
      * 删除菜单
      *
-     * @param ids 菜单id
+     * @param id 菜单id
      */
     @PostMapping(value = "/del")
-    @Operation(description = "删除菜单")
-    @SaCheckPermission("system.menu.del")
-    public String delMenu(@RequestBody List<String> ids) {
-        menuService.delMenu(ids);
+    @Operation(summary = "删除菜单")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.menu.del", orRole = Constants.ADMIN_ROLE)
+    public String delMenu(@RequestBody IdDTO id) {
+        menuService.delMenu(id);
         return "删除成功";
     }
 }

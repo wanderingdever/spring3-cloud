@@ -3,7 +3,10 @@ package com.easy.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.vo.ConfigVO;
-import com.easy.system.bean.dto.config.ConfigDTO;
+import com.easy.framework.constant.Constants;
+import com.easy.satoken.stp.StpAdminUtil;
+import com.easy.system.bean.dto.config.ConfigAddDTO;
+import com.easy.system.bean.dto.config.ConfigEditDTO;
 import com.easy.system.bean.dto.config.ConfigSearchDTO;
 import com.easy.system.bean.pojo.Config;
 import com.easy.system.service.ConfigService;
@@ -39,7 +42,7 @@ public class ConfigController {
      * 重载缓存
      */
     @PostMapping(value = "/overload")
-    @Operation(description = "重载参数缓存")
+    @Operation(summary = "重载参数缓存")
     public void overloadConfig() {
         configService.loadConfigCache();
     }
@@ -51,7 +54,7 @@ public class ConfigController {
      * @return ConfigCache
      */
     @PostMapping("/get")
-    @Operation(description = "获取参数配置")
+    @Operation(summary = "获取参数配置")
     public ConfigVO getConfig(@RequestBody ConfigSearchDTO dto) {
         return configService.getConfig(dto.getConfigKey());
     }
@@ -64,8 +67,8 @@ public class ConfigController {
      * @return IPage<Config>
      */
     @PostMapping("/page")
-    @Operation(description = "分页查询")
-    @SaCheckPermission("system.config.page")
+    @Operation(summary = "分页查询")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.page", orRole = Constants.ADMIN_ROLE)
     public Page<Config> pageConfig(@RequestBody ConfigSearchDTO dto) {
         return configService.pageConfig(dto);
     }
@@ -76,11 +79,11 @@ public class ConfigController {
      * @param dto 入参
      */
     @PostMapping("/add")
-    @Operation(description = "新增参数配置")
-    @SaCheckPermission("system.config.add")
-    public String addConfig(@Valid @RequestBody ConfigDTO dto) {
+    @Operation(summary = "新增参数配置")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.add", orRole = Constants.ADMIN_ROLE)
+    public String addConfig(@Valid @RequestBody ConfigAddDTO dto) {
         configService.addConfig(dto);
-        return "";
+        return "新增成功";
     }
 
     /**
@@ -89,11 +92,11 @@ public class ConfigController {
      * @param config 入参
      */
     @PostMapping("/update")
-    @Operation(description = "更新参数配置")
-    @SaCheckPermission("system.config.update")
-    public String updateConfig(@Valid @RequestBody Config config) {
+    @Operation(summary = "更新参数配置")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.update", orRole = Constants.ADMIN_ROLE)
+    public String updateConfig(@Valid @RequestBody ConfigEditDTO config) {
         configService.updateConfig(config);
-        return "";
+        return "更新成功";
     }
 
     /**
@@ -102,10 +105,10 @@ public class ConfigController {
      * @param ids 主键集合
      */
     @PostMapping("/del")
-    @Operation(description = "删除参数配置")
-    @SaCheckPermission("system.config.del")
+    @Operation(summary = "删除参数配置")
+    @SaCheckPermission(type = StpAdminUtil.TYPE, value = "system.config.del", orRole = Constants.ADMIN_ROLE)
     public String delConfig(@RequestBody List<String> ids) {
         configService.delConfig(ids);
-        return "";
+        return "删除成功";
     }
 }

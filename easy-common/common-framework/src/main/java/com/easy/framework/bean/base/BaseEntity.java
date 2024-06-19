@@ -22,7 +22,7 @@ public class BaseEntity implements Serializable {
     /**
      * 主键ID
      */
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.AUTO)
     @Schema(description = "主键ID")
     private String id;
 
@@ -51,7 +51,7 @@ public class BaseEntity implements Serializable {
     /**
      * 更新时间
      */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
     @Schema(description = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;

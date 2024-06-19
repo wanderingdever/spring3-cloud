@@ -3,8 +3,6 @@ package com.easy.system.bean.pojo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.easy.framework.bean.base.BaseEntity;
-import com.easy.system.bean.enums.OrgLevel;
-import com.easy.system.bean.enums.OrgTag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,7 +44,7 @@ public class Org extends BaseEntity {
      */
     @TableField(value = "org_level")
     @Schema(description = "组织级别")
-    private OrgLevel orgLevel;
+    private String orgLevel;
 
     /**
      * 组织类型
@@ -74,7 +72,7 @@ public class Org extends BaseEntity {
      */
     @TableField(value = "org_tag")
     @Schema(description = "组织标签")
-    private OrgTag orgTag;
+    private String orgTag;
 
     /**
      * 省
@@ -96,6 +94,13 @@ public class Org extends BaseEntity {
     @TableField(value = "org_district")
     @Schema(description = "区")
     private String orgDistrict;
+
+    /**
+     * 区划代码集
+     */
+    @TableField(value = "org_area_code")
+    @Schema(description = "区划代码集")
+    private String orgAreaCode;
 
     /**
      * 详细地址

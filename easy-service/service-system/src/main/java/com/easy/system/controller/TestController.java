@@ -1,7 +1,8 @@
 package com.easy.system.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.easy.satoken.service.DataScopeService;
+import com.easy.datasource.scope.DataScopeService;
+import com.easy.satoken.utils.LoginUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -22,15 +23,15 @@ import java.util.List;
 @Tag(name = "测试接口")
 public class TestController {
 
-    @PostMapping(value = "/saTokenTest")
-    @Operation(description = "测试sa-token")
-    public String test() {
-        StpUtil.getRoleList();
-        return StpUtil.getLoginId().toString();
-    }
-
     @Resource
     private DataScopeService dataScopeService;
+
+    @PostMapping(value = "/saTokenTest")
+    @Operation(summary = "测试sa-token")
+    public String test() {
+        StpUtil.getRoleList();
+        return LoginUtil.getLoginId();
+    }
 
     @PostMapping("/authorized_org_id_list")
     @Operation(summary = "查询用户授权的部门id列表")

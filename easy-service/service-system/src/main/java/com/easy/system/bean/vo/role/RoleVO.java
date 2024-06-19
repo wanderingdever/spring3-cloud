@@ -1,14 +1,18 @@
 package com.easy.system.bean.vo.role;
 
 import com.easy.framework.bean.base.BaseVO;
-import com.easy.framework.enums.YesOrNo;
-import com.easy.system.bean.enums.AuthorityLevel;
+import com.easy.framework.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "角色查询-响应参数")
@@ -30,8 +34,10 @@ public class RoleVO extends BaseVO {
     private Integer roleSort;
 
     @Schema(description = "是否启用（0停用;1正常）")
-    private YesOrNo enable;
+    private Boolean enable;
+
 
     @Schema(description = "菜单ID数组")
-    private List<String> menuIds;
+    private List<String> menuList;
+
 }

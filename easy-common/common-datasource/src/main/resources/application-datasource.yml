@@ -16,7 +16,7 @@ spring:
       # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
       auto-commit: true
       # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
-      max-lifetime: 1800000
+      max-lifetime: 180000
       # 数据库连接超时时间,默认30秒
       connection-timeout: 30000
       # 连接测试query
@@ -41,7 +41,7 @@ mybatis-plus:
     # 更详细的日志输出 会有性能损耗 org.apache.ibatis.logging.stdout.StdOutImpl
     # 关闭日志记录 (可单纯使用 p6spy 分析) org.apache.ibatis.logging.nologging.NoLoggingImpl
     # 默认日志输出 org.apache.ibatis.logging.slf4j.Slf4jImpl
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    #    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
     call-setters-on-nulls: true
   global-config:
@@ -49,7 +49,7 @@ mybatis-plus:
     banner: false
     db-config:
       #主键类型
-      id-type: ASSIGN_ID
+      id-type: auto
       logic-delete-field: del
       # 逻辑已删除值
       logicDeleteValue: 1

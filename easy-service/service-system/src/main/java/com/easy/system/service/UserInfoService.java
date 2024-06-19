@@ -2,20 +2,22 @@ package com.easy.system.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.framework.enums.DelEnum;
-import com.easy.system.bean.dto.user.UserAddDTO;
+import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
 import com.easy.system.bean.pojo.UserInfo;
 import com.easy.system.dao.UserInfoMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @Service
 public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
 
-    public void add(UserAddDTO dto, String userId) {
-
+    public void add(UserDTO dto, String userId) {
         // 额外信息
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(dto, userInfo);
@@ -24,7 +26,6 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
     }
 
     public void update(UserEditDTO dto) {
-
         // 用户信息
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(dto, userInfo);
@@ -35,10 +36,9 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
         this.baseMapper.updateById(userInfo);
     }
 
-    public void del(List<String> userIdList) {
-
+    public void del(String userId) {
         lambdaUpdate()
-                .in(UserInfo::getUserId, userIdList)
+                .in(UserInfo::getUserId, userId)
                 .set(UserInfo::getDel, DelEnum.DELETE.getCode())
                 .update();
     }

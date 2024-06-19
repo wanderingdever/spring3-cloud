@@ -3,3 +3,8 @@ sa-token:
   token-prefix: Bearer
   jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
   token-name: AQ-Token
+# 接口放行白名单
+api-whitelist:
+  url:
+    - /check_user
+    - /pwd_login

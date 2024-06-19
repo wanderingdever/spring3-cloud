@@ -4,9 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.datasource.bean.dto.PageDTO;
-import com.easy.utils.BeanUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -25,8 +23,7 @@ public class PageUtil {
 
         Page<T> page = new Page<>();
         BeanUtil.copyProperties(pageInterface, page);
-        List<T> list = new ArrayList<>();
-        BeanUtils.copyList(pageInterface.getRecords(), list, clazz);
+        List<T> list = BeanUtil.copyToList(pageInterface.getRecords(), clazz);
         page.setRecords(list);
         return page;
     }
@@ -45,7 +42,9 @@ public class PageUtil {
         Page<T> page = new Page<>();
         page.setSize(dto.getSize());
         page.setCurrent(dto.getCurrent());
-        page.addOrder(dto.getOrders());
+        if (dto.getOrders() != null && !dto.getOrders().isEmpty()) {
+            page.addOrder(dto.getOrders());
+        }
         return page;
     }
 }

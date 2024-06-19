@@ -19,7 +19,7 @@ import java.util.List;
 public class UserRoleAndPermissionVO implements Serializable {
 
     @Schema(description = "用户角色")
-    private List<String> roles;
+    private List<RoleVO> roles;
 
     @Schema(description = "用户权限")
     private List<String> permissions;

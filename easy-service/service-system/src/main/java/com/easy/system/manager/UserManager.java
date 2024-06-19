@@ -1,8 +1,12 @@
 package com.easy.system.manager;
 
+import cn.hutool.crypto.digest.BCrypt;
+import com.easy.datasource.bean.dto.IdDTO;
 import com.easy.framework.enums.DelEnum;
-import com.easy.system.bean.dto.user.UserAddDTO;
+import com.easy.system.bean.dto.user.UserDTO;
 import com.easy.system.bean.dto.user.UserEditDTO;
+import com.easy.system.bean.dto.user.UserPwdDTO;
+import com.easy.system.bean.pojo.User;
 import com.easy.system.bean.pojo.UserOrg;
 import com.easy.system.bean.pojo.UserPost;
 import com.easy.system.bean.pojo.UserRole;
@@ -12,8 +16,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * </p>
+ *
+ * @author Matt
+ */
 @Component
 public class UserManager {
 
@@ -33,30 +43,28 @@ public class UserManager {
     private UserOrgService userOrgService;
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void add(UserAddDTO dto) {
-
-        String userId = userService.add(dto);
-        userInfoService.add(dto, userId);
-        addInfo(dto, userId);
+    public String add(UserDTO dto) {
+        User user = userService.add(dto);
+        userInfoService.add(dto, user.getId());
+        addInfo(dto, user.getId());
+        return user.getPassword();
     }
 
-    private void addInfo(UserAddDTO dto, String userId) {
-
+    private void addInfo(UserDTO dto, String userId) {
+        // 组织关联新增
+        List<UserOrg> userOrgs = userOrgService.getList(List.of(userId), Collections.singletonList(dto.getOrgId()));
+        userOrgService.saveBatch(userOrgs);
         // 岗位关联新增
         if (CollectionUtils.isNotEmpty(dto.getPostList())) {
-            List<UserPost> userPostList = userPostService.getList(List.of(userId), dto.getPostList());
-            userPostService.saveBatch(userPostList);
+            List<UserPost> userPosts = userPostService.getList(List.of(userId), dto.getPostList());
+            userPostService.saveBatch(userPosts);
         }
         // 角色关联新增
         if (CollectionUtils.isNotEmpty(dto.getRoleList())) {
-            List<UserRole> userPostList = userRoleService.getList(List.of(userId), dto.getRoleList());
-            userRoleService.saveBatch(userPostList);
+            List<UserRole> userRoles = userRoleService.getList(List.of(userId), dto.getRoleList());
+            userRoleService.saveBatch(userRoles);
         }
-        // 组织关联新增
-        if (CollectionUtils.isNotEmpty(dto.getOrgList())) {
-            List<UserOrg> userPostList = userOrgService.getList(List.of(userId), dto.getOrgList());
-            userOrgService.saveBatch(userPostList);
-        }
+
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
@@ -65,24 +73,35 @@ public class UserManager {
         userService.update(dto);
         userInfoService.update(dto);
         // 删除岗位、角色、组织关联编辑
-        delInfo(List.of(dto.getId()));
+        delInfo(dto.getId());
         // 新增岗位、角色、组织关联编辑
         addInfo(dto, dto.getId());
     }
 
-    private void delInfo(List<String> userIdList) {
+    private void delInfo(String userId) {
 
-        userOrgService.lambdaUpdate().in(UserOrg::getUserId, userIdList).set(UserOrg::getDel, DelEnum.DELETE.getCode()).update();
-        userRoleService.lambdaUpdate().in(UserRole::getUserId, userIdList).set(UserRole::getDel, DelEnum.DELETE.getCode()).update();
-        userPostService.lambdaUpdate().in(UserPost::getUserId, userIdList).set(UserPost::getDel, DelEnum.DELETE.getCode()).update();
+        userOrgService.lambdaUpdate().eq(UserOrg::getUserId, userId).set(UserOrg::getDel, DelEnum.DELETE.getCode()).update();
+        userRoleService.lambdaUpdate().eq(UserRole::getUserId, userId).set(UserRole::getDel, DelEnum.DELETE.getCode()).update();
+        userPostService.lambdaUpdate().eq(UserPost::getUserId, userId).set(UserPost::getDel, DelEnum.DELETE.getCode()).update();
     }
 
     @Transactional(rollbackFor = Exception.class, timeout = 5)
-    public void del(List<String> userIdList) {
+    public void del(IdDTO dto) {
         // 删除账号
-        userService.del(userIdList);
-        userInfoService.del(userIdList);
+        userService.del(dto);
+        userInfoService.del(dto.getId());
         // 岗位、角色、组织关联删除
-        delInfo(userIdList);
+        delInfo(dto.getId());
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param dto 入参
+     */
+    public void resetPwd(UserPwdDTO dto) {
+        User user = userService.lambdaQuery().eq(User::getUsername, dto.getUsername()).one();
+        user.setPassword(BCrypt.hashpw(dto.getPassword()));
+        userService.updateById(user);
     }
 }
