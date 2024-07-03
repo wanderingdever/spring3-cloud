@@ -13,7 +13,6 @@
     <modules>
         <module>service-system</module>
         <module>service-file</module>
-        <module>service-xxl-job</module>
     </modules>
     <artifactId>easy-service</artifactId>
 
