@@ -401,7 +401,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
 
     public static String rfcTime(LocalDateTime localDateTime) {
 
-        ZonedDateTime zonedDateTime = localDateTime.atZone(java.time.ZoneId.systemDefault());
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RFC_PATTERN);
         return zonedDateTime.format(formatter);
     }
