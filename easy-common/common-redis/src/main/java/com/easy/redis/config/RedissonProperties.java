@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.redisson.config.ReadMode;
 import org.redisson.config.SubscriptionMode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "redisson")
+@Primary
 public class RedissonProperties {
     /**
      * 线程池数量,默认值 = 当前处理核数量 * 2

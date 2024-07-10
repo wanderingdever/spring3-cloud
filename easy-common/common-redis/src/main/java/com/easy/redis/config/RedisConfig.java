@@ -3,13 +3,15 @@ package com.easy.redis.config;
 import cn.hutool.core.util.ObjectUtil;
 import com.easy.redis.manager.PlusSpringCacheManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * redis配置
@@ -17,18 +19,15 @@ import org.springframework.context.annotation.Bean;
  * @author matt
  */
 @Slf4j
-@AutoConfiguration
+@Configuration
 @EnableCaching
+@EnableConfigurationProperties(RedissonProperties.class)
+@AllArgsConstructor
 public class RedisConfig {
 
     private final RedissonProperties redissonProperties;
 
     private final ObjectMapper objectMapper;
-
-    public RedisConfig(RedissonProperties redissonProperties, ObjectMapper objectMapper) {
-        this.redissonProperties = redissonProperties;
-        this.objectMapper = objectMapper;
-    }
 
     @Bean
     public RedissonAutoConfigurationCustomizer redissonCustomizer() {
