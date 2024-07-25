@@ -1,14 +1,14 @@
 spring:
   data:
     redis:
-      host: 117.72.8.221
+      host: 127.0.0.1
       port: 4399
       password: D!J?OMca
       database: 14
   cloud:
     nacos:
       discovery:
-        server-addr: 117.72.8.221:4848
+        server-addr: 127.0.0.1:4848
         namespace: easy-cloud
         username: nacos
         password: zwcb3axb
