@@ -41,7 +41,7 @@
 
         <dependency>
             <groupId>com.easy</groupId>
-            <artifactId>easy-api-system</artifactId>
+            <artifactId>api-system</artifactId>
             <version>0.0.1</version>
         </dependency>
     </dependencies>

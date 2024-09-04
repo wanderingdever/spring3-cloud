@@ -55,7 +55,7 @@
 
         <dependency>
             <groupId>com.easy</groupId>
-            <artifactId>easy-api-file</artifactId>
+            <artifactId>api-common</artifactId>
             <version>0.0.1</version>
         </dependency>
     </dependencies>

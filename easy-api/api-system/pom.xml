@@ -9,7 +9,7 @@
         <version>0.0.1</version>
     </parent>
     <packaging>jar</packaging>
-    <artifactId>easy-api-system</artifactId>
+    <artifactId>api-system</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
