@@ -1,8 +1,14 @@
 package com.easy.utils.file;
 
+
 import com.easy.utils.lang.DateUtil;
 import com.easy.utils.lang.IdUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -82,11 +88,38 @@ public class FileUtil {
         assert fileName != null;
         int i = fileName.lastIndexOf('.');
         if (i > 0) {
-            fileName = IdUtil.fastSimpleUUID() + "." + fileName.substring(i + 1);
+            fileName = getFileName(fileName);
         }
         // 拆分文件名字
         fileName = DateUtil.datePath() + "/" + DateUtil.timeNum() + "_" + fileName;
         return fileName;
+    }
+
+    public static String getFileName(String fileName) {
+        int i = fileName.lastIndexOf('.');
+        if (i > 0) {
+            fileName = IdUtil.fastSimpleUUID() + "." + fileName.substring(i + 1);
+        }
+        return fileName;
+    }
+
+    /**
+     * 获取 InputStream 的文件大小。
+     *
+     * @param inputStream 输入流
+     * @return 文件大小（字节）
+     * @throws IOException 如果读取流时发生错误
+     */
+    public static long getInputStreamSize(InputStream inputStream) throws IOException {
+        long size = 0;
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            size += bytesRead;
+        }
+
+        return size;
     }
 
     /**
@@ -105,6 +138,80 @@ public class FileUtil {
             default -> "";
         };
     }
+
+    /**
+     * Description: 判断Cos服务文件上传时文件的contentType
+     *
+     * @param filenameExtension 文件后缀
+     * @return String
+     */
+    public static String getContentType(String filenameExtension) {
+        String bmp = "bmp";
+        if (bmp.equalsIgnoreCase(filenameExtension)) {
+            return "image/bmp";
+        }
+        String gif = "gif";
+        if (gif.equalsIgnoreCase(filenameExtension)) {
+            return "image/gif";
+        }
+        String jpeg = "jpeg";
+        String jpg = "jpg";
+        String png = "png";
+        if (jpeg.equalsIgnoreCase(filenameExtension) || jpg.equalsIgnoreCase(filenameExtension)
+                || png.equalsIgnoreCase(filenameExtension)) {
+            return "image/jpeg";
+        }
+        String html = "html";
+        if (html.equalsIgnoreCase(filenameExtension)) {
+            return "text/html";
+        }
+        String txt = "txt";
+        if (txt.equalsIgnoreCase(filenameExtension)) {
+            return "text/plain";
+        }
+        String vsd = "vsd";
+        if (vsd.equalsIgnoreCase(filenameExtension)) {
+            return "application/vnd.visio";
+        }
+        String pptx = "pptx";
+        String ppt = "ppt";
+        if (pptx.equalsIgnoreCase(filenameExtension) || ppt.equalsIgnoreCase(filenameExtension)) {
+            return "application/vnd.ms-powerpoint";
+        }
+        String docx = ".docx";
+        String doc = ".doc";
+        if (docx.equalsIgnoreCase(filenameExtension) || doc.equalsIgnoreCase(filenameExtension)) {
+            return "application/msword";
+        }
+        String xml = "xml";
+        if (xml.equalsIgnoreCase(filenameExtension)) {
+            return "text/xml";
+        }
+        String mp4 = ".mp4";
+        if (mp4.equalsIgnoreCase(filenameExtension)) {
+            return "application/octet-stream";
+        }
+        String pdf = ".pdf";
+        if (pdf.equalsIgnoreCase(filenameExtension)) {
+            // 使用流的形式进行上传，防止下载文件的时候访问url会预览而不是下载。  return "application/pdf";
+            return "application/octet-stream";
+        }
+        String xls = ".xls";
+        String xlsx = ".xlsx";
+        if (xls.equalsIgnoreCase(filenameExtension) || xlsx.equalsIgnoreCase(filenameExtension)) {
+            return "application/vnd.ms-excel";
+        }
+        String mp3 = ".mp3";
+        if (mp3.equalsIgnoreCase(filenameExtension)) {
+            return "audio/mp3";
+        }
+        String wav = ".wav";
+        if (wav.equalsIgnoreCase(filenameExtension)) {
+            return "audio/wav";
+        }
+        return "image/jpeg";
+    }
+
 
     /**
      * 获取文件流
@@ -146,4 +253,41 @@ public class FileUtil {
         os.close();
         ins.close();
     }
+
+    public static byte[] convertPngToPdf(byte[] pngBytes, String pngName) throws IOException {
+        // 创建PDF文档
+        PDDocument document = new PDDocument();
+        // 加载PNG图片
+        PDImageXObject pdImage = PDImageXObject.createFromByteArray(document, pngBytes, pngName);
+
+        PDPage page = new PDPage(PDRectangle.A4);
+        document.addPage(page);
+        // 计算图片在页面上的居中位置
+        float imgWidth = pdImage.getWidth();
+        float imgHeight = pdImage.getHeight();
+        float pageWidth = page.getMediaBox().getWidth();
+        float pageHeight = page.getMediaBox().getHeight();
+
+        // 计算缩放比例
+        float scaleX = pageWidth / imgWidth;
+        float scaleY = pageHeight / imgHeight;
+        // 等比缩放
+        float scale = Math.min(scaleX, scaleY);
+
+        // 计算绘制起始位置（居中）
+        float x = (pageWidth - imgWidth * scale) / 2;
+        float y = (pageHeight - imgHeight * scale) / 2;
+        // 添加图片到PDF页面
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+        // 获取图片对象
+        contentStream.drawImage(pdImage, x, y, imgWidth * scale, imgHeight * scale);
+        contentStream.close();
+        // 将PDF文档写入到ByteArrayOutputStream
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        document.save(byteArrayOutputStream);
+        document.close();
+        // 返回PDF文档的字节数组
+        return byteArrayOutputStream.toByteArray();
+    }
+
 }
