@@ -1,9 +1,10 @@
 package com.easy.utils.lang;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.dromara.hutool.core.date.DatePattern;
+import org.dromara.hutool.core.date.DateTime;
+import org.dromara.hutool.core.date.DateUtil;
+import org.dromara.hutool.core.date.TimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static cn.hutool.core.date.DatePattern.PURE_TIME_FORMATTER;
+import static org.dromara.hutool.core.date.DatePattern.PURE_TIME_FORMATTER;
+
 
 /**
  * 时间工具
@@ -23,7 +25,7 @@ import static cn.hutool.core.date.DatePattern.PURE_TIME_FORMATTER;
  *
  * @author Matt
  */
-public class DateUtil extends cn.hutool.core.date.DateUtil {
+public class DateUtils extends DateUtil {
 
     public static final String DATE_PATH = "yyyy/MM/dd";
 
@@ -37,11 +39,11 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
     public static final String[] WEEK = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
     public static final String[] HOUR_INDEX = {"0-6", "6-8", "8-10", "10-12", "12-14", "14-16", "16-18", "18-20", "20-22", "22-24"};
 
-    private DateUtil() {
+    private DateUtils() {
         throw new IllegalAccessError("DateUtils.class");
     }
 
-    public static String now() {
+    public static String nowDateTime() {
         return now("yyyy-MM-dd HH:mm:ss");
     }
 
@@ -99,7 +101,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @return String日期
      */
     public static String formatStrToStr(String date, String sourceFormat, String format) {
-        DateTime parse = DateUtil.parse(date, sourceFormat);
+        DateTime parse = DateUtils.parse(date, sourceFormat);
         return format(parse, format);
     }
 
@@ -239,7 +241,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @return LocalDate
      */
     public static LocalDate parseLocalDate(CharSequence dateStr) {
-        return LocalDateTimeUtil.parseDate(dateStr, DatePattern.NORM_DATE_FORMATTER);
+        return TimeUtil.parseDate(dateStr, DatePattern.NORM_DATE_FORMATTER);
     }
 
     /**
@@ -249,7 +251,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @return 标准日期格式 FastDateFormat：yyyy-MM-dd
      */
     public static String formatDate(LocalDate localDate, String formatter) {
-        return LocalDateTimeUtil.format(localDate, formatter);
+        return TimeUtil.format(localDate, formatter);
     }
 
     /**
@@ -331,7 +333,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @return 计算后的新日期时间字符串，格式仍为 "yyyy-MM-dd HH:mm:ss"
      */
     public static String calculateByHours(String dateTimeStr, int hoursOffset) {
-        LocalDateTime dateTime = parseLocalDateTime(dateTimeStr);
+        LocalDateTime dateTime = parse(dateTimeStr).toLocalDateTime();
         LocalDateTime newDateTime = dateTime.plusHours(hoursOffset);
         return formatLocalDateTime(newDateTime);
     }
@@ -344,7 +346,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @return 计算后的新日期时间字符串，格式仍为 "yyyy-MM-dd HH:mm:ss"
      */
     public static String calculateByDays(String dateTimeStr, int daysOffset) {
-        LocalDateTime dateTime = parseLocalDateTime(dateTimeStr);
+        LocalDateTime dateTime = parse(dateTimeStr).toLocalDateTime();
         LocalDateTime newDateTime = dateTime.plusDays(daysOffset);
         return formatLocalDateTime(newDateTime);
     }
@@ -357,7 +359,7 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @return 计算后的新日期时间字符串，格式仍为 "yyyy-MM-dd HH:mm:ss"
      */
     public static String calculateByMonths(String dateTimeStr, int monthsOffset) {
-        LocalDateTime dateTime = parseLocalDateTime(dateTimeStr);
+        LocalDateTime dateTime = parse(dateTimeStr).toLocalDateTime();
         LocalDateTime newDateTime = dateTime.plusMonths(monthsOffset);
         return formatLocalDateTime(newDateTime);
     }

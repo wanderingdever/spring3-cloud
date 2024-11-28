@@ -1,8 +1,8 @@
 package com.easy.utils.http;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import org.dromara.hutool.core.io.IoUtil;
+import org.dromara.hutool.core.text.StrUtil;
 import org.lionsoul.ip2region.xdb.Searcher;
 
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
  *
  * @author Matt
  */
-public class IpUtil {
+public class IpUtils {
     /**
      * 字符常量0
      */
@@ -66,7 +66,7 @@ public class IpUtil {
     public static IpLocation getLocation(String ip) {
         IpLocation location = new IpLocation();
         location.setIp(ip);
-        try (InputStream inputStream = IpUtil.class.getResourceAsStream("/ip2region.xdb");) {
+        try (InputStream inputStream = IpUtils.class.getResourceAsStream("/ip2region.xdb");) {
             byte[] bytes = IoUtil.readBytes(inputStream);
             Searcher searcher = Searcher.newWithBuffer(bytes);
             String region = searcher.search(ip);

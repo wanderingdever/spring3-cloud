@@ -16,7 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hutool.version>5.8.26</hutool.version>
+        <hutool.version>6.0.0-M16</hutool.version>
         <jackson.version>2.15.2</jackson.version>
         <bcprov-jdk15to18.version>1.74</bcprov-jdk15to18.version>
         <lombok.version>1.18.28</lombok.version>
@@ -64,11 +64,28 @@
         </dependency>
 
         <!--hutool-->
+        <!--hutool-->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
+            <groupId>org.dromara.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
             <version>${hutool.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.dromara.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
 
         <!-- jackson-core  核心包，定义了低级流（Streaming）API，提供基于"流模式"解析。Jackson内部实现正是通过高性能的流模式API的JsonGenerator和JsonParser来生成和解析json -->
         <dependency>

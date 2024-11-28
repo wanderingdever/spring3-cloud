@@ -1,6 +1,7 @@
 package com.easy.utils.lang;
 
-import cn.hutool.core.util.ArrayUtil;
+
+import org.dromara.hutool.core.array.ArrayUtil;
 
 /**
  * 集合工具类

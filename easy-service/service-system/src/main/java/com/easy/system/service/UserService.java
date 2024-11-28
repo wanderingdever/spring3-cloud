@@ -27,9 +27,9 @@ import com.easy.system.dao.OrgMapper;
 import com.easy.system.dao.RoleMapper;
 import com.easy.system.dao.UserMapper;
 import com.easy.utils.http.IpLocation;
-import com.easy.utils.http.IpUtil;
-import com.easy.utils.lang.DateUtil;
-import com.easy.utils.lang.IdUtil;
+import com.easy.utils.http.IpUtils;
+import com.easy.utils.lang.DateUtils;
+import com.easy.utils.lang.IdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -89,7 +89,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         User user = new User();
         BeanUtils.copyProperties(dto, user);
         // FIXME 随机密码
-        String password = IdUtil.generateRandomCode8();
+        String password = IdUtils.generateRandomCode8();
         user.setPassword(BCrypt.hashpw(password));
 
         try {
@@ -181,20 +181,20 @@ public class UserService extends ServiceImpl<UserMapper, User> implements Remote
         userInfo.setPermissionList(userRoleList.getPermissions());
 
         // 保存登录记录
-        IpLocation location = IpUtil.getLocation(request);
+        IpLocation location = IpUtils.getLocation(request);
         LoginLogsVO loginLogs = new LoginLogsVO();
         loginLogs.setUserId(userInfo.getId());
         loginLogs.setUserName(userInfo.getUsername());
         loginLogs.setIp(location.getIp());
         loginLogs.setBrowser(request.getHeader("User-Agent"));
         loginLogs.setIpLocation(String.join(",", location.getCountry(), location.getProvince(), location.getCity()));
-        loginLogs.setLoginTime(DateUtil.now());
+        loginLogs.setLoginTime(DateUtils.nowDateTime());
         loginLogsService.saveLoginLogs(loginLogs);
 
         // 设置登录的IP和属地
         userInfo.setIp(location.getIp());
         userInfo.setIpLocation(location.getCountry() + location.getProvince() + location.getCity());
-        userInfo.setLoginTime(DateUtil.now());
+        userInfo.setLoginTime(DateUtils.nowDateTime());
         return userInfo;
     }
 

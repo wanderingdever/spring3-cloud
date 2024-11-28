@@ -1,8 +1,8 @@
 package com.easy.utils.file;
 
 
-import com.easy.utils.lang.DateUtil;
-import com.easy.utils.lang.IdUtil;
+import com.easy.utils.lang.DateUtils;
+import com.easy.utils.lang.IdUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -91,14 +91,14 @@ public class FileUtil {
             fileName = getFileName(fileName);
         }
         // 拆分文件名字
-        fileName = DateUtil.datePath() + "/" + DateUtil.timeNum() + "_" + fileName;
+        fileName = DateUtils.datePath() + "/" + DateUtils.timeNum() + "_" + fileName;
         return fileName;
     }
 
     public static String getFileName(String fileName) {
         int i = fileName.lastIndexOf('.');
         if (i > 0) {
-            fileName = IdUtil.fastSimpleUUID() + "." + fileName.substring(i + 1);
+            fileName = IdUtils.fastSimpleUUID() + "." + fileName.substring(i + 1);
         }
         return fileName;
     }

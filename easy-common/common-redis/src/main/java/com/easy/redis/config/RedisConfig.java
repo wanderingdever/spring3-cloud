@@ -1,6 +1,5 @@
 package com.easy.redis.config;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.easy.redis.manager.PlusSpringCacheManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -26,8 +25,8 @@ import org.springframework.context.annotation.Configuration;
 public class RedisConfig {
 
     private final RedissonProperties redissonProperties;
-
     private final ObjectMapper objectMapper;
+
 
     @Bean
     public RedissonAutoConfigurationCustomizer redissonCustomizer() {
@@ -36,7 +35,7 @@ public class RedisConfig {
                     .setNettyThreads(redissonProperties.getNettyThreads())
                     .setCodec(new JsonJacksonCodec(objectMapper));
             RedissonProperties.SingleServerConfig singleServerConfig = redissonProperties.getSingleServerConfig();
-            if (ObjectUtil.isNotNull(singleServerConfig)) {
+            if (singleServerConfig != null) {
                 // 使用单机模式
                 config.useSingleServer()
                         .setTimeout(singleServerConfig.getTimeout())
@@ -48,7 +47,7 @@ public class RedisConfig {
             }
             // 集群配置方式 参考下方注释
             RedissonProperties.ClusterServersConfig clusterServersConfig = redissonProperties.getClusterServersConfig();
-            if (ObjectUtil.isNotNull(clusterServersConfig)) {
+            if (clusterServersConfig != null) {
                 config.useClusterServers()
                         .setTimeout(clusterServersConfig.getTimeout())
                         .setClientName(clusterServersConfig.getClientName())

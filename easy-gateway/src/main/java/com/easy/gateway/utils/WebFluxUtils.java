@@ -1,7 +1,6 @@
 package com.easy.gateway.utils;
 
 
-import cn.hutool.core.util.ObjectUtil;
 import com.easy.framework.bean.base.R;
 import com.easy.gateway.filter.GlobalCacheRequestFilter;
 import com.easy.utils.json.JacksonUtil;
@@ -83,7 +82,7 @@ public class WebFluxUtils {
      */
     public static String resolveBodyFromCacheRequest(ServerWebExchange exchange) {
         Object obj = exchange.getAttributes().get(ServerWebExchangeUtils.CACHED_REQUEST_BODY_ATTR);
-        if (ObjectUtil.isNull(obj)) {
+        if (StringUtil.isNull(obj)) {
             return null;
         }
         DataBuffer buffer = (DataBuffer) obj;

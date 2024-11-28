@@ -3,8 +3,8 @@ package com.easy.datasource.utils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.datasource.bean.dto.PageDTO;
-import com.easy.utils.BeanUtils;
-import com.easy.utils.lang.ListUtils;
+import com.easy.utils.lang.ListUtil;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public class PageUtils {
         if (current < 0 || size < 0) {
             return new ArrayList<>();
         }
-        List<List<T>> lists = ListUtils.splitList(list, size);
+        List<List<T>> lists = ListUtil.splitList(list, size);
         if (lists.size() < current) {
             return new ArrayList<>();
         }
@@ -64,7 +64,7 @@ public class PageUtils {
     public static <T> Page<T> getPage(IPage<?> pageInterface, List<T> list) {
 
         Page<T> page = new Page<>();
-        com.easy.utils.BeanUtils.populate(pageInterface, page);
+        BeanUtils.copyProperties(pageInterface, page);
         page.setRecords(list);
         return page;
     }
@@ -72,9 +72,9 @@ public class PageUtils {
     public static <T> Page<T> getPage(IPage<?> pageInterface, Class<T> clazz) {
 
         Page<T> page = new Page<>();
-        com.easy.utils.BeanUtils.populate(pageInterface, page);
+        BeanUtils.copyProperties(pageInterface, page);
         List<T> list = new ArrayList<>();
-        com.easy.utils.BeanUtils.populateList(pageInterface.getRecords(), list, clazz);
+        BeanUtils.copyProperties(pageInterface.getRecords(), list, clazz);
         page.setRecords(list);
         return page;
     }
@@ -82,7 +82,7 @@ public class PageUtils {
     public static <T, R> Page<R> getPage(IPage<T> pageInterface, Function<? super T, ? extends R> mapper) {
 
         Page<R> page = new Page<>();
-        BeanUtils.populate(pageInterface, page);
+        BeanUtils.copyProperties(pageInterface, page);
         List<R> collect = pageInterface.getRecords().stream().map(mapper).collect(Collectors.toList());
         page.setRecords(collect);
         return page;

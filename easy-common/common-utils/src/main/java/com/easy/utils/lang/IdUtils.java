@@ -1,5 +1,7 @@
 package com.easy.utils.lang;
 
+import org.dromara.hutool.core.data.id.IdUtil;
+
 import java.util.Random;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Random;
  *
  * @author Matt
  */
-public class IdUtil extends cn.hutool.core.util.IdUtil {
+public class IdUtils extends IdUtil {
     /**
      * 自定义进制(0,1没有加入,容易与o,l混淆)
      */
@@ -34,7 +36,7 @@ public class IdUtil extends cn.hutool.core.util.IdUtil {
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z"};
 
-    private IdUtil() {
+    private IdUtils() {
         throw new IllegalAccessError("IdUtils.class");
     }
 
