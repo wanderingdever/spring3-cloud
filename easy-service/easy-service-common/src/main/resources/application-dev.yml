@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.5.111:3124/financial_ai?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: xc_dev
+    password: E7F@oFw2Ks
+  data:
+    redis:
+      host: 192.168.5.111
+      port: 26379
+      password: X4!A@iq#HM
+      database: 14
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.5.111:4848
+        namespace: 1a2f3024-1c2f-4479-860b-f46acf08c597
+        username: nacos
+        password: zwcb3axb
+file:
+  storage: tencent
+  # minio
+  minio:
+    endpoint: http://117.72.8.221:9090
+    accessKey: minio
+    secretKey: Rxr!2Sw9
+    bucketName: test
+    previewExpiry: 0
+  # 腾讯云
+  tencent:
+    cos:
+      url: https://test
+      secret-id: f
+      secret-key: f
+      region: ap-chengdu
+      bucket-name: test

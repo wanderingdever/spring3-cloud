@@ -1,10 +1,10 @@
 package com.easy.gateway.utils;
 
 
-import com.easy.framework.bean.base.R;
+import com.easy.core.bean.base.R;
 import com.easy.gateway.filter.GlobalCacheRequestFilter;
-import com.easy.utils.json.JacksonUtil;
-import com.easy.utils.lang.StringUtil;
+import com.easy.utils.json.JacksonUtils;
+import com.easy.utils.lang.StringUtils;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -52,7 +52,7 @@ public class WebFluxUtils {
      */
     public static boolean isJsonRequest(ServerWebExchange exchange) {
         String header = exchange.getRequest().getHeaders().getFirst(HttpHeaders.CONTENT_TYPE);
-        return StringUtil.startsWithIgnoreCase(header, MediaType.APPLICATION_JSON_VALUE);
+        return StringUtils.startWithIgnoreCase(header, MediaType.APPLICATION_JSON_VALUE);
     }
 
     /**
@@ -82,7 +82,7 @@ public class WebFluxUtils {
      */
     public static String resolveBodyFromCacheRequest(ServerWebExchange exchange) {
         Object obj = exchange.getAttributes().get(ServerWebExchangeUtils.CACHED_REQUEST_BODY_ATTR);
-        if (StringUtil.isNull(obj)) {
+        if (obj == null) {
             return null;
         }
         DataBuffer buffer = (DataBuffer) obj;
@@ -140,7 +140,7 @@ public class WebFluxUtils {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
         R<?> result = R.fail(code, value.toString());
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JacksonUtil.toJsonString(result).getBytes());
+        DataBuffer dataBuffer = response.bufferFactory().wrap(JacksonUtils.toJsonString(result).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }
 }

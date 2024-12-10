@@ -12,8 +12,8 @@
     <artifactId>easy-api</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>api-system</module>
-        <module>api-common</module>
+        <module>easy-api-system</module>
+        <module>easy-api-common</module>
     </modules>
 
     <properties>
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>com.easy</groupId>
-            <artifactId>easy-common-framework</artifactId>
+            <artifactId>easy-common-core</artifactId>
             <version>0.0.1</version>
         </dependency>
     </dependencies>

@@ -3,18 +3,18 @@ package com.easy.auth.service;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import com.easy.api.service.RemoteUserService;
 import com.easy.api.vo.UserVO;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
 import com.easy.auth.bean.UserDTO;
-import com.easy.framework.enums.AccountClient;
-import com.easy.framework.enums.AccountStatus;
-import com.easy.framework.exception.CustomizeException;
+import com.easy.core.enums.AccountClient;
+import com.easy.core.enums.AccountStatus;
+import com.easy.core.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
 import com.easy.redis.utils.RedisUtils;
-import com.easy.satoken.stp.StpAdminUtil;
-import com.easy.utils.lang.StringUtil;
+import com.easy.utils.lang.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -64,7 +64,7 @@ public class LoginService {
      */
     private TokenInfo adminLogin(PwdLogin login) {
         Object cacheObject = RedisUtils.getCacheObject(CacheConstants.CAPTCHA + login.getRandomStr());
-        if (StringUtil.isNull(cacheObject) || !login.getValidateCode().equals(cacheObject.toString())) {
+        if (StringUtils.isNull(cacheObject) || !login.getValidateCode().equals(cacheObject.toString())) {
             throw new CustomizeException("验证码不正确");
         }
         UserVO user = remoteUserService.selectUserByUsername(login.getUsername());
@@ -85,9 +85,9 @@ public class LoginService {
         }
         // 登录
         SaLoginModel loginModel = new SaLoginModel().build().setDevice(login.getDevice());
-        StpAdminUtil.login(user.getId(), loginModel);
+        StpUtil.login(user.getId(), loginModel);
         // 获取登录信息
-        SaTokenInfo saTokenInfo = StpAdminUtil.getTokenInfo();
+        SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
         return new TokenInfo(saTokenInfo.getTokenValue(), saTokenInfo.getTokenTimeout(), saTokenInfo.getLoginDevice());
     }
 }

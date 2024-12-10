@@ -11,8 +11,8 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>service-system</module>
-        <module>service-common</module>
+        <module>easy-service-system</module>
+        <module>easy-service-common</module>
     </modules>
     <artifactId>easy-service</artifactId>
 

@@ -1,6 +1,0 @@
-sa-token:
-  # token前缀
-  token-prefix: Bearer
-  jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
-  token-name: AQ-Token
-  timeout: 7200

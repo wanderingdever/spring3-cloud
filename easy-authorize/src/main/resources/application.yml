@@ -25,8 +25,3 @@ logging:
 dubbo:
   application:
     qos-port: 23333
-# 接口放行白名单
-api-whitelist:
-  url:
-    - /check_user
-    - /pwd_login

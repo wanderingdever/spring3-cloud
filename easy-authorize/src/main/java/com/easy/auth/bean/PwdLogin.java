@@ -1,6 +1,6 @@
 package com.easy.auth.bean;
 
-import com.easy.framework.enums.AccountClient;
+import com.easy.core.enums.AccountClient;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

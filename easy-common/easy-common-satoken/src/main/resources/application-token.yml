@@ -1,0 +1,13 @@
+sa-token:
+  # token前缀
+  token-prefix: Bearer
+  jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
+  token-name: AQ-Token
+  active-timeout: 172800
+  timeout: 7200
+  auto-renew: true
+# 接口放行白名单
+api-whitelist:
+  url:
+    - /check_user
+    - /pwd_login

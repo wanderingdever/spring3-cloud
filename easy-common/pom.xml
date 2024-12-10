@@ -13,13 +13,13 @@
     <artifactId>easy-common</artifactId>
 
     <modules>
-        <module>common-utils</module>
-        <module>common-framework</module>
-        <module>common-web</module>
-        <module>common-datasource</module>
-        <module>common-redis</module>
-        <module>common-satoken</module>
-        <module>common-dubbo</module>
+        <module>easy-common-utils</module>
+        <module>easy-common-core</module>
+        <module>easy-common-web</module>
+        <module>easy-common-datasource</module>
+        <module>easy-common-redis</module>
+        <module>easy-common-satoken</module>
+        <module>easy-common-dubbo</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
