@@ -43,13 +43,6 @@ public class LoginController {
         return loginService.pwdLogin(login);
     }
 
-    @PostMapping("/code_login")
-    @Operation(description = "验证码登录")
-    public TokenInfo codeLogin(@Valid PwdLogin login) {
-        // TODO 密码登录
-        return null;
-    }
-
     @PostMapping("/logout")
     @Operation(description = "退出登录")
     public void logout() {

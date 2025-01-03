@@ -9,7 +9,6 @@ import com.easy.api.vo.UserVO;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
 import com.easy.auth.bean.UserDTO;
-import com.easy.core.enums.AccountClient;
 import com.easy.core.enums.AccountStatus;
 import com.easy.core.exception.CustomizeException;
 import com.easy.redis.constant.CacheConstants;
@@ -50,29 +49,12 @@ public class LoginService {
      * @return {@link  TokenInfo}
      */
     public TokenInfo pwdLogin(PwdLogin login) {
-        if (login.getClient() == AccountClient.ADMIN) {
-            return adminLogin(login);
-        }
-        return null;
-    }
-
-    /**
-     * 管理端登录
-     *
-     * @param login 登录信息
-     * @return TokenInfo
-     */
-    private TokenInfo adminLogin(PwdLogin login) {
         Object cacheObject = RedisUtils.getCacheObject(CacheConstants.CAPTCHA + login.getRandomStr());
         if (StringUtils.isNull(cacheObject) || !login.getValidateCode().equals(cacheObject.toString())) {
             throw new CustomizeException("验证码不正确");
         }
         UserVO user = remoteUserService.selectUserByUsername(login.getUsername());
         if (user == null) {
-            throw new CustomizeException("账号不存在");
-        }
-        // 所属客户端
-        if (user.getClient() != AccountClient.ADMIN) {
             throw new CustomizeException("账号不存在");
         }
         // 账号状态
