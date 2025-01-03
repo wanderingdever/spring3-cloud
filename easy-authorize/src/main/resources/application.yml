@@ -11,7 +11,7 @@ spring:
   application:
     name: easy-authorize
   profiles:
-    active: prod
+    active: dev
 
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
@@ -20,7 +20,7 @@ knife4j:
       name: 授权中心
 logging:
   level:
-    root: info
+    root: error
 
 dubbo:
   application:

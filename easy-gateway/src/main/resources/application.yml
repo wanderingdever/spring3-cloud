@@ -52,7 +52,7 @@ management:
 
 logging:
   level:
-    root: info
+    root: error
   file:
     path: ./logs
   config: classpath:Spring-logback.xml

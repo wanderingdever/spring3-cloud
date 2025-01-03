@@ -10,7 +10,7 @@ spring:
       - optional:application-token.yml
       - optional:application-dubbo.yml
   profiles:
-    active: prod
+    active: dev
 
 mybatis-plus:
   mapper-package: com.easy.**.dao
